@@ -1,0 +1,54 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+syntax = "proto3";
+
+// File options
+package example.hello_world.v1;
+
+import "example/hello_world/v1/hello_world_topics.proto";
+import "options.proto";
+
+option java_package = "org.covesa.uservice.example.hello_world.v1";
+option java_multiple_files = true;
+
+// Hello World service
+//
+service HelloWorld {
+
+  // Service Metadata - Name, version, id, RPC methods
+  option (name) = "example.hello_world";
+  option (version_major) = 1;
+  option (version_minor) = 0;
+  option (id) = 3000;
+
+  // Say Hello method
+  // The method URI is:
+  //  up:/example.hello_world/1/rpc.SayHello
+  rpc SayHello(HelloRequest) returns (HelloResponse) { option (method_id) = 1; }
+}
+
+// The request message containing the user's name
+message HelloRequest { string name = 1; }
+
+// The response message containing the greeting
+message HelloResponse { string message = 1; }
+
+// Service metadata option definitions - Resources, topics
+//
+message TimerOptions {
+  option (base_topic_id) = 1;
+  Timer.Resources resource_name = 1 [ (resource_name_mask) = "*" ];
+}
