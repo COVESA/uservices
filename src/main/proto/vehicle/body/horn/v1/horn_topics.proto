@@ -1,0 +1,95 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package vehicle.body.horn.v1;
+
+import "options.proto";
+
+option java_package = "org.covesa.uservice.vehicle.body.horn.v1";
+option java_multiple_files = true;
+
+// The HornStatus message has one of the following horn state enum values:
+enum HornMode {
+  // Unspecified command
+  HM_UNSPECIFIED = 0;
+  // Unknown command
+  HM_UNKNOWN = 1;
+  // Horn is in sequenced mode
+  // In sequenced horn mode, multiple sequences can be configured. Each
+  // sequence can have its own number of cycles with different On/Off times per
+  // cycle.
+  HM_SEQUENCED = 2;
+  // Horn is in continuous mode
+  HM_CONTINUOUS = 3;
+}
+
+// Horn message for subscription
+//
+message HornStatus {
+  // Horn State
+  bool is_active = 1;
+
+  // Current mode(Continuous/Sequenced) when horn is active
+  // When horn is inactive, mode will be unspecified
+  HornMode mode = 2;
+
+  // Horn has a fault
+  // When Horn has fault active, horn state will not be in active
+  bool is_fault_active = 3;
+
+  // if horn is active and horn mode is sequenced, this indicates the current
+  // sequence being played
+  optional int32 current_sequence = 4
+      [ (readonly) = true, (min_value) = 0, (max_value) = 7 ];
+
+  // if horn is active and horn mode is sequenced
+  // Number of cycles remaining to be played in the current sequence.
+  optional int32 remaining_cycles = 5 [ (readonly) = true, (min_value) = 0 ];
+
+  // if horn is active and horn mode is sequenced
+  // Total number of scheduled sequences to be played
+  optional int32 total_sequences = 6
+      [ (readonly) = true, (min_value) = 0, (max_value) = 7 ];
+
+  // if horn is active, priority of the horn action currently being played
+  // The lower the number, higher the priority
+  int32 priority = 7 [ (readonly) = true, (max_value) = 255 ];
+
+  // Service meta-data option definitions - Resources
+  //
+  enum Resources { horn = 0; }
+}
+
+// In sequenced horn mode, multiple sequences can be configured. Each
+// sequence can have its own number of cycles with different On/Off times per
+// cycle.
+message HornSequence {
+  // Horn cycles
+  repeated HornCycle horn_cycles = 1;
+}
+
+// One horn cycle has an on time and an off time
+message HornCycle {
+  // Time period for Horn to be on for a single honk
+  // min on time for the horn chirp to be audible is 30ms
+  int32 on_time = 1 [ (unit) = ms, (min_value) = 30, (writeonly) = true ];
+
+  // Time period for horn to be off between honks
+  // min off time between on time's for the horn chirp to be recognized is 30ms
+  int32 off_time = 2 [ (unit) = ms, (min_value) = 30, (writeonly) = true ];
+}
