@@ -32,12 +32,14 @@ service HelloWorld {
   option (name) = "example.hello_world";
   option (version_major) = 1;
   option (version_minor) = 0;
-  option (id) = 3000;
+  option (id) = 999;
 
   // Say Hello method
   // The method URI is:
   //  up:/example.hello_world/1/rpc.SayHello
-  rpc SayHello(HelloRequest) returns (HelloResponse) { option (method_id) = 1; }
+  rpc SayHello(HelloRequest) returns (HelloResponse) {
+    option (method_id) = 1;
+  }
 }
 
 // The request message containing the user's name

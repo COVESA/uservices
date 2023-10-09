@@ -44,6 +44,8 @@ extend google.protobuf.MessageOptions {
   // Topic base id (unique within containing service)
   // The topic base id is added to a resource id to form a specific topic id.
   optional uint32 base_topic_id = 50300;
+
+  optional string vss_ref = 50301;
 }
 extend google.protobuf.FieldOptions {
   // Name mask for exported resources

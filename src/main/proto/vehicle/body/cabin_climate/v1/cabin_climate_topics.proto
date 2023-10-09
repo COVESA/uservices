@@ -23,8 +23,37 @@ import "options.proto";
 option java_package = "org.covesa.uservice.vehicle.body.cabin_climate.v1";
 option java_multiple_files = true;
 
-// The blower_auto_state, air_distribution_auto_state and temperature auto state
-// fields  have one of the following AutomaticMode enum values:
+// The air_distribution field in the Zone message has one of the following
+// AirDistribution enum values:
+//
+enum AirDistribution {
+  // This value should not be used.
+  AD_UNSPECIFIED = 0;
+  // Air distribution off.
+  AD_OFF = 1;
+  // Air distribution is automatically selected based on requested temperature
+  // and interior thermal conditions.
+  AD_AUTO = 2;
+  // Air distribution to floor only.
+  AD_FLOOR = 3;
+  // Air distribution to floor and instrument panel vents.
+  AD_FLOOR_VENT = 4;
+  // Air distribution to instrument panel vents.
+  AD_VENT = 5;
+  // Air distribution to instrument panel vents and windshield.
+  AD_VENT_WINDSHIELD = 6;
+  // Air distribution to windshield only.
+  AD_WINDSHIELD = 7;
+  // Air distribution to floor and windshield.
+  AD_FLOOR_WINDSHIELD = 8;
+  // Air distribution to floor, instrument panel vents and windshield.
+  AD_FLOOR_VENT_WINDSHIELD = 9;
+  // Air distribution to max defrost.
+  AD_MAX_DEFROST = 10;
+}
+
+// The blower_auto_state and air_distribution_auto_state fields in the Zone
+// message have one of the following AutomaticMode enum values:
 //
 enum AutomaticMode {
   // This value should not be used.
@@ -43,33 +72,19 @@ enum AutomaticMode {
   AM_AUTO_HIGH = 5;
 }
 
-// The air_distribution field in the HvacStation message has one of the
-// following AirStream enum values:
-//
-enum AirStream {
-  // This value should not be used.
-  AS_UNSPECIFIED = 0;
-  // Air distribution to windshield only.
-  // Applicable for first row only
-  // Add safety constraint
-  AS_WINDSHIELD = 2;
-  // Air distribution to instrument panel vents.
-  AS_VENT = 3;
-  // Air distribution to floor only.
-  AS_FLOOR = 4;
-  // Applicable for second and third rows only
-  AS_ROOF = 5;
-}
-
 // Individual Zone statuses and requests.
 //
-message HvacStation {
+message Zone {
+
+  // reference to VSS branch
+  option (vss_ref) = "Vehicle.Cabin.HVAC.Station";
+
   // The zone resource. It is returned in an event message and set by the
   // calling applications in sifferent update methods.
   Resource id = 1;
 
   // Temperature in degrees Celsius.
-  int32 temperature = 2 [
+  float temperature = 2 [
     (unit) = CELSIUS,
     (max_value) = 50,
     (min_value) = 0,
@@ -84,7 +99,7 @@ message HvacStation {
   int32 fan_speed = 4 [ (unit) = PERCENT, (max_value) = 100, (min_value) = 0 ];
 
   // Air distribution setting auto state.
-  repeated AirStream air_distributions = 5;
+  AirDistribution air_distribution = 5;
 
   // True = Zone power is on.
   bool is_power_on = 6;
@@ -117,13 +132,13 @@ message HvacStation {
 }
 
 // Combined all zones in a vehicle
-message HvacStations {
+message Zones {
   // Individual Zone statuses and requests.
-  repeated HvacStation Hvac_station = 1;
+  repeated Zone zones = 1;
 
   // Service meta-data option definitions - Resources
   //
-  enum Resource { CabinHvac = 0; }
+  enum Resource { cabin_hvac = 0; }
 }
 
 // The SystemSettings are a set of climate control-related statuses and request

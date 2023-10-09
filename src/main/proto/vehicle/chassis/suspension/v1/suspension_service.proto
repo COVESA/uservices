@@ -1,0 +1,127 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package vehicle.chassis.suspension.v1;
+
+import "google/rpc/status.proto";
+import "options.proto";
+import "vehicle/chassis/suspension/v1/suspension_topics.proto";
+
+option java_package = "org.covesa.uservice.vehicle.chassis.suspension.v1";
+option java_multiple_files = true;
+
+// Offers the ability to control how a vehicle moves to a requested ride height:
+// - In a single or multi step process
+// - The pace at which it reaches the selected ride height
+//
+service Suspension {
+  // Service metadata option definitions - Name, version, ID, RPC method
+  option (name) = "chassis.suspension";
+  option (version_major) = 1;
+  option (version_minor) = 0;
+  option (id) = 21;
+
+  // Request to change the vehicle ride height.
+  rpc SetRideHeight(SetRideHeightRequest) returns (SetRideHeightResponse) {
+    option (method_id) = 1;
+  }
+}
+
+// Set ride height commands.
+// Ride height is the space between the base of a tire where it touches the
+// ground and the underside of a vehicle. Changing the ride height impacts
+// traction and stability control. The ride height does not change based
+// on wheel or tire size used.
+//
+message SetRideHeightRequest {
+  // Ride height speed command options
+  // These command options allow the user to request the pace at which the
+  // vehicle must move to honor the requested ride height.
+  //
+  enum MotionSpeedCommand {
+    // This value should not be used.
+    MSC_UNSPECIFIED = 0;
+    // This setting uses a compressor to either raise or lower the vehicle to a
+    // requested ride height at a slow pace.
+    MSC_SLOW = 1;
+    // This setting uses a reservoir to either raise or lower the vehicle to a
+    // requested ride height at a fast pace.
+    MSC_FAST = 2;
+    // This setting uses both the reservoir and the compressor to either
+    // raise or lower the vehicle at a medium pace.
+    MSC_MED = 3;
+  }
+
+  // This allows the user to declare the order in which the axles move to reach
+  // the desired ride height setting.
+  //
+  enum MotionTypeCommand {
+    // This value should not be used.
+    MTC_UNSPECIFIED = 0;
+    // Both axles move together and the entire vehicle either raises or lowers.
+    MTC_CONCURRENT = 1;
+    // The axles move up or down (to raise or lower the vehicle) in alternating
+    // incremental movements to reach the desired height.
+    MTC_RATCHET = 2;
+    // The axles move up or down one at a time, to raise or lower the vehicle in
+    // a single motion to reach the desired height (instead of making several
+    // incremental movements to achieve the desired height, as in ratchet).
+    MTC_CAMEL = 3;
+  }
+
+  // Command value for the desired ride height setting. The setting requested
+  // will be honored depending on vehicle variant (from the available Setting
+  // list) and factors bounded by safety standards. (See RideHeightLevel enum
+  // table for more info).
+  RideHeight.RideHeightLevel command = 1;
+
+  // Command value for ride height motion speed.
+  // When commanded 'FAST', the reservoir is used to raise or lower quickly.
+  // When commanded 'SLOW', the compressor is used as it slowly releases the air
+  // from its suspension components.
+  // When commanded 'MED', both the reservoir and the compressor are used. See
+  // MotionSpeedCommand enum table for more info.
+  optional MotionSpeedCommand motion_speed = 2 [(writeonly) = true];
+
+  // Optional field with the command value for motion types.
+  // This setting determines the motion of the axles to reach the requested ride
+  // height. See MotionTypeCommand enum table for more info.
+  optional MotionTypeCommand motion_type = 3 [(writeonly) = true];
+}
+
+// Response for ride height request
+message SetRideHeightResponse {
+  // RPC response
+  google.rpc.Status status = 1;
+}
+
+// Service metadata option definitions - Resources, topics
+// The following message is used to connect the service to the RideHeight
+// message in the *topics.proto.
+message RideHeightOptions {
+  option (base_topic_id) = 10;
+  RideHeight.Resources resource_name = 1 [(resource_name_mask) = "*"];
+}
+
+// The following message is used to connect the service to the
+// RideHeightSystemStatus message in the *topics.proto:
+message RideHeightSystemStatusOptions {
+  option (base_topic_id) = 20;
+  RideHeightSystemStatus.Resources resource_name = 1
+      [(resource_name_mask) = "*"];
+}

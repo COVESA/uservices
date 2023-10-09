@@ -41,34 +41,49 @@ service BodyCabinclimate {
   option (number_of_row_3_zones) = 0;
   option (is_front_rear_independent_hvac_available) = true;
 
+  // Controls climate settings for a zone.
+  rpc ExecuteClimateCommand(ClimateCommand) returns (google.rpc.Status) {
+    option (method_id) = 1;
+  }
   // Controls climate system settings.
   rpc UpdateSystemSettings(UpdateSystemSettingsRequest)
-      returns (UpdateSystemSettingsResponse) {
-    option (method_id) = 1;
+      returns (google.rpc.Status) {
+    option (method_id) = 2;
   }
 
   // Controls temperature settings for a zone.
   rpc SetTemperature(SetTemperatureRequest) returns (SetTemperatureResponse) {
-    option (method_id) = 2;
+    option (method_id) = 3;
   }
 
   // Controls Fan settings for a zone.
-  rpc SetFan(SetFanRequest) returns (SetFanResponse) { option (method_id) = 3; }
+  rpc SetFan(SetFanRequest) returns (SetFanResponse) { option (method_id) = 4; }
 
   // Controls air distribution settings for a zone.
   rpc SetAirDistribution(SetAirDistributionRequest)
       returns (SetAirDistributionResponse) {
-    option (method_id) = 4;
+    option (method_id) = 5;
   }
   // Controls power settings for a zone.
   rpc SetPower(SetPowerRequest) returns (SetPowerResponse) {
-    option (method_id) = 5;
+    option (method_id) = 6;
   }
 
   // Controls power settings for a zone.
   rpc SetLock(SetLockRequest) returns (SetLockResponse) {
-    option (method_id) = 6;
+    option (method_id) = 7;
   }
+}
+
+// Use the ClimateCommand method to request a change to the settings for
+// a particular zone.
+//
+message ClimateCommand {
+  // The Zone message with requested new values.
+  Zone zone = 1;
+
+  // Specifies a subset of fields to be modified in this update.
+  google.protobuf.FieldMask update_mask = 2;
 }
 
 // Use the UpdateSystemSettingsRequest method to request a change in the system
@@ -82,18 +97,12 @@ message UpdateSystemSettingsRequest {
   google.protobuf.FieldMask update_mask = 2;
 }
 
-// Response to system settings request
-message UpdateSystemSettingsResponse {
-  // Rpc return status
-  google.rpc.Status status = 1;
-}
-
 // Use the SetTemperature method to request a change to the settings for
 // a particular zone.
 //
 message SetTemperatureRequest {
   // The zone selected
-  HvacStation.Resource id = 1;
+  Zone.Resource id = 1;
 
   // Specifies the value of temperature to be modified in this update.
   float temperature = 2;
@@ -113,13 +122,13 @@ message SetTemperatureResponse {
 //
 message SetFanRequest {
   // The zone selected
-  HvacStation.Resource id = 1;
+  Zone.Resource id = 1;
 
   // Specifies the value of fan speed to be modified in this update.
   int32 fan_speed = 2;
 
   // Specifies the state of the fan to be modified in this update.
-  bool fan_auto_on = 3;
+  bool is_fan_auto_on = 3;
 }
 
 // Response message to fan request
@@ -133,10 +142,10 @@ message SetFanResponse {
 //
 message SetAirDistributionRequest {
   // The zone selected
-  HvacStation.Resource id = 1;
+  Zone.Resource id = 1;
 
   // Specifies the air direction to be modified in this update.
-  AirStream air_distribution = 2;
+  AirDistribution air_distribution = 2;
 
   // Specifies the state of the air distribution to be modified in this update.
   AutomaticMode air_distribution_state = 3;
@@ -153,10 +162,10 @@ message SetAirDistributionResponse {
 //
 message SetPowerRequest {
   // The zone selected
-  HvacStation.Resource id = 1;
+  Zone.Resource id = 1;
 
   // Specifies the value of power to be modified in this update..
-  bool power_on = 2;
+  bool is_power_on = 2;
 }
 
 // Response message to power request
@@ -170,10 +179,10 @@ message SetPowerResponse {
 //
 message SetLockRequest {
   // The zone selected
-  HvacStation.Resource id = 1;
+  Zone.Resource id = 1;
 
   // Specifies the value of lock zone to be modified in this update.
-  bool lock_zone = 2;
+  bool is_zone_locked = 2;
 }
 
 // Response message to lock request
@@ -197,7 +206,7 @@ message SystemSettingsOptions {
 
 // Service meta-data option definitions - Resources, topics
 //
-message HvacStationsOptions {
+message ZonesOptions {
   option (base_topic_id) = 10;
   option (temperature_setpoint_min) = 16;
   option (temperature_setpoint_max) = 31;
@@ -213,5 +222,5 @@ message HvacStationsOptions {
   option (power_zone_available_row_1) = 1;
   option (power_zone_available_row_2) = 0;
   option (power_zone_available_row_3) = 0;
-  HvacStations.Resource resource_name = 1 [ (resource_name_mask) = "*" ];
+  Zones.Resource resource_name = 1 [ (resource_name_mask) = "*" ];
 }
