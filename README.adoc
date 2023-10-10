@@ -1,0 +1,41 @@
+# uServices 
+
+image:https://img.shields.io/badge/License-Apache%202.0-blue.svg[License,link=https://opensource.org/licenses/Apache-2.0]
+
+uServices is a project that contains the definition of common vehicle services. It uses protobuf as the interface definition language, with custom extensions to extend protobuf with additional information required for automotive services. 
+
+More details will be added as the project progresses.
+
+
+== Getting Started
+
+Additional details will be added soon for usage examples
+
+
+To build the project, please follow the instructions below:
+
+=== Prerequisites
+The following tools are required to build the project:
+
+*** maven for building the project
+*** JDK 11 or higher for compiling the generated java code
+
+`pass:[C++]` code is generated automatically but `pass:[C++]` building is not supported out of the box yet.
+
+=== Building the project
+To build the project, run the following command in the root directory of the project:
+[source,shell]
+----
+mvn package
+----
+
+== Releases
+No releases are available yet.
+
+== Future plans
+TBD
+
+== Contributing to uServices
+The COVESA uServices project is released under the Apache 2.0 license and is open to contributions. The project follow similar process to other COVESA (and open source) projects. To contribute to the project, please follow the guidelines defined in link:CONTRIBUTING.adoc[CONTRIBUTING] page
+
+
