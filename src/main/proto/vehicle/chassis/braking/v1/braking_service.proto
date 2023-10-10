@@ -1,0 +1,110 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package vehicle.chassis.braking.v1;
+
+import "google/rpc/status.proto";
+import "options.proto";
+import "vehicle/chassis/braking/v1/braking_topics.proto";
+
+option java_package = "org.covesa.uservice.chassis.braking.v1";
+option java_multiple_files = true;
+
+// Provides braking resource functionalities.
+// Resources managed: brake pedal and brakes at each corner of the vehicle
+//
+service Braking {
+  // Service metadata option definitions - Name, version, ID
+  option (name) = "chassis.braking";
+  option (version_major) = 1;
+  option (version_minor) = 0;
+  option (id) = 17;
+
+  // Used to reset the health status of brake system components such as
+  // "brake_pads.front". The reset component's life will then return
+  // to 100% and the health state will return to 'Ok'.
+  // Not all vehicles support health management of brakes.
+  // If not supported, the request response will be UNSUPPORTED.
+  rpc ResetHealth(ResetHealthRequest) returns (google.rpc.Status) {
+    option (method_id) = 1;
+  }
+
+  // Used to enable or disable the health monitoring system for the brakes
+  // resource. Disabling the health monitoring system will result in the enum
+  // health state of Disabled. It does not stop or reset the monitoring
+  // algorithm.
+  rpc ManageHealthMonitoring(ManageHealthMonitoringRequest)
+      returns (google.rpc.Status) {
+    option (method_id) = 2;
+  }
+}
+
+// ================= Start RPC messages ================================
+
+// Request message to reset the brake component health.
+//
+// This request can be applied to all brake components that use the standard
+// health definition, such as brake pads.
+//
+// The reset components' life will return to 100% and the health state will
+// return to 'Ok'.
+//
+// The reset request can only be applied to front or rear components together,
+// not to each individual corner. For example, a health reset can only reset the
+// health of both front rotors or both front pads together.
+//
+// If the resource or instance name specified does not match the supported
+// component name or location, the request will be rejected and a response of
+// UNSUPPORTED will be provided.
+//
+message ResetHealthRequest {
+  // Name of the health monitoring resource to be managed, such as
+  // "brake_pads.front".
+  string name = 1;
+}
+
+// Request message to enable or disable health monitoring functionality
+// If the resource name specified does not match supported resource, the request
+// will be rejected and a response of UNSUPPORTED will be provided.
+//
+message ManageHealthMonitoringRequest {
+  // Brake component resource name, such as "brake_pads.front".
+  string name = 1;
+
+  // True= enable health monitoring
+  // False= disable health monitoring.
+  bool is_enabled = 2;
+}
+
+// The following messages are used to connect the service to the associated
+// resource messages in the *resources.proto
+//
+// Service metadata option definitions - Resources, topics
+//
+message BrakePedalOptions {
+  option (base_topic_id) = 0;
+  BrakePedal.Resources resource_name = 1 [ (resource_name_mask) = "*" ];
+}
+
+// Service metadata option definitions - Resources, topics
+//
+message BrakePadsOptions {
+  option (base_topic_id) = 10;
+  BrakePads.Resources resource_name = 1
+      [ (resource_name_mask) = "brake_pads.*" ];
+}

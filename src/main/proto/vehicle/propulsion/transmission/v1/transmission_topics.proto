@@ -1,0 +1,138 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package vehicle.propulsion.transmission.v1;
+
+import "google/protobuf/descriptor.proto";
+import "options.proto";
+
+option java_package = "org.covesa.uservice.propulsion.transmission.v1";
+option java_multiple_files = true;
+
+// ================= Start messages ================================
+
+// The gear state field indicates how the propulsion system is connected to the
+// vehicle chassis.
+//
+// The key vehicle level gear states are: Park, Reverse, Neutral, and Drive.
+//
+// The Drive state could have additional substates such as Low (where greater
+// propulsion system braking is provided) and Manual (where the driver can
+// manually select gear ratio).
+//
+// The vehicle level gear state controls and coordinates the operation of all
+// gearboxes within the vehicle. Some vehicles could have multiple independent
+// gearboxes of different types within the vehicle.
+//
+// Each gearbox achieves the desired vehicle level gear state differently.
+// For example, 'Reverse' may require switching to the reverse gear within a
+// traditional multi-speed automatic transmission gearbox or by spinning
+// a motor in the reverse direction without any gear changes.
+//
+message VehicleGearState {
+  // Provides the enumerated vehicle gear states.
+  //
+  enum Gear {
+    // Unspecified
+    S_UNSPECIFIED = 0;
+
+    // UNKNOWN state
+    // This state is reached when the mechatronics control's determination of
+    // the gear state is not one of the known states, such as PARK or REVERSE.
+    S_UNKNOWN = 1;
+
+    // PARK state
+    // In this state, the propulsion system is not connected to the wheels.
+    // Furthermore, the parking paw mechanisms in the transmission has been
+    // engaged to prevent vehicle from moving.
+    S_PARK = 2;
+
+    // REVERSE drive state
+    // In this state, the driver's intended direction of motion is backwards
+    // (i.e. towards the rear of the vehicle). An acceleration request from
+    // the driver accelerator pedal produces backwards motion from the vehicle.
+    // Note that the backwards direction can be achieved mechanically with the
+    // transmission gearbox (via clutches and gears) or virtually (by spinning
+    // the propulsion system backwards).
+    S_REVERSE = 3;
+
+    // NEUTRAL state
+    // In this state, the propulsion system is not connected to the wheels.
+    // Unlike the PARK state, the parking paw system is not engaged. This allows
+    // the vehicle to be moved when external force is applied, such as towed,
+    // pushed, or rolled down a hill.
+    S_NEUTRAL = 4;
+
+    // DRIVE state
+    // In this state, the propulsion power is engaged to result in a forward
+    // vehicle motion when the driver requests acceleration. For vehicles with
+    // variable forward gear ratios, the gear ratio between the propulsion and
+    // wheel changes dynamically during driving. There may be multiple settings
+    // that the driver can select in this forward driving configuration, such
+    // as the amount of propulsion braking (LOW state), as well as the ability
+    // to manually change the gear ratio. All of these states are considered
+    // part of the DRIVE state.
+    S_DRIVE = 5;
+  }
+
+  // The current selected vehicle level transmission gear state.
+  // This is a read-only field.
+  optional Gear selected_gear = 1;
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { gear = 0; }
+}
+
+// Various properties of individual transmission gearboxes:
+//
+// There can be multiple gearboxes on a vehicle with electric all-wheel drive.
+// This can be a combination of different types of gearboxes.
+// For example, a hybrid vehicle with electric all-wheel drive may have a
+// configuration where one axle of the vehicle is driven by an internal
+// combustion engine connected to a traditional multi-speed automatic
+// transmission gearbox, while another axle is driven by an electric motor
+// connected to a single speed gearbox that has a disconnect clutch.
+//
+message Gearbox {
+  // Instance names: primary, secondary
+  // The instance names of primary and secondary refer to the role that this
+  // gearbox plays in the vehicle propulsion system. If the gearbox is
+  // transmitting power from the primary propulsion actuator, then it is the
+  // primary instance.
+  // Additional instances such as primary_left, primary_right could be added
+  // later if the left and right of an axle have completely indepedent
+  // gearboxes.
+  string name = 1;
+
+  // Gearbox fluid temperature in degrees Celsius.
+  // The fluid (or oil) is used to lubricate gears and provide hydraulic
+  // functionalities. The fluid temperature is an indication of the overall
+  // gearbox operation temperature.
+  // This is a read-only field.
+  // The field is explicitly optional so that if the temperature reading
+  // is invalid, this field would not be published.
+  optional float fluid_temperature = 2 [ (unit) = CELSIUS, (readonly) = true ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources {
+    primary = 0;
+    secondary = 1;
+  }
+}
