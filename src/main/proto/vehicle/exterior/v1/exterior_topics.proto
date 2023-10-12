@@ -1,0 +1,74 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+syntax = "proto3";
+
+package vehicle.exterior.v1;
+
+import "options.proto";
+
+option java_package = "org.covesa.uservice.vehicle.exterior.v1";
+option java_multiple_files = true;
+
+// Provides exterior solar data
+//
+message SolarInformation {
+  // Solar intensity in watts per square meter.
+  // A measure of sunlight intensity determined by a solar sensor. Sunlight
+  // has a different spectrum of wavelengths than the visible light.
+  // For example, if a vehicle enters a tunnel during the day, the solar
+  // intensity value will be unaffected i.e., it will retain the same value.
+  // However, the ambient light value will decrease when the vehicle enters
+  // the tunnel.
+  optional int32 light_intensity = 1 [ (readonly) = true, (unit) = Wm2 ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { exterior_environment = 0; }
+}
+
+// Provides exterior temperature information
+//
+message Temperature {
+  // The outside air temperature in degrees Celsius.
+  optional float air_temperature = 1 [ (readonly) = true, (unit) = CELSIUS ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { exterior_environment = 0; }
+}
+
+// Provides exterior ambient light level status and a daylight indication
+//
+message AmbientLight {
+  // The ambient light level status returns a boolean value to represent
+  // whether the light exposure present outside of the vehicle is high or low.
+  // True= The light level exposure outside of the vehicle is consistent
+  // with daylight
+  // False= It is dark outside.
+  bool is_day = 1 [ (readonly) = true ];
+
+  // The amount of visible light in Lux that is present outside of the vehicle.
+  // A measure of ambient light or artificial light intensity determined by a
+  // ambient light sensor.
+  // For example, if a vehicle is in a showroom with lights on, regardless of
+  // the time of the day, the ambient light value will be high due to the high light
+  // exposure. However, the solar intensity value will be negligible.
+  optional int32 ambient_light_level = 2 [ (readonly) = true, (unit) = LUX ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { exterior_environment = 0; }
+}

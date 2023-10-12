@@ -1,0 +1,78 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+syntax = "proto3";
+
+package vehicle.chassis.v1;
+
+import "google/rpc/status.proto";
+import "options.proto";
+import "vehicle/chassis/v1/chassis_topics.proto";
+
+option java_package = "org.covesa.uservice.vehicle.chassis.v1";
+option java_multiple_files = true;
+
+// Provides vehicle chassis functionalities.
+//
+service Chassis {
+  // Service metadata option definitions - Name, version, id, rpc method
+  option (name) = "chassis";
+  option (version_major) = 1;
+  option (version_minor) = 0;
+  option (id) = 20;
+
+  // Send request to update a tire resource
+  rpc UpdateTire(UpdateTireRequest) returns (google.rpc.Status) {
+    option (method_id) = 1;
+  }
+}
+
+// Request to change the tire leak notification or to reset the tire status.
+//
+message UpdateTireRequest {
+  // True= Notifications for tire leak status are enabled.
+  // False= Notifications for tire leak status are disabled.
+  bool is_leak_notification_enabled = 1 [ (writeonly) = true ];
+
+  // True= Request to re-evaluate tire pressure if a leak persists.
+  // False= Don’t re-evaluate tire pressure.
+  bool is_leak_present = 2 [ (writeonly) = true ];
+}
+
+// The following messages are used to connect the service to the associated
+// resource messages in the *resources.proto
+//
+// Service metadata option definitions - Resources, topics
+//
+message TireOptions {
+  option (base_topic_id) = 0;
+  Tire.Resources resource_name = 1 [ (resource_name_mask) = "tire.*" ];
+}
+
+// Service metadata option definitions - Resources, topics
+//
+message TractionControlSystemOptions {
+  option (base_topic_id) = 10;
+  TractionControlSystem.Resources resource_name = 1
+      [ (resource_name_mask) = "*" ];
+}
+
+// Service metadata option definitions - Resources, topics
+//
+message ElectronicStabilityControlSystemOptions {
+  option (base_topic_id) = 20;
+  ElectronicStabilityControlSystem.Resources resource_name = 1
+      [ (resource_name_mask) = "*" ];
+}

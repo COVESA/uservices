@@ -1,0 +1,58 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package vehicle.body.mirrors.v1;
+
+import "google/protobuf/descriptor.proto";
+import "options.proto";
+import "units.proto";
+
+option java_package = "org.covesa.uservice.vehicle.body.mirrors.v1";
+option java_multiple_files = true;
+
+extend google.protobuf.ServiceOptions {
+  // Property to identify if the vehicle is equipped with power side mirrors
+  optional bool is_power_side_mirrors_present = 55020;
+
+  // Property to identify if the vehicle is equipped with heated side mirrors
+  optional bool is_heated_mirrors_present = 55021;
+}
+
+extend google.protobuf.MethodOptions {
+  // Property to identify the vehicle speed above which the side
+  // mirrors fold request will be rejected
+  optional int32 vehicle_speed_inhibiting_side_mirror_fold = 55022;
+
+  // Property to identify if the side mirrors automatically unfold when the
+  // vehicle exceeds a certain speed
+  optional bool is_side_mirrors_auto_unfold_based_on_vehicle_speed = 55023;
+
+  // Property to identify the vehicle speed above which the side
+  // mirrors tilt request will be rejected
+  optional int32 vehicle_speed_inhibiting_side_mirror_tilt = 55024
+      [ (unit) = KPH ];
+
+  // Property to identify if the side mirrors automatically untilt when the
+  // vehicle exceeds a certain speed in reverse gear
+  optional bool is_side_mirrors_auto_untilt_based_on_vehicle_speed = 55025;
+
+  // Property to identify the time after which the side mirrors will
+  // automatically untilt
+  optional int32 maximum_time_side_mirror_is_tilted = 55026
+      [ (unit) = SECONDS ];
+}

@@ -1,0 +1,273 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package vehicle.body.cabin_climate.v1;
+
+import "options.proto";
+
+option java_package = "org.covesa.uservice.vehicle.body.cabin_climate.v1";
+option java_multiple_files = true;
+
+// The air_distribution field in the Zone message has one of the following
+// AirDistribution enum values:
+//
+enum AirDistribution {
+  // This value should not be used.
+  AD_UNSPECIFIED = 0;
+  // Air distribution off.
+  AD_OFF = 1;
+  // Air distribution is automatically selected based on requested temperature
+  // and interior thermal conditions.
+  AD_AUTO = 2;
+  // Air distribution to floor only.
+  AD_FLOOR = 3;
+  // Air distribution to floor and instrument panel vents.
+  AD_FLOOR_VENT = 4;
+  // Air distribution to instrument panel vents.
+  AD_VENT = 5;
+  // Air distribution to instrument panel vents and windshield.
+  AD_VENT_WINDSHIELD = 6;
+  // Air distribution to windshield only.
+  AD_WINDSHIELD = 7;
+  // Air distribution to floor and windshield.
+  AD_FLOOR_WINDSHIELD = 8;
+  // Air distribution to floor, instrument panel vents and windshield.
+  AD_FLOOR_VENT_WINDSHIELD = 9;
+  // Air distribution to max defrost.
+  AD_MAX_DEFROST = 10;
+}
+
+// The blower_auto_state and air_distribution_auto_state fields in the Zone
+// message have one of the following AutomaticMode enum values:
+//
+enum AutomaticMode {
+  // This value should not be used.
+  AM_UNSPECIFIED = 0;
+  // Zone is off.
+  AM_OFF = 1;
+  // Setting is in automatic mode.
+  AM_AUTO = 2;
+  // Setting is in manual mode.
+  AM_MANUAL = 3;
+  // Setting is in automatic low mode. The system will attempt to bring the
+  // temperature to the minimum temperature as fast as possible.
+  AM_AUTO_LOW = 4;
+  // Setting is in automatic high mode.  The system will attempt to bring the
+  // temperature to the maximum temperature as fast as possible.
+  AM_AUTO_HIGH = 5;
+}
+
+// Individual Zone statuses and requests.
+//
+message Zone {
+
+  // reference to VSS branch
+  option (vss_ref) = "Vehicle.Cabin.HVAC.Station";
+
+  // The zone resource. It is returned in an event message and set by the
+  // calling applications in sifferent update methods.
+  Resource id = 1;
+
+  // Temperature in degrees Celsius.
+  float temperature = 2 [
+    (unit) = CELSIUS,
+    (max_value) = 50,
+    (min_value) = 0,
+    (default_value) = 22
+  ];
+
+  // Fan speed setting auto state.
+  AutomaticMode fan_auto_state = 3 [ (readonly) = true ];
+
+  // Fan setting in percent. 0 = Off, 100 = Maximum air is coming through the
+  // vents.
+  int32 fan_speed = 4 [ (unit) = PERCENT, (max_value) = 100, (min_value) = 0 ];
+
+  // Air distribution setting auto state.
+  AirDistribution air_distribution = 5;
+
+  // True = Zone power is on.
+  bool is_power_on = 6;
+
+  // Fan and air distribution are set to "Auto". An application can
+  // set this value to 'ON' but cannot set it to 'OFF'. The system exits auto
+  // whenever the fan setting or air distribution is updated.
+  // True = "on"
+  bool is_auto_on = 7;
+
+  // True = Prevent user from making requests to change settings.
+  bool is_zone_locked = 8;
+
+  // Air distribution setting auto state.
+  AutomaticMode air_distribution_auto_state = 9;
+
+  // Temperature setting state
+  AutomaticMode temperature_auto_state = 10 [ (readonly) = true ];
+
+  // Service meta-data option definitions - Resources
+  //
+  enum Resource {
+    row1_left = 0;
+    row1_right = 1;
+    row2_left = 2;
+    row2_right = 3;
+    row3_left = 4;
+    row3_right = 5;
+  }
+}
+
+// Combined all zones in a vehicle
+message Zones {
+  // Individual Zone statuses and requests.
+  repeated Zone zones = 1;
+
+  // Service meta-data option definitions - Resources
+  //
+  enum Resource { cabin_hvac = 0; }
+}
+
+// The SystemSettings are a set of climate control-related statuses and request
+// commands applicable across cabin zones and impacting the passenger
+// compartment. These properties apply globally to the vehicle passenger
+// compartment across multiple zones and include statuses and requests. The
+// following sections describe the SystemSettings message status information and
+// requests that are available via the API.
+//
+message SystemSettings {
+
+  // True = All zones are synced to the driver's selected climate control
+  // settings.
+  bool sync_all = 1;
+
+  // True = Rear zones are synced to the driver's climate control settings.
+  bool sync_rear_to_driver = 2;
+
+  // True = Third row is synced to the driver's climate control settings.
+  bool sync_3rdRow_to_driver = 3;
+
+  // Corrected front cabin air and temperature.
+  // This field is read-only.
+  int32 estimated_cabin_temperature = 4 [
+    (unit) = CELSIUS,
+    (readonly) = true,
+    (max_value) = 50,
+    (min_value) = 0
+  ];
+
+  // True = Prevent Row 2 zone (right and left) passengers from changing climate
+  // settings.
+  bool rear_zone_lockout = 5;
+
+  // Set air recirculation mode to outside/inside air.
+  // True = inside air. False = outside air (default).
+  bool air_recirc_mode = 6;
+
+  // A request for maximum defrost for the front windshield. True = "on".
+  bool max_defrost = 7;
+
+  // A request for defogging of the rear window. True = "on".
+  bool rear_window_defog = 8;
+
+  // An indication the HVAC system is experiencing a diagnosed failure condition
+  // or the sensed cabin temperature is currently outside of what is
+  // considered to be a safe range. True = Failure.
+  // This field is read-only.
+  bool cabin_conditioning_invalid = 9 [ (readonly) = true ];
+
+  // True = Prevent Row 3 zone (right or left) passengers from changing climate
+  // settings.
+  // This field is write-only.
+  bool third_row_zone_lockout = 10 [ (writeonly) = true ];
+
+  // The ac_compressor_setting field in the SystemSettings message has one of
+  // the following CompressorSetting enum values:
+  //
+  enum CompressorSetting {
+    // This value should not be used.
+    CS_UNSPECIFIED = 0;
+    // The device is on.
+    CS_ON = 1;
+    // The device is off.
+    CS_OFF = 2;
+    // The device is in economy mode.
+    CS_ECONOMY = 3;
+  }
+
+  // The current status of the air conditioning compressor.
+  CompressorSetting ac_compressor_setting = 11;
+
+  // The heater_setting field in the SystemSettings message has one of the
+  // following HeaterSetting enum values:
+  //
+  enum HeaterSetting {
+    // This value should not be used.
+    HS_UNSPECIFIED = 0;
+    // The heater is on.
+    HS_HEAT_ON = 1;
+    // The heater is off.
+    HS_HEAT_OFF = 2;
+  }
+
+  // The current status of the HVAC heater setting.
+  HeaterSetting heater_setting = 12;
+
+  // The temperature_units field in the SystemSettings message has one of the
+  // following TemperatureUnits enum values:
+  //
+  enum TemperatureUnits {
+    // This value should not be used.
+    TU_UNSPECIFIED = 0;
+    // The temperature shown is in Celsius.
+    TU_CELSIUS = 1;
+    // The temperature shown is in Farenheit.
+    TU_FAHRENHEIT = 2;
+  }
+
+  // The temperature units displayed to the driver.
+  // This field is read-only.
+  TemperatureUnits temperature_units = 13 [ (readonly) = true ];
+
+  // The ionizer_status field in the SystemSettings message has one of the
+  // following IonizerStatus enum values:
+  //
+  enum IonizerStatus {
+    // This value should not be used.
+    IS_UNSPECIFIED = 0;
+    // The device is off.
+    IS_OFF = 1;
+    // The device is on.
+    IS_ON = 2;
+    // The device is at a low setting.
+    IS_LOW = 3;
+    // The device is is at a high setting.
+    IS_HIGH = 4;
+  }
+
+  // The current status of the HVAC ionizer device in the cabin.
+  // The ionizer improves air quality in the cabin.
+  // This field is read-only.
+  IonizerStatus ionizer_status = 14 [ (readonly) = true ];
+
+  // True = Interaction requested from the user on the in-vehicle display unit.
+  // This field is read-only.
+  bool user_controls_interaction = 15 [ (readonly) = true ];
+
+  // Service meta-data option definitions - Resources, topics
+  //
+  enum Resources { system_settings = 0; }
+}

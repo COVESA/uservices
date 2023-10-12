@@ -1,0 +1,35 @@
+== Introduction to uServices Contribution Process
+
+The COVESA uServices project has one public GitHub https://github.com/COVESA/uservices[repo]
+
+
+There are two main methods to propose changes or extensions to uServices:
+
+* If you have an idea or question you can create an https://github.com/COVESA/uservices/issues[issue] in GitHub
+* If you already have prepared changes or extensions that you think would be interesting for COVESA uServices, please create a https://github.com/COVESA/uservices/pulls[pull request (PR)] in GitHub 
+
+All contributions must follow the https://www.covesa.global/contribute[COVESA contribution guidelines].
+
+## Creating a Pull Request towards uServices
+
+This is the typical workflow for preparing a pull request. A Github account is required.
+
+1. Create a personal or company fork of the https://github.com/COVESA/uservices[uServices repository]
+2. Clone the forked repository into your local development environment.
+3. Create a local branch based on the uServices master branch to use for the proposed changes.
+4. Introduce the wanted changes or extensions in your local development environment
+5. Verify that your changes fulfil uServices Continuous Integration requirements, see link:README.adoc[README] for some guidance on the build steps.
+6. Create a commit and upload to your own fork.
+7. In the GitHub UI create a Pull Request from your fork to the master branch of https://github.com/COVESA/uservices[uServices repository].
+8. Validate that automatic build checks for the PR succeed.
+
+## Handling of the created Pull Request
+
+1. The PR creator shall follow up on any comments or questions received on the Pull Request.
+2. The PR will be discussed in the Pull Request discussion, or potentially in the common vehicle interfaces meetings.
+   It is preferable if the PR creator can participate and give a quick introduction on the rationale for the change.
+3. Unless trivial, PRs shall typically be open for at least a week before merging is considered, to give time for comments.
+4. If needed, the PR creator needs to refactor the PR to address received comments and remarks.
+5. After a while, if all comments and concerns have been sorted out and no-one objects merging the PR the meeting will decide to merge the PR.
+   It is not guaranteed that all PRs will be accepted. The repository maintainers may reject and close Pull Requests with full justification and after discussion in possible forums (e.g. common vehicle interfaces).
+6. A uServices maintainer will perform the merge.

@@ -1,0 +1,134 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package vehicle.v1;
+
+import "options.proto";
+
+option java_package = "org.covesa.uservice.vehicle.v1";
+option java_multiple_files = true;
+
+// The odometer resource provides the vehicle's odometer value to the user.
+// Published new odometer value are never less than the previous value.
+message TraveledDistance {
+  // Indicates when the payload data is invalid or corrupted.
+  bool is_invalid = 1;
+
+  // The real time published value for the odometer, in kilometers.
+  float value = 2 [ (unit) = KM, (readonly) = true ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { vehicle = 0; }
+}
+
+// Provides distance traveled in kilometers since last reset
+// for the selected trip.
+// Example resources : trip_1, trip_2.
+//
+message TripMeter {
+  // Name of the trip_meter, e.g., "trip_meter.trip_1" for subscription or rpc
+  // method
+  string name = 1;
+
+  // True= Do not rely on the values in this message. Try waiting until the next
+  // update.
+  bool is_invalid = 2;
+
+  // Publish trip odometer value, in kilometers.
+  float value = 3 [ (unit) = KM ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources {
+    trip_1 = 0;
+    trip_2 = 1;
+  }
+}
+
+// The vehicle speed is derived from either wheel speed or propulsion system
+// (primary axle) output speed.
+// Provides the vehicle speed limit properties.
+// Note that this speed limit is a HARD speed limit. Regardless of driver
+// accelerator pedal press, the vehicle will not go above this speed limit.
+//
+message VehicleSpeed {
+  // Average vehicle speed corresponds to the information used by the
+  // speedometer.
+  // The current average driven speed of the vehicle, in kilometers
+  // per hour
+  optional float speed = 1 [ (unit) = KPH, (readonly) = true ];
+
+  // The speed limit currently specified for the vehicle, in
+  // kilometers per hour
+  float speed_limit = 2 [ (unit) = KPH ];
+
+  // True= speed limit is actively applied to prevent the vehicle
+  // from exceeding the top hard limit.
+  // This is read-only.
+  bool is_speed_limit_active = 3 [ (readonly) = true ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { vehicle = 0; }
+}
+
+// Collision event status
+// Collisions are characterized as an event in which a vehicle is
+// physically impacted in one or more places.
+//
+message CollisionAlert {
+  // True= collision event detected.
+  // This is read-only.
+  bool is_active = 1 [ (readonly) = true ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { vehicle = 0; }
+}
+
+// Content theft event status
+// Content theft events are incidents in which a vehicle has experienced an
+// action that was not permitted nor was consent granted.
+//
+message TheftAlert {
+  // True= content theft event detected.
+  // This is read-only.
+  bool is_active = 1 [ (readonly) = true ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { vehicle = 0; }
+}
+
+// Provides the vehicle usage message structure that is used to indicate various
+// vehicle usages and their status.
+//
+message VehicleUsage {
+
+  // TRUE = vehicle usage is currently active
+  bool is_active = 1;
+
+  // TRUE = setting change is allowed given the current vehicle operating
+  // condition (i.e. precondition is met to allow setting of that usage)
+  bool is_setting_change_allowed = 2;
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { transport_mode = 0; }
+}

@@ -1,0 +1,143 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package vehicle.chassis.suspension.v1;
+
+import "options.proto";
+
+option java_package = "org.covesa.uservice.vehicle.chassis.suspension.v1";
+option java_multiple_files = true;
+
+// Get the ride height settings.
+//
+message RideHeight {
+  // The current_height, target_height, supported_height, and available_heights
+  // fields in the RideHeightLevel field of the RideHeight message have one of
+  // the following enum values:
+  //
+  enum RideHeightLevel {
+    // This value should not be used.
+    RHL_UNSPECIFIED = 0;
+    // Lowers/raises the vehicle for easy accessibility into or out of the
+    // vehicle.
+    RHL_USER_ENTRY_EXIT = 1;
+    // Lowest height in comparison to the normal trim.
+    // Note: Lowers the vehicle to an extent which may not comply with road
+    // regulations.
+    RHL_ABSOLUTE_LOWEST = 2;
+    // Closer to the ground in comparison to 'lower' height.
+    RHL_LOWEST = 3;
+    // Closer to the ground in comparison to the 'low' height.
+    RHL_LOWER = 4;
+    // Closer to the ground in comparison to the 'normal' trim height.
+    RHL_LOW = 5;
+    // Standard height of the vehicle i.e. when there is no air suspension.
+    RHL_NORMAL = 6;
+    // Farther away from the ground in comparison to the 'normal' trim height.
+    RHL_HIGH = 7;
+    // Farther away from the ground than 'high' state.
+    RHL_HIGHER = 8;
+    // Farther away from the ground than 'higher' state.
+    RHL_HIGHEST = 9;
+    // Back of the vehicle is lowered. For some vehicles, the front is raised
+    // to maximize the rake. Rake is the amount of tilt created by angling the
+    // vehicle.
+    RHL_FRONT_TO_REAR_MAX_TILT = 10;
+    // Lowers the back of the vehicle to help attach the trailer to the hitch.
+    RHL_REAR_LOW = 11;
+    // Raises the back of the vehicle to ease the removal of the trailer from
+    // the hitch.
+    RHL_REAR_HIGH = 12;
+  }
+
+  // The name of the resource.
+  string name = 1;
+
+  // Optional field with the current vehicle ride height state. If the current
+  // ride height is unknown, this field will not be published.
+  optional RideHeightLevel current_height = 2 [(readonly) = true];
+
+  // Optional field with the suspension to which the vehicle is in the process
+  // of moving. It will only move the vehicle to the target height once the
+  // conditions are met. If the current ride height is unknown, this field will
+  // not be published.
+  optional RideHeightLevel target_height = 3 [(readonly) = true];
+
+  // Repeated field with the ride heights (up to 8) supported based on this
+  // vehicle’s configuration.
+  repeated RideHeightLevel supported_heights = 4;
+
+  // Repeated field with a subset of the available ride heights that are
+  // currently available. This can change based on factors such as safety,
+  // location, and road regulations.
+  repeated RideHeightLevel available_heights = 5;
+
+  // Service metadata option definitions - Resources
+  enum Resources { ride_height = 0; }
+}
+
+// This provides system information pertaining to suspension.
+message RideHeightSystemStatus {
+  // The source field in the RideHeightSystemStatus message has one of the
+  // following enum values:
+  //
+  enum Source {
+    // This value should not be used.
+    S_UNSPECIFIED = 0;
+    // The source is Drive Mode,requested by the vehicle.
+    S_DRIVE_MODE = 1;
+    // The source is a user request via the HMI.
+    S_USER = 2;
+    // The source is an app request.
+    S_APP = 3;
+  }
+
+  // The capability_state field in the RideHeightStatemStatus message gives
+  // information about the current functional capability of the ride height
+  // system based on conditions. It has one of the following enum values:
+  //
+  enum CapabilityState {
+    // This value should not be used.
+    CS_UNSPECIFIED = 0;
+    // Functioning normally (full capability available).
+    CS_NORMAL = 1;
+    // Only certain requests can be honored depending on the severity of a
+    // fault.
+    CS_LIMITED = 2;
+    // The request cannot be honored due to a fault in one or more subsystems
+    // associated with this request.
+    CS_FAULTED = 3;
+    // The request cannot be honored due to mechatronics-related issues.
+    CS_UNAVAILABLE = 4;
+  }
+
+  // The name of the resource.
+  string name = 1;
+
+  // The source of the current ride height selection. The most recent source of
+  // the ride height request is used (see Source enum table for more info).
+  Source source = 2 [(readonly) = true];
+
+  // Returns the capability status of the ride height system (see
+  // CapabilityState enum table for more info).
+  CapabilityState capability_state = 3 [(readonly) = true];
+
+  // Ignore this field - generated due to a Custom Option.
+  //
+  enum Resources { ride_height_system_status = 0; }
+}

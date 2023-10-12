@@ -1,0 +1,144 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+syntax = "proto3";
+
+package vehicle.chassis.v1;
+
+import "options.proto";
+
+option java_package = "org.covesa.uservice.vehicle.chassis.v1";
+option java_multiple_files = true;
+
+// Tire pressure is pivotal for road safety and vehicle performance.
+// Under-inflated tires can cause the tread to quickly wear down and bend in
+// rotation. This increases the tire temperature and rolling resistance,
+// which lowers vehicle's fuel economy.
+// Over-inflated tires are prone to damage and lose traction as the tires
+// get warped due to excessive air pressure. This decreases the
+// tire's footprint on the road, which may lead to unexpected reaction
+// when a vehicle passes over potholes.
+//
+message Tire {
+  // The Tire message leak_state field has one of the following values:
+  //
+  enum TireLeakState {
+    // The value should not be used.
+    TLS_UNSPECIFIED = 0;
+    // No warning is displayed.
+    TLS_NO_LEAK = 1;
+    // Warning to service tires when slow leak is detected.
+    TLS_SLOW_LEAK = 2;
+    // Warning for the vehicle to pull over when a fast leak is detected.
+    TLS_FAST_LEAK = 3;
+  }
+
+  // The Tire message pressure-warning field has one of the following values:
+  //
+  enum TirePressureState {
+    // This value should not be used.
+    TPS_UNSPECIFIED = 0;
+    // Tire pressure displayed is in a nominal state as per the tire placard.
+    TPS_NOMINAL = 1;
+    // Warning when tire pressure is less than 75% for FMVSS vehicles and 68%
+    // for EU vehicles for more than 15 mins.
+    // Less than 50% results in an immediate warning.
+    TPS_LOW = 3;
+    // Warning when tires are over-inflated.
+    TPS_HIGH = 4;
+  }
+
+  // Name of the resource, e.g., front_left, rear_right. See the enum values
+  // table.
+  Resources resource_name = 1;
+
+  // The tire pressure in kPa (Kilopascal).
+  optional float pressure = 2 [ (readonly) = true, (unit) = KPA ];
+
+  // The tire temperature in degrees Celsius.
+  optional float temperature = 3 [ (readonly) = true, (unit) = CELSIUS ];
+
+  // A pressure warning if the tire requires servicing. See the enum values
+  // table.
+  optional TirePressureState pressure_warning = 4 [ (readonly) = true ];
+
+  // A warning for tire leak state. See the enum values table.
+  TireLeakState leak_state = 5 [ (readonly) = true ];
+
+  // True= Tire leak detection notification is enabled.
+  // False= Tire leak detection notification is disabled.
+  bool is_leak_detection_enabled = 6 [ (readonly) = true ];
+
+  // Time remaining until the tire will be flat, in minutes.
+  int32 time_to_flat = 7 [ (readonly) = true, (unit) = MINUTES ];
+
+  // True = Indicates mechatronic communication or sensor faults.
+  // Try waiting until the next update.
+  // False = There is no fault in the pressure sensor
+  bool pressure_invalid = 8 [ (readonly) = true ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources {
+    front_left = 0;
+    front_right = 1;
+    rear_left = 2;
+    rear_right = 3;
+    rear_left_inner = 4;
+    rear_right_inner = 5;
+  }
+}
+
+// Traction control optimizes vehicle acceleration and stability across various
+// surfaces through propulsion and brake control.
+//
+message TractionControlSystem {
+  // True= Traction Control Systme is on.
+  // False= It is off.
+  bool is_enabled = 1 [ (readonly) = true ];
+
+  // True= Traction Control System  actively limits the wheel spin.
+  // False= Traction Control does not limiting wheel spin.
+  bool is_engaged = 2 [ (readonly) = true ];
+
+  // True= A Traction Control System sensor failure is detected.
+  // False= Sensors are working
+  bool is_faulted = 3 [ (readonly) = true ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { traction_control_system = 0; }
+}
+
+// Stability control manages vehicle lateral attitude through propulsion and
+// brake control.
+//
+message ElectronicStabilityControlSystem {
+  // True= Electronic Stability Control is on.
+  // False= It is off.
+  bool is_enabled = 1 [ (readonly) = true ];
+
+  // True= Electronic Stability Control is actively working to regain lateral
+  // vehicle stability. False = It is not actively working.
+  bool is_engaged = 2 [ (readonly) = true ];
+
+  // True= An Electronic Stability Control sensor failure is detected.
+  // False= Sensors are working.
+  bool is_faulted = 3 [ (readonly) = true ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { electronic_stability_control_system = 0; }
+}

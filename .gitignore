@@ -1,0 +1,4 @@
+#Ignore IDE
+.idea/
+/codeStyles/codeStyleConfig.xml
+*.id

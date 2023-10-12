@@ -1,0 +1,131 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package vehicle.v1;
+
+import "google/rpc/status.proto";
+import "options.proto";
+import "vehicle/v1/vehicle_topics.proto";
+
+option java_package = "org.covesa.uservice.vehicle.v1";
+option java_multiple_files = true;
+
+// This service provides the ability to request vehicle odometer and
+// trip values within the vehicle. The vehicle-level odometer expresses what is
+// displayed on the cluster. The trip odometer can be both read and reset at the
+// users command. The trip values are directly tied to the vehicle odometer such
+// that if the odometer is invalid, the trip values are as well.
+//
+// Within the mechatronic layer, there is a series of checks and balances to
+// ensure that the odometer does not get tampered with. Only the displayed value
+// is contained within the vehicle service.
+//
+service Vehicle {
+  // Service Metadata - Name, version, ID, RPC methods
+  option (name) = "vehicle";
+  option (version_major) = 1;
+  option (version_minor) = 0;
+  option (id) = 14;
+
+  // Request to reset the trip odometer to default value of 0 kilometers.
+  rpc ResetTripMeter(ResetTripMeterRequest) returns (google.rpc.Status) {
+    option (method_id) = 1;
+  }
+
+  // Request to set the vehicle into transport mode
+  // This mode is used when the vehicle is slated for long distance transportation
+  // over a very long period of time.
+  // An example is when the vehicle is transported overseas after
+  // manufacturing.
+  // When this mode is active, various comfort and convenience
+  // functions are disabled to minimize the vehicle 12V power consumption
+  // while the vehicle remains in an undriven condition for so long.
+  // This prevents the 12V battery from getting
+  // over-discharged and damaged.
+  // When transport mode becomes active, it disables some vehicle
+  // functions which may distract the driver. As such, the vehicle must be in a
+  // parked condition for this RPC to be called. If the vehicle is not in Park,
+  // the RPC request will be rejected and a response code of 9 is given.
+  // Any other error in RPC will result in a generic error code of 2.
+  //
+  rpc SetTransportMode(SetTransportModeRequest) returns (google.rpc.Status) {
+    option (method_id) = 2;
+  }
+}
+
+// Message to reset trip odometer value for the selected trip.
+// Example resources : trip_1, trip_2
+//
+message ResetTripMeterRequest {
+  // Name of the trip to be reset, like "trip_meter.trip_1".
+  TripMeter.Resources trip_meter = 1;
+}
+
+// Message to set vehicle into transport mode
+//
+message SetTransportModeRequest {
+
+  // TRUE = request to set transport mode to active
+  // FALSE = request to set transport mode to inactive
+  bool is_active = 1;
+}
+
+// The following messages are used to connect the service to the associated
+// resource messages in the *topics.proto
+//
+// Service metadata option definitions - Resources, topics
+//
+message TraveledDistanceOptions {
+  option (base_topic_id) = 0;
+  TraveledDistance.Resources name = 1 [ (resource_name_mask) = "*" ];
+}
+
+// Service metadata option definitions - Resources, topics
+//
+message TripMeterOptions {
+  option (base_topic_id) = 10;
+  TripMeter.Resources name = 1 [ (resource_name_mask) = "trip_meter.*" ];
+}
+
+// Service metadata option definitions - Resources, topics
+//
+message VehicleSpeedOptions {
+  option (base_topic_id) = 20;
+  VehicleSpeed.Resources name = 1 [ (resource_name_mask) = "*" ];
+}
+
+// Service metadata option definitions - Resources, topics
+//
+message TheftAlertOptions {
+  option (base_topic_id) = 30;
+  TheftAlert.Resources name = 1 [ (resource_name_mask) = "*" ];
+}
+
+// Service metadata option definitions - Resources, topics
+//
+message CollisionAlertOptions {
+  option (base_topic_id) = 40;
+  CollisionAlert.Resources name = 1 [ (resource_name_mask) = "*" ];
+}
+
+// Service metadata option definitions - Resources, topics
+//
+message VehicleUsageOptions {
+  option (base_topic_id) = 50;
+  VehicleUsage.Resources name = 1 [ (resource_name_mask) = "vehicle_usage.*" ];
+}

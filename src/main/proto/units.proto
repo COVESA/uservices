@@ -1,0 +1,82 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+syntax = "proto3";
+
+option java_package = "org.covesa.uservice";
+option java_multiple_files = true;
+
+// Common Units used in uService definitions
+// The units are defined in no specific order.
+enum Units {
+  // Unspecified
+  UNIT_UNSPECIFIED = 0;
+  // Kilometers per hour
+  KPH = 1;
+  // Miles per second
+  MPS = 2;
+  // Temperature in Celsius
+  CELSIUS = 3;
+  // Temperature in Fahrenheit
+  FAHREHEIT = 4;
+  // Millibar pressure unit
+  MBAR = 5;
+  // Pascal
+  PA = 6;
+  // Percent
+  PERCENT = 7;
+  // Lumens
+  Lumens = 8;
+  // Kilometer
+  KM = 9;
+  // Kilowatt
+  KW = 10;
+  // Kilowatt-hour
+  KWH = 11;
+  // Ampere
+  AMP = 12;
+  // No Unit
+  NO_UNIT = 13;
+  // Voltage
+  VOLT = 14;
+  // kilopascal
+  KPA = 15;
+  // DAY
+  DAY = 17;
+  // Watts per Meter Squared
+  Wm2 = 18;
+  // Kilometers per Liter
+  KMPL = 19;
+  // Lux
+  LUX = 20;
+  // Hours
+  HOURS = 21;
+  // Minutes
+  MINUTES = 22;
+  // Seconds
+  SECONDS = 23;
+  // Meters
+  METERS = 24;
+  // Centimeters
+  CENTIMETERS = 25;
+  // Angle in Degrees
+  DEGREES = 26;
+  // Kilometers per Kilowatt-hour
+  KM_PER_KWH = 27;
+  // Kilowatt-hour Per Kilometer
+  KWH_PER_KM = 28;
+  //MilliSeconds
+  ms = 29;
+}

@@ -1,0 +1,107 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
+syntax = "proto3";
+
+package vehicle.propulsion.engine.v1;
+
+import "common/health_state.proto";
+import "options.proto";
+
+option java_package = "org.covesa.uservice.vehicle.propulsion.engine.v1";
+option java_multiple_files = true;
+
+// This message is returned for air_filter resource events.
+//
+message AirFilter {
+  // Engine air filter health status. The air filter is healthy when the life
+  // remaining is above 10%. It can be unhealthy when there is an issue with the
+  // filter such as if it is plugged, missing, has internal fault present, or if
+  // the life remaining falls below 10%. The percentage of life remaining in the
+  // engine air filter is displayed in increments of 5%. This percentage is
+  // abitrated based on pressure through the filter as well as time since the
+  // last change.
+  // See the enum values table.
+  common.HealthState health = 1;
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { air_filter = 0; }
+}
+
+// This message is returned for oil resource events.
+//
+message Oil {
+  // True= Do not rely on the values in this message. Try waiting until the next
+  // update.
+  bool is_invalid = 1 [ (readonly) = true ];
+
+  // Engine oil pressure in kilopascals.
+  optional float pressure = 2 [ (readonly) = true ];
+
+  // True= oil pressure is low and indication is on.
+  // This will occur when the oil pressure falls below a calibrated threshold.
+  // This usually results in the engine entering into a low power mode.
+  optional bool is_pressure_low_indication_on = 3 [ (readonly) = true ];
+
+  // Engine oil health provides feedback on the percentage of oil life remaining
+  // as well as when an oil change is required. See the enum values table.
+  common.HealthState health = 4;
+
+  // Engine oil temperature in degrees Celsius.
+  optional float temperature = 5 [ (readonly) = true, (unit) = CELSIUS ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { oil = 0; }
+}
+
+// This message is returned for coolant resource events.
+//
+message Coolant {
+  // True= Do not rely on the values in this message. Try waiting until the next
+  // update.
+  bool is_invalid = 1 [ (readonly) = true ];
+
+  // Engine inlet coolant temperature in degrees Celsius.
+  float inlet_temperature = 2 [ (readonly) = true ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { coolant = 0; }
+}
+
+// This message is returned for engine_state resource events.
+//
+message EngineState {
+  // True= the engine is currently on and running.
+  // This status is the result of actions such as start/stop, ignition, and
+  // remote start. False= the engine is in standby.
+  bool is_running = 1 [ (readonly) = true ];
+
+  // The total time in minutes in which the engine has been running within a
+  // single power cycle.
+  int32 running_duration = 2 [ (readonly) = true ];
+
+  // The total time in minutes in which the engine has been idle within a single
+  // power cycle. The engine is idle when it is running and the accelerator
+  // pedal is not pressed.
+  int32 idle_duration = 3 [ (readonly) = true ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { engine_state = 0; }
+}

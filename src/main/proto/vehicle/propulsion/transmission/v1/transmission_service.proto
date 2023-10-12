@@ -1,0 +1,53 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
+syntax = "proto3";
+
+package vehicle.propulsion.transmission.v1;
+
+import "options.proto";
+import "vehicle/propulsion/transmission/v1/transmission_topics.proto";
+
+option java_package = "org.covesa.uservice.propulsion.transmission.v1";
+option java_multiple_files = true;
+
+// Provides transmission-related functions.
+// There are no RPCs currently.
+//
+service Transmission {
+  // Service Metadata - Name, version, ID, RPC methods
+  option (name) = "propulsion.transmission";
+  option (version_major) = 1;
+  option (version_minor) = 0;
+  option (id) = 18;
+}
+
+// The following messages are used to connect the service to the associated
+// resource messages in the *resources.proto.
+//
+// Service metadata option definitions - Resources, topics
+//
+message VehicleGearStateOptions {
+  option (base_topic_id) = 0;
+  VehicleGearState.Resources resource_name = 1 [ (resource_name_mask) = "*" ];
+}
+
+// Service metadata option definitions - Resources, topics
+//
+message GearboxOptions {
+  option (base_topic_id) = 10;
+  Gearbox.Resources resource_name = 1 [ (resource_name_mask) = "gearbox.*" ];
+}

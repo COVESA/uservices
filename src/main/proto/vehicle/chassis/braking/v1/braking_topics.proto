@@ -1,0 +1,77 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package vehicle.chassis.braking.v1;
+
+import "common/health_state.proto";
+import "options.proto";
+
+option java_package = "org.covesa.uservice.vehicle.chassis.braking.v1";
+option java_multiple_files = true;
+
+// Provides brake pedal related information.
+// The brake pedal is the primary interface that driver uses to communicate
+// their desire to decelerate or stop the vehicle. The pedal press is based
+// on the amount of pedal travel and the pressure applied on the pedal.
+// The mechatronics control system interprets the brake pedal press as a
+// desired braking torque and actuates that torque via the hydraulic
+// control system.
+//
+message BrakePedal {
+  // The applied brake pedal position in percentage.
+  // This is a read-only field.
+  optional float position = 1 [ (unit) = PERCENT, (readonly) = true ];
+
+  // Applied brake pedal pressure in kPa.
+  // This is a read-only field.
+  optional float pressure = 2 [ (unit) = KPA, (readonly) = true ];
+
+  // Brake pedal press is detected.
+  // True= the break pedal has been pressed and the minimum pedal travel
+  // threshold is detected. The threshold for the pedal press is calibrated
+  // at around 4% pedal travel. This provides a consistent indication that
+  // the pedal has been pressed so that applications do not need to make
+  // this judgement on their own.
+  // This is a read-only field.
+  optional bool is_pressed = 3 [ (readonly) = true ];
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources { brake_pedal = 0; }
+}
+
+// Brake pads resource definition.
+// Brake pads are a consumable component that wear down with use.
+// Algorithms are used to estimate its remaining useful life. When the
+// estimated remaining life is low enough, the component health status
+// is updated to indicate that service is required.
+//
+message BrakePads {
+  // Resource instance name, based on the location: 'front', 'rear'
+  string name = 1;
+
+  // Health of the brake pad, see enum table values.
+  common.HealthState health = 2;
+
+  // Service metadata option definitions - Resources
+  //
+  enum Resources {
+    front = 0;
+    rear = 1;
+  }
+}
