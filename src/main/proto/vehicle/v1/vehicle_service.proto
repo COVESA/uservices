@@ -19,7 +19,7 @@ syntax = "proto3";
 package vehicle.v1;
 
 import "google/rpc/status.proto";
-import "options.proto";
+import "uprotocol_options.proto";
 import "vehicle/v1/vehicle_topics.proto";
 
 option java_package = "org.covesa.uservice.vehicle.v1";
@@ -37,14 +37,14 @@ option java_multiple_files = true;
 //
 service Vehicle {
   // Service Metadata - Name, version, ID, RPC methods
-  option (name) = "vehicle";
-  option (version_major) = 1;
-  option (version_minor) = 0;
-  option (id) = 14;
+  option (uprotocol.name) = "vehicle";
+  option (uprotocol.version_major) = 1;
+  option (uprotocol.version_minor) = 0;
+  option (uprotocol.id) = 14;
 
   // Request to reset the trip odometer to default value of 0 kilometers.
   rpc ResetTripMeter(ResetTripMeterRequest) returns (google.rpc.Status) {
-    option (method_id) = 1;
+    option (uprotocol.method_id) = 1;
   }
 
   // Request to set the vehicle into transport mode
@@ -64,7 +64,7 @@ service Vehicle {
   // Any other error in RPC will result in a generic error code of 2.
   //
   rpc SetTransportMode(SetTransportModeRequest) returns (google.rpc.Status) {
-    option (method_id) = 2;
+    option (uprotocol.method_id) = 2;
   }
 }
 
@@ -91,41 +91,41 @@ message SetTransportModeRequest {
 // Service metadata option definitions - Resources, topics
 //
 message TraveledDistanceOptions {
-  option (base_topic_id) = 0;
-  TraveledDistance.Resources name = 1 [ (resource_name_mask) = "*" ];
+  option (uprotocol.base_topic_id) = 0;
+  TraveledDistance.Resources name = 1 [ (uprotocol.resource_name_mask) = "*" ];
 }
 
 // Service metadata option definitions - Resources, topics
 //
 message TripMeterOptions {
-  option (base_topic_id) = 10;
-  TripMeter.Resources name = 1 [ (resource_name_mask) = "trip_meter.*" ];
+  option (uprotocol.base_topic_id) = 10;
+  TripMeter.Resources name = 1 [ (uprotocol.resource_name_mask) = "trip_meter.*" ];
 }
 
 // Service metadata option definitions - Resources, topics
 //
 message VehicleSpeedOptions {
-  option (base_topic_id) = 20;
-  VehicleSpeed.Resources name = 1 [ (resource_name_mask) = "*" ];
+  option (uprotocol.base_topic_id) = 20;
+  VehicleSpeed.Resources name = 1 [ (uprotocol.resource_name_mask) = "*" ];
 }
 
 // Service metadata option definitions - Resources, topics
 //
 message TheftAlertOptions {
-  option (base_topic_id) = 30;
-  TheftAlert.Resources name = 1 [ (resource_name_mask) = "*" ];
+  option (uprotocol.base_topic_id) = 30;
+  TheftAlert.Resources name = 1 [ (uprotocol.resource_name_mask) = "*" ];
 }
 
 // Service metadata option definitions - Resources, topics
 //
 message CollisionAlertOptions {
-  option (base_topic_id) = 40;
-  CollisionAlert.Resources name = 1 [ (resource_name_mask) = "*" ];
+  option (uprotocol.base_topic_id) = 40;
+  CollisionAlert.Resources name = 1 [ (uprotocol.resource_name_mask) = "*" ];
 }
 
 // Service metadata option definitions - Resources, topics
 //
 message VehicleUsageOptions {
-  option (base_topic_id) = 50;
-  VehicleUsage.Resources name = 1 [ (resource_name_mask) = "vehicle_usage.*" ];
+  option (uprotocol.base_topic_id) = 50;
+  VehicleUsage.Resources name = 1 [ (uprotocol.resource_name_mask) = "vehicle_usage.*" ];
 }

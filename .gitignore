@@ -2,3 +2,7 @@
 .idea/
 /codeStyles/codeStyleConfig.xml
 *.id
+target/
+settings.json
+*.jar
+

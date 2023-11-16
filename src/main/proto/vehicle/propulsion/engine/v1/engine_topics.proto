@@ -19,7 +19,8 @@ syntax = "proto3";
 package vehicle.propulsion.engine.v1;
 
 import "common/health_state.proto";
-import "options.proto";
+
+import "uservices_options.proto";
 
 option java_package = "org.covesa.uservice.vehicle.propulsion.engine.v1";
 option java_multiple_files = true;

@@ -19,7 +19,7 @@ syntax = "proto3";
 package vehicle.chassis.braking.v1;
 
 import "google/rpc/status.proto";
-import "options.proto";
+import "uprotocol_options.proto";
 import "vehicle/chassis/braking/v1/braking_topics.proto";
 
 option java_package = "org.covesa.uservice.chassis.braking.v1";
@@ -30,10 +30,10 @@ option java_multiple_files = true;
 //
 service Braking {
   // Service metadata option definitions - Name, version, ID
-  option (name) = "chassis.braking";
-  option (version_major) = 1;
-  option (version_minor) = 0;
-  option (id) = 17;
+  option (uprotocol.name) = "chassis.braking";
+  option (uprotocol.version_major) = 1;
+  option (uprotocol.version_minor) = 0;
+  option (uprotocol.id) = 17;
 
   // Used to reset the health status of brake system components such as
   // "brake_pads.front". The reset component's life will then return
@@ -41,7 +41,7 @@ service Braking {
   // Not all vehicles support health management of brakes.
   // If not supported, the request response will be UNSUPPORTED.
   rpc ResetHealth(ResetHealthRequest) returns (google.rpc.Status) {
-    option (method_id) = 1;
+    option (uprotocol.method_id) = 1;
   }
 
   // Used to enable or disable the health monitoring system for the brakes
@@ -50,7 +50,7 @@ service Braking {
   // algorithm.
   rpc ManageHealthMonitoring(ManageHealthMonitoringRequest)
       returns (google.rpc.Status) {
-    option (method_id) = 2;
+    option (uprotocol.method_id) = 2;
   }
 }
 
@@ -97,14 +97,14 @@ message ManageHealthMonitoringRequest {
 // Service metadata option definitions - Resources, topics
 //
 message BrakePedalOptions {
-  option (base_topic_id) = 0;
-  BrakePedal.Resources resource_name = 1 [ (resource_name_mask) = "*" ];
+  option (uprotocol.base_topic_id) = 0;
+  BrakePedal.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
 }
 
 // Service metadata option definitions - Resources, topics
 //
 message BrakePadsOptions {
-  option (base_topic_id) = 10;
+  option (uprotocol.base_topic_id) = 10;
   BrakePads.Resources resource_name = 1
-      [ (resource_name_mask) = "brake_pads.*" ];
+      [ (uprotocol.resource_name_mask) = "brake_pads.*" ];
 }

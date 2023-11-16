@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.covesa.uservices.api</groupId>
-    <artifactId>uservices.api</artifactId>
+    <groupId>org.covesa.uservices</groupId>
+    <artifactId>uservices-api</artifactId>
     <name>uServices APIs</name>
     <description>This project contains the built artifacts for uServices.</description>
-    <version>0.1</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -64,43 +64,34 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java-util</artifactId>
-            <version>${protobuf.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.google.api.grpc</groupId>
             <artifactId>proto-google-common-protos</artifactId>
             <version>2.16.0</version>
         </dependency>
 
-        <!-- Test deps -->
-        <!-- <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit-jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-
+        <!-- uProtocol core API library -->
         <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${assertj-core.version}</version>
-            <scope>test</scope>
-        </dependency>
+            <groupId>org.eclipse.uprotocol</groupId>
+            <artifactId>uprotocol-core-api</artifactId>
+            <version>1.5.1-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/uprotocol-core-api-1.5.1-SNAPSHOT.jar</systemPath>
 
-        <dependency>
-            <groupId>com.google.truth.extensions</groupId>
-            <artifactId>truth-proto-extension</artifactId>
-            <version>1.1</version>
-            <scope>test</scope>
-        </dependency> -->
+        </dependency>
     </dependencies>
+
+    <!-- uProtocol core API snapshot location -->
+    <repositories>
+        <repository>
+        <id>oss.sonatype.org-snapshot</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        <releases>
+            <enabled>false</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+        </repository>
+    </repositories>    
 
 </project>

@@ -20,7 +20,7 @@ package vehicle.body.cabin_climate.v1;
 
 import "google/protobuf/field_mask.proto";
 import "google/rpc/status.proto";
-import "options.proto";
+import "uprotocol_options.proto";
 import "vehicle/body/cabin_climate/v1/cabin_climate_properties.proto";
 import "vehicle/body/cabin_climate/v1/cabin_climate_topics.proto";
 
@@ -32,10 +32,10 @@ option java_multiple_files = true;
 //
 service BodyCabinclimate {
   // Service meta-data option definitions - Name, version, id, rpc method
-  option (name) = "body.cabin_climate";
-  option (version_major) = 1;
-  option (version_minor) = 2;
-  option (id) = 5;
+  option (uprotocol.name) = "body.cabin_climate";
+  option (uprotocol.version_major) = 1;
+  option (uprotocol.version_minor) = 2;
+  option (uprotocol.id) = 5;
   option (number_of_row_1_zones) = 2;
   option (number_of_row_2_zones) = 0;
   option (number_of_row_3_zones) = 0;
@@ -43,35 +43,35 @@ service BodyCabinclimate {
 
   // Controls climate settings for a zone.
   rpc ExecuteClimateCommand(ClimateCommand) returns (google.rpc.Status) {
-    option (method_id) = 1;
+    option (uprotocol.method_id) = 1;
   }
   // Controls climate system settings.
   rpc UpdateSystemSettings(UpdateSystemSettingsRequest)
       returns (google.rpc.Status) {
-    option (method_id) = 2;
+    option (uprotocol.method_id) = 2;
   }
 
   // Controls temperature settings for a zone.
   rpc SetTemperature(SetTemperatureRequest) returns (SetTemperatureResponse) {
-    option (method_id) = 3;
+    option (uprotocol.method_id) = 3;
   }
 
   // Controls Fan settings for a zone.
-  rpc SetFan(SetFanRequest) returns (SetFanResponse) { option (method_id) = 4; }
+  rpc SetFan(SetFanRequest) returns (SetFanResponse) { option (uprotocol.method_id) = 4; }
 
   // Controls air distribution settings for a zone.
   rpc SetAirDistribution(SetAirDistributionRequest)
       returns (SetAirDistributionResponse) {
-    option (method_id) = 5;
+    option (uprotocol.method_id) = 5;
   }
   // Controls power settings for a zone.
   rpc SetPower(SetPowerRequest) returns (SetPowerResponse) {
-    option (method_id) = 6;
+    option (uprotocol.method_id) = 6;
   }
 
   // Controls power settings for a zone.
   rpc SetLock(SetLockRequest) returns (SetLockResponse) {
-    option (method_id) = 7;
+    option (uprotocol.method_id) = 7;
   }
 }
 
@@ -197,17 +197,17 @@ message SetLockResponse {
 // Service meta-data option definitions - Resources, topics
 //
 message SystemSettingsOptions {
-  option (base_topic_id) = 0;
+  option (uprotocol.base_topic_id) = 0;
   option (is_rear_defog_available) = true;
   option (is_heater_available) = true;
   option (is_ionizer_status_available) = true;
-  SystemSettings.Resources resource_name = 1 [ (resource_name_mask) = "*" ];
+  SystemSettings.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
 }
 
 // Service meta-data option definitions - Resources, topics
 //
 message ZonesOptions {
-  option (base_topic_id) = 10;
+  option (uprotocol.base_topic_id) = 10;
   option (temperature_setpoint_min) = 16;
   option (temperature_setpoint_max) = 31;
   option (number_of_blower_levels_row_1) = 8;
@@ -222,5 +222,5 @@ message ZonesOptions {
   option (power_zone_available_row_1) = 1;
   option (power_zone_available_row_2) = 0;
   option (power_zone_available_row_3) = 0;
-  Zones.Resource resource_name = 1 [ (resource_name_mask) = "*" ];
+  Zones.Resource resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
 }
