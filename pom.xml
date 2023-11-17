@@ -73,10 +73,7 @@
         <dependency>
             <groupId>org.eclipse.uprotocol</groupId>
             <artifactId>uprotocol-core-api</artifactId>
-            <version>1.5.1-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/uprotocol-core-api-1.5.1-SNAPSHOT.jar</systemPath>
-
+            <version>1.5.1</version>
         </dependency>
     </dependencies>
 
