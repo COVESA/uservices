@@ -18,7 +18,9 @@ syntax = "proto3";
 package vehicle.chassis.v1;
 
 import "google/rpc/status.proto";
-import "options.proto";
+import "uprotocol_options.proto";
+import "uservices_options.proto";
+
 import "vehicle/chassis/v1/chassis_topics.proto";
 
 option java_package = "org.covesa.uservice.vehicle.chassis.v1";
@@ -28,14 +30,14 @@ option java_multiple_files = true;
 //
 service Chassis {
   // Service metadata option definitions - Name, version, id, rpc method
-  option (name) = "chassis";
-  option (version_major) = 1;
-  option (version_minor) = 0;
-  option (id) = 20;
+  option (uprotocol.name) = "chassis";
+  option (uprotocol.version_major) = 1;
+  option (uprotocol.version_minor) = 0;
+  option (uprotocol.id) = 20;
 
   // Send request to update a tire resource
   rpc UpdateTire(UpdateTireRequest) returns (google.rpc.Status) {
-    option (method_id) = 1;
+    option (uprotocol.method_id) = 1;
   }
 }
 
@@ -57,22 +59,22 @@ message UpdateTireRequest {
 // Service metadata option definitions - Resources, topics
 //
 message TireOptions {
-  option (base_topic_id) = 0;
-  Tire.Resources resource_name = 1 [ (resource_name_mask) = "tire.*" ];
+  option (uprotocol.base_topic_id) = 0;
+  Tire.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "tire.*" ];
 }
 
 // Service metadata option definitions - Resources, topics
 //
 message TractionControlSystemOptions {
-  option (base_topic_id) = 10;
+  option (uprotocol.base_topic_id) = 10;
   TractionControlSystem.Resources resource_name = 1
-      [ (resource_name_mask) = "*" ];
+      [ (uprotocol.resource_name_mask) = "*" ];
 }
 
 // Service metadata option definitions - Resources, topics
 //
 message ElectronicStabilityControlSystemOptions {
-  option (base_topic_id) = 20;
+  option (uprotocol.base_topic_id) = 20;
   ElectronicStabilityControlSystem.Resources resource_name = 1
-      [ (resource_name_mask) = "*" ];
+      [ (uprotocol.resource_name_mask) = "*" ];
 }

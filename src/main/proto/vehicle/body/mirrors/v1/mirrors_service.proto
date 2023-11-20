@@ -19,7 +19,8 @@ syntax = "proto3";
 package vehicle.body.mirrors.v1;
 
 import "google/rpc/status.proto";
-import "options.proto";
+import "uprotocol_options.proto";
+import "uservices_options.proto";
 import "vehicle/body/mirrors/v1/mirrors_properties.proto";
 import "vehicle/body/mirrors/v1/mirrors_topics.proto";
 
@@ -30,10 +31,10 @@ option java_multiple_files = true;
 // Provides the ability to command side mirrors
 service BodyMirrors {
   // Service Metadata
-  option (name) = "body.mirrors";
-  option (version_major) = 1;
-  option (version_minor) = 0;
-  option (id) = 37;
+  option (uprotocol.name) = "body.mirrors";
+  option (uprotocol.version_major) = 1;
+  option (uprotocol.version_minor) = 0;
+  option (uprotocol.id) = 37;
 
   // If the value of is_power_side_mirror_present is FALSE, then any RPC invoked
   // will respond with '14'
@@ -49,12 +50,12 @@ service BodyMirrors {
   // Slide (extend/retract) request for side mirror resource
   rpc SlideSideMirror(SlideSideMirrorRequest)
       returns (SlideSideMirrorResponse) {
-    option (method_id) = 1;
+    option (uprotocol.method_id) = 1;
   }
 
   // Fold request for side mirror resource
   rpc FoldSideMirror(FoldSideMirrorRequest) returns (FoldSideMirrorResponse) {
-    option (method_id) = 2;
+    option (uprotocol.method_id) = 2;
     // When this RPC is invoked,
     // uService will check the vehicle speed when the value of uProperty:
     // is_side_mirrors_auto_unfold_based_on_vehicle_speed is TRUE -
@@ -89,12 +90,12 @@ service BodyMirrors {
   // Un-fold request for side mirror resource
   rpc UnfoldSideMirror(UnfoldSideMirrorRequest)
       returns (UnfoldSideMirrorResponse) {
-    option (method_id) = 3;
+    option (uprotocol.method_id) = 3;
   }
 
   // Tilt request for side mirror resource
   rpc TiltSideMirror(TiltSideMirrorRequest) returns (TiltSideMirrorResponse) {
-    option (method_id) = 4;
+    option (uprotocol.method_id) = 4;
     // When this RPC is invoked,
     // uService will check the vehicle speed when the value of uProperty:
     // is_side_mirrors_auto_untilt_based_on_vehicle_speed is TRUE -
@@ -132,31 +133,31 @@ service BodyMirrors {
   // Untilt request for side mirror resource
   rpc UntiltSideMirror(UntiltSideMirrorRequest)
       returns (UntiltSideMirrorResponse) {
-    option (method_id) = 5;
+    option (uprotocol.method_id) = 5;
   }
 
   // Activate Heated side mirror request
   rpc ActivateHeatedSideMirror(ActivateHeatedSideMirrorRequest)
       returns (ActivateHeatedSideMirrorResponse) {
-    option (method_id) = 6;
+    option (uprotocol.method_id) = 6;
   }
 
   // De-activate Heated side mirror request
   rpc DeactivateHeatedSideMirror(DeactivateHeatedSideMirrorRequest)
       returns (DeactivateHeatedSideMirrorResponse) {
-    option (method_id) = 7;
+    option (uprotocol.method_id) = 7;
   }
 
   // Movement setting request for side mirror resource
   rpc UpdateSideMirrorMovementSettings(UpdateSideMirrorMovementSettingsRequest)
       returns (UpdateSideMirrorMovementSettingsResponse) {
-    option (method_id) = 8;
+    option (uprotocol.method_id) = 8;
   }
 
   // Heat setting request for side mirror resource
   rpc UpdateHeatedSideMirrorsSettings(UpdateHeatedSideMirrorsSettingsRequest)
       returns (UpdateHeatedSideMirrorsSettingsResponse) {
-    option (method_id) = 9;
+    option (uprotocol.method_id) = 9;
   }
 }
 
@@ -297,24 +298,24 @@ message UpdateHeatedSideMirrorsSettingsResponse {
 // The following messages are used to connect the service to the associated
 // resource messages in the *topics.proto
 message HeatedSideMirrorOptions {
-  option (base_topic_id) = 0;
-  HeatedSideMirror.Resource resource_name = 1 [ (resource_name_mask) = "*" ];
+  option (uprotocol.base_topic_id) = 0;
+  HeatedSideMirror.Resource resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
 }
 
 // Service meta-data option definitions - Resources, topics
 // The following messages are used to connect the service to the associated
 // resource messages in the *topics.proto
 message SideMirrorMovementSettingsOptions {
-  option (base_topic_id) = 10;
+  option (uprotocol.base_topic_id) = 10;
   SideMirrorMovementSettings.Resource resource_name = 1
-      [ (resource_name_mask) = "settings.*" ];
+      [ (uprotocol.resource_name_mask) = "settings.*" ];
 }
 
 // Service meta-data option definitions - Resources, topics
 // The following messages are used to connect the service to the associated
 // resource messages in the *topics.proto
 message HeatedSideMirrorSettingsOptions {
-  option (base_topic_id) = 20;
+  option (uprotocol.base_topic_id) = 20;
   HeatedSideMirrorSettings.Resource resource_name = 1
-      [ (resource_name_mask) = "settings.*" ];
+      [ (uprotocol.resource_name_mask) = "settings.*" ];
 }

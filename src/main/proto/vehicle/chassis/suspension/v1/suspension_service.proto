@@ -19,7 +19,8 @@ syntax = "proto3";
 package vehicle.chassis.suspension.v1;
 
 import "google/rpc/status.proto";
-import "options.proto";
+import "uprotocol_options.proto";
+import "uservices_options.proto";
 import "vehicle/chassis/suspension/v1/suspension_topics.proto";
 
 option java_package = "org.covesa.uservice.vehicle.chassis.suspension.v1";
@@ -31,14 +32,14 @@ option java_multiple_files = true;
 //
 service Suspension {
   // Service metadata option definitions - Name, version, ID, RPC method
-  option (name) = "chassis.suspension";
-  option (version_major) = 1;
-  option (version_minor) = 0;
-  option (id) = 21;
+  option (uprotocol.name) = "chassis.suspension";
+  option (uprotocol.version_major) = 1;
+  option (uprotocol.version_minor) = 0;
+  option (uprotocol.id) = 21;
 
   // Request to change the vehicle ride height.
   rpc SetRideHeight(SetRideHeightRequest) returns (SetRideHeightResponse) {
-    option (method_id) = 1;
+    option (uprotocol.method_id) = 1;
   }
 }
 
@@ -114,14 +115,14 @@ message SetRideHeightResponse {
 // The following message is used to connect the service to the RideHeight
 // message in the *topics.proto.
 message RideHeightOptions {
-  option (base_topic_id) = 10;
-  RideHeight.Resources resource_name = 1 [(resource_name_mask) = "*"];
+  option (uprotocol.base_topic_id) = 10;
+  RideHeight.Resources resource_name = 1 [(uprotocol.resource_name_mask) = "*"];
 }
 
 // The following message is used to connect the service to the
 // RideHeightSystemStatus message in the *topics.proto:
 message RideHeightSystemStatusOptions {
-  option (base_topic_id) = 20;
+  option (uprotocol.base_topic_id) = 20;
   RideHeightSystemStatus.Resources resource_name = 1
-      [(resource_name_mask) = "*"];
+      [(uprotocol.resource_name_mask) = "*"];
 }

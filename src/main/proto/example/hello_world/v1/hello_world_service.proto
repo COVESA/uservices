@@ -19,7 +19,7 @@ syntax = "proto3";
 package example.hello_world.v1;
 
 import "example/hello_world/v1/hello_world_topics.proto";
-import "options.proto";
+import "uprotocol_options.proto";
 
 option java_package = "org.covesa.uservice.example.hello_world.v1";
 option java_multiple_files = true;
@@ -29,16 +29,16 @@ option java_multiple_files = true;
 service HelloWorld {
 
   // Service Metadata - Name, version, id, RPC methods
-  option (name) = "example.hello_world";
-  option (version_major) = 1;
-  option (version_minor) = 0;
-  option (id) = 999;
+  option (uprotocol.name) = "example.hello_world";
+  option (uprotocol.version_major) = 1;
+  option (uprotocol.version_minor) = 0;
+  option (uprotocol.id) = 999;
 
   // Say Hello method
   // The method URI is:
   //  up:/example.hello_world/1/rpc.SayHello
   rpc SayHello(HelloRequest) returns (HelloResponse) {
-    option (method_id) = 1;
+    option (uprotocol.method_id) = 1;
   }
 }
 
@@ -51,6 +51,6 @@ message HelloResponse { string message = 1; }
 // Service metadata option definitions - Resources, topics
 //
 message TimerOptions {
-  option (base_topic_id) = 1;
-  Timer.Resources resource_name = 1 [ (resource_name_mask) = "*" ];
+  option (uprotocol.base_topic_id) = 1;
+  Timer.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
 }

@@ -21,51 +21,28 @@ import "units.proto";
 option java_package = "org.covesa.uservice";
 option java_multiple_files = true;
 
-// Service Options & Attributes
-extend google.protobuf.ServiceOptions {
-  // Name of the service that can be used in uri
-  string name = 50100;
 
-  // Semantic 2.0 major versioning per SDV-202
-  uint32 version_major = 50101;
-
-  // Semantic 2.0 minor versioning per SDV-202
-  uint32 version_minor = 50102;
-
-  // Globally unique service id
-  uint32 id = 50103;
-}
-
-extend google.protobuf.MethodOptions {
-  // RPC method id (unique within containing service)
-  optional uint32 method_id = 50200;
-}
 extend google.protobuf.MessageOptions {
-  // Topic base id (unique within containing service)
-  // The topic base id is added to a resource id to form a specific topic id.
-  optional uint32 base_topic_id = 50300;
-
-  optional string vss_ref = 50301;
+  optional string vss_ref = 51301;
 }
+
 extend google.protobuf.FieldOptions {
-  // Name mask for exported resources
-  optional string resource_name_mask = 50400;
 
   // Marks a field as readonly
-  optional bool readonly = 50401;
+  optional bool readonly = 51401;
 
   // Marks a field as writeonly
-  optional bool writeonly = 50402;
+  optional bool writeonly = 51402;
 
   // Field units
-  optional Units unit = 50403;
+  optional Units unit = 51403;
 
   // Max value
-  optional double max_value = 50404;
+  optional double max_value = 51404;
 
   // Min Value
-  optional double min_value = 50405;
+  optional double min_value = 51405;
 
   // Default Value
-  optional double default_value = 50407;
+  optional double default_value = 51407;
 }
