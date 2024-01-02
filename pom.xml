@@ -18,7 +18,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <uprotocol-core-api.version>1.5.2</uprotocol-core-api.version>
+        <uprotocol-core-api.version>1.5.3</uprotocol-core-api.version>
         <proto-google-common-protos.version>2.16.0</proto-google-common-protos.version>
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
     </properties>
@@ -35,7 +35,7 @@
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
-                <version>0.6.1</version>
+                <version>${protobuf-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
