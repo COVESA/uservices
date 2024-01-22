@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <uprotocol-core-api.version>1.5.3</uprotocol-core-api.version>
         <proto-google-common-protos.version>2.16.0</proto-google-common-protos.version>
-        <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
+        <protobuf-maven-plugin.version>1.6.1</protobuf-maven-plugin.version>
     </properties>
 
     <build>
