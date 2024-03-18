@@ -22,7 +22,7 @@ import "google/protobuf/descriptor.proto";
 
 import "uservices_options.proto";
 
-option java_package = "org.covesa.uservice.propulsion.transmission.v1";
+option java_package = "org.covesa.uservice.vehicle.propulsion.transmission.v1";
 option java_multiple_files = true;
 
 // ================= Start messages ================================

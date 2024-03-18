@@ -22,7 +22,7 @@ import "google/rpc/status.proto";
 import "uprotocol_options.proto";
 import "vehicle/chassis/braking/v1/braking_topics.proto";
 
-option java_package = "org.covesa.uservice.chassis.braking.v1";
+option java_package = "org.covesa.uservice.vehicle.chassis.braking.v1";
 option java_multiple_files = true;
 
 // Provides braking resource functionalities.

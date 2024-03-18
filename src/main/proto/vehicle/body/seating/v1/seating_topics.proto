@@ -1,0 +1,258 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package vehicle.body.seating.v1;
+
+import "uservices_options.proto";
+
+option java_package = "org.covesa.uservice.vehicle.body.seating.v1";
+option java_multiple_files = true;
+
+// The component, primary and secondary fields in the SeatTemperature message
+// have one of the following SeatComponent enum values:
+//
+enum SeatComponent {
+  // This value should not be used.
+  SC_UNSPECIFIED = 0;
+  // The armrest of the seat.
+  SC_ARMREST = 1;
+  // back
+  SC_BACK = 2;
+  // cushion
+  SC_CUSHION = 3;
+  // headrest
+  SC_HEADREST = 4;
+  // lumbar
+  SC_LUMBAR = 5;
+  // the seat's neck warmer
+  SC_NECK_SCARF = 6;
+  // side bolster bakc
+  SC_SIDE_BOLSTER_BACK = 7;
+  // side bolster cushion
+  SC_SIDE_BOLSTER_CUSHION = 8;
+  // upper shoulder
+  SC_UPPER_SHOULDER = 9;
+  // cushion front
+  SC_CUSHION_FRONT = 10;
+}
+
+// The SeatTemperature message lets you detect the seat temperature status for
+// each seat - including heat, cool, and vent.
+//
+message SeatTemperature {
+  // Modes for the seat and seating components
+  //
+  enum Mode {
+    // This value should not be used.
+    M_UNSPECIFIED = 0;
+    // Mode: off
+    M_OFF = 1;
+    // Mode: cool
+    M_COOL = 2;
+    // Mode: vent
+    M_VENT = 3;
+    // Mode: heat
+    M_HEAT = 4;
+  }
+
+  // Temperature level for the seat and seating components
+  //
+  enum TemperatureLevel {
+    // This value should not be used.
+    TL_UNSPECIFIED = 0;
+    // The temperature level is Off.
+    TL_OFF = 1;
+    // The temperature level is on automatic mode.
+    TL_AUTO = 2;
+    // The temperature level is on low.
+    TL_LOW = 3;
+    // The temperature level is on medium.
+    TL_MEDIUM = 4;
+    // The temperature level is on high.
+    TL_HIGH = 5;
+  }
+
+  // The resource name for subscription.
+  Resources id = 1;
+
+  // The seating component (see SeatComponent enum table).
+  SeatComponent component = 2;
+
+  // The Mode: heat, cool, vent, etc.
+  Mode mode = 3;
+
+  // The temperature level for the seat (see TemperatureLevel enum table).
+  TemperatureLevel temperature_level = 4;
+
+  // This is the primary seat component to which other seat components may link
+  // their heat settings. Default primary component = cushion.
+  SeatComponent primary = 5;
+
+  // Secondary seat component which may link to the primary seat component's
+  // heat settings. Default secondary component = armrest.
+  SeatComponent secondary = 6;
+
+  // True = the heat setting for the secondary seat component(s) is linked to
+  // the primary seat component. This field is read only.
+  bool is_secondary_synced_to_primary = 7 [ (readonly) = true ];
+
+  // Service metadata option definitions - Resources, topics
+  //
+  enum Resources {
+    row1_left = 0;
+    row1_center = 1;
+    row1_right = 2;
+    row2_left = 3;
+    row2_center = 4;
+    row2_right = 5;
+    row3_left = 6;
+    row3_center = 7;
+    row3_right = 8;
+  }
+}
+
+// The SeatOccupantSafety message provides information about the safety of the
+// seat's occupant including whether the seat is occupied and if the seat belt
+// is fastened.
+//
+message SeatOccupantSafety {
+  // The occupancy_status field in the SeatOccupantSafety message has one of the
+  // following OccupancyStatus enum values:
+  //
+  enum OccupancyStatus {
+    // This value should not be used.
+    OS_UNSPECIFIED = 0;
+    // The seat is occupied.
+    OS_OCCUPIED = 1;
+    // The seat is empty.
+    OS_EMPTY = 2;
+  }
+
+  // The belt_status field in the SeatOccupantSafety message has one of the
+  // following BeltStatus enum values:
+  //
+  enum BeltStatus {
+    // This value should not be used.
+    BS_UNSPECIFIED = 0;
+    // The seatbelt is fastened.
+    BS_FASTENED = 1;
+    // The seatbelt is not fastened.
+    BS_UNFASTENED = 2;
+  }
+
+  // The resource name for subscription.
+  Resources id = 1;
+
+  // Whether or not the seat is detected as occupied. This field is read only.
+  // For more information see the OccupancyStatus enum table.
+  OccupancyStatus occupancy_status = 2 [ (readonly) = true ];
+
+  // Whether or not the seatbelt is fastened.
+  // This field is read only.
+  // For more information see the BeltStatus enum table.
+  BeltStatus belt_status = 3 [ (readonly) = true ];
+
+  // Service metadata option definitions - Resources, topics
+  //
+  enum Resources {
+    row1_left = 0;
+    row1_center = 1;
+    row1_right = 2;
+    row2_left = 3;
+    row2_center = 4;
+    row2_right = 5;
+    row3_left = 6;
+    row3_center = 7;
+    row3_right = 8;
+  }
+}
+
+// Detected massage type and intensity level for each seat
+//
+message SeatMassage {
+  // Massage types
+  //
+  enum MassageType {
+    // Massage type: unspecified
+    MT_UNSPECIFIED = 0;
+    // Massage type: Off
+    MT_OFF = 1;
+    // Massage type: roller type motion for the upper and lower back
+    MT_ROLL = 2;
+    // Massage type: kneads the upper and lower back
+    MT_KNEAD = 3;
+    // Massage type: anti-fatigue
+    MT_ANTI_FATIGUE = 4;
+    // Massage type: pulse
+    MT_PULSE = 5;
+    // Massage type: stretch
+    MT_STRETCH = 6;
+    // Massage type: lumbar
+    MT_LUMBAR = 7;
+    // Massage type: shoulder
+    MT_SHOULDER = 8;
+    // Massage type: wave
+    MT_WAVE = 9;
+    // Massage type: relief
+    MT_RELIEF = 10;
+    // Massage type: glide
+    MT_GLIDE = 11;
+  }
+
+  // Resource instance name
+  Resources id = 1;
+
+  // Massage type
+  MassageType type = 2;
+
+  // Massage intensity level
+  int32 intensity = 3 [ (min_value) = 0, (max_value) = 7, (resolution) = 1 ];
+
+  // Service metadata option definitions - Resources, topics
+  //
+  enum Resources {
+    row1_left = 0;
+    row1_center = 1;
+    row1_right = 2;
+    row2_left = 3;
+    row2_center = 4;
+    row2_right = 5;
+    row3_left = 6;
+    row3_center = 7;
+    row3_right = 8;
+  }
+}
+
+// Position of the seat
+//
+message Seat {
+
+  // Service metadata option definitions - Resources, topics
+  //
+  enum Resources {
+    row1_left = 0;
+    row1_center = 1;
+    row1_right = 2;
+    row2_left = 3;
+    row2_center = 4;
+    row2_right = 5;
+    row3_left = 6;
+    row3_center = 7;
+    row3_right = 8;
+  }
+}

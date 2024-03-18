@@ -1,0 +1,180 @@
+/*
+ * Copyright 2023 GM Global Technology Operations LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package vehicle.body.seating.v1;
+
+import "google/rpc/status.proto";
+import "uprotocol_options.proto";
+import "uservices_options.proto";
+import "vehicle/body/seating/v1/seating_topics.proto";
+
+option java_package = "com.ultifi.vehicle.body.seating.v1";
+option java_multiple_files = true;
+
+// Seating has the ability to command the:
+// temperature of armrest, cushion, lumbar, neck_scarf.
+// position of the armrest, cushion, headrest, lumbar, neck scarf, seat_frame,
+// side bolster, and upper shoulder.
+// massage type and intensity.
+//
+service Seating {
+  // Service metadata option definitions - Name, version, id, rpc method
+  option (uprotocol.name) = "body.seating";
+  option (uprotocol.version_major) = 1;
+  option (uprotocol.version_minor) = 1;
+  option (uprotocol.id) = 23;
+
+  // Update position requests for multiple seats and components
+  rpc MoveSeats(MoveSeatsRequest) returns (MoveSeatsResponse) {
+    option (uprotocol.method_id) = 1;
+  }
+  // Update temperature for seating resource
+  rpc SetSeatTemperature(SetSeatTemperatureRequest)
+      returns (SetSeatTemperatureResponse) {
+    option (uprotocol.method_id) = 2;
+  }
+
+  // Update massage for seating resource
+  rpc SetSeatMassage(SetSeatMassageRequest) returns (SetSeatMassageResponse) {
+    option (uprotocol.method_id) = 3;
+  }
+}
+
+// Update seat position command
+// When a user commands a seat or seat sub-component to move in a certain
+// direction, it will incrementally move in the requested direction until the
+// user ceases their request.
+//
+message MoveSeatRequest {
+  // Command options to specify the seat direction
+  //
+  enum Direction {
+    // Direction: unspecified
+    D_UNSPECIFIED = 0;
+    // Direction: Move the seat forward
+    D_FORWARD = 1;
+    // Direction: Move the seat backward
+    D_BACKWARD = 2;
+    // Direction: Inflate (only applicable to side bolster resources)
+    D_INFLATE = 3;
+    // Direction: Deflate (only applicable to side bolster resources)
+    D_DEFLATE = 4;
+    // Direction: move the seat up
+    D_UP = 5;
+    // Direction: move the seat down
+    D_DOWN = 6;
+  }
+
+  // Resource instance name
+  Seat.Resources id = 1;
+
+  // Seating sub-component
+  SeatComponent component = 2;
+
+  // Seating direction command
+  Direction direction = 3 [ (writeonly) = true ];
+
+  // Seating position commands
+  int32 position = 4;
+
+  // Angle of tilt for the seat back and/or cushion
+  int32 tilt = 5;
+}
+
+// Update multiple seats and multiple seat component position commands
+//
+message MoveSeatsRequest {
+  // List of seating position commands
+  repeated MoveSeatRequest move_seat_requests = 1;
+}
+
+// Response for move seats response
+message MoveSeatsResponse {
+  // RPC response
+  google.rpc.Status status = 1;
+}
+
+// Update seat temperature command
+//
+message SetSeatTemperatureRequest {
+  // Resource instance name
+  SeatTemperature.Resources id = 1;
+
+  // specify seating component
+  repeated SeatComponent components = 2;
+
+  // command seating component temperature type
+  SeatTemperature.Mode mode = 3;
+
+  // command seating component temperature
+  SeatTemperature.TemperatureLevel temperature_level = 4;
+}
+
+// Response for update seat temperature request
+message SetSeatTemperatureResponse {
+  // RPC response
+  google.rpc.Status status = 1;
+}
+
+// Update seat massage command
+//
+message SetSeatMassageRequest {
+  // Resource instance name
+  SeatMassage.Resources id = 1;
+
+  // Massage type
+  SeatMassage.MassageType type = 2;
+
+  // Massage intensity level
+  int32 intensity = 3 [ (min_value) = 0, (max_value) = 7 ];
+}
+
+// Response for update seat massage request
+message SetSeatMassageResponse {
+  // RPC response
+  google.rpc.Status status = 1;
+}
+
+// Service metadata option definitions - Resources, topics
+// The following message is used to connect the service to the associated
+// resource messages in the *topics.proto
+//
+message SeatTemperatureOptions {
+  option (uprotocol.base_topic_id) = 0;
+  SeatTemperature.Resources resource_name = 1
+      [ (uprotocol.resource_name_mask) = "seat.*" ];
+}
+
+// Service metadata option definitions - Resources, topics
+// The following message is used to connect the service to the associated
+// resource messages in the *topics.proto
+//
+message SeatOccupancyStatusOptions {
+  option (uprotocol.base_topic_id) = 10;
+  SeatOccupantSafety.Resources resource_name = 1
+      [ (uprotocol.resource_name_mask) = "seat.*" ];
+}
+
+// Service metadata option definitions - Resources, topics
+// The following message is used to connect the service to the associated
+// resource messages in the *topics.proto
+//
+message SeatMassageOptions {
+  option (uprotocol.base_topic_id) = 20;
+  SeatMassage.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "seat.*" ];
+}

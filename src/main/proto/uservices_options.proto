@@ -45,4 +45,7 @@ extend google.protobuf.FieldOptions {
 
   // Default Value
   optional double default_value = 51407;
+
+  // Decimal places the value is accurate to (rounding will be applied)
+  optional double resolution = 50410;
 }
