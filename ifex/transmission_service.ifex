@@ -1,0 +1,14 @@
+namespaces:
+- name: vehicle.propulsion.transmission.v1
+  structs:
+  - name: VehicleGearStateOptions
+    members:
+    - name: resource_name
+      datatype: VehicleGearState.Resources
+  - name: GearboxOptions
+    members:
+    - name: resource_name
+      datatype: Gearbox.Resources
+  interface:
+    name: Transmission
+

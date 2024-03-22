@@ -1,0 +1,42 @@
+namespaces:
+- name: vehicle.propulsion.transmission.v1
+  structs:
+  - name: VehicleGearState
+    members:
+    - name: selected_gear
+      datatype: Gear
+  - name: Gearbox
+    members:
+    - name: name
+      datatype: string
+    - name: fluid_temperature
+      datatype: float
+  enumerations:
+  - name: VehicleGearState_Gear
+    datatype: int32
+    options:
+    - name: S_UNSPECIFIED
+      value: 0
+    - name: S_UNKNOWN
+      value: 1
+    - name: S_PARK
+      value: 2
+    - name: S_REVERSE
+      value: 3
+    - name: S_NEUTRAL
+      value: 4
+    - name: S_DRIVE
+      value: 5
+  - name: VehicleGearState_Resources
+    datatype: int32
+    options:
+    - name: gear
+      value: 0
+  - name: Gearbox_Resources
+    datatype: int32
+    options:
+    - name: primary
+      value: 0
+    - name: secondary
+      value: 1
+

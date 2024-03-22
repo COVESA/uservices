@@ -1,0 +1,18 @@
+namespaces:
+- name: vehicle.exterior.v1
+  structs:
+  - name: SolarInformationOptions
+    members:
+    - name: resource_name
+      datatype: SolarInformation.Resources
+  - name: TemperatureOptions
+    members:
+    - name: resource_name
+      datatype: Temperature.Resources
+  - name: AmbientLightOptions
+    members:
+    - name: resource_name
+      datatype: AmbientLight.Resources
+  interface:
+    name: VehicleExterior
+

@@ -1,0 +1,86 @@
+namespaces:
+- name: vehicle.chassis.v1
+  structs:
+  - name: Tire
+    members:
+    - name: resource_name
+      datatype: Resources
+    - name: pressure
+      datatype: float
+    - name: temperature
+      datatype: float
+    - name: pressure_warning
+      datatype: TirePressureState
+    - name: leak_state
+      datatype: TireLeakState
+    - name: is_leak_detection_enabled
+      datatype: boolean
+    - name: time_to_flat
+      datatype: int32
+    - name: pressure_invalid
+      datatype: boolean
+  - name: TractionControlSystem
+    members:
+    - name: is_enabled
+      datatype: boolean
+    - name: is_engaged
+      datatype: boolean
+    - name: is_faulted
+      datatype: boolean
+  - name: ElectronicStabilityControlSystem
+    members:
+    - name: is_enabled
+      datatype: boolean
+    - name: is_engaged
+      datatype: boolean
+    - name: is_faulted
+      datatype: boolean
+  enumerations:
+  - name: Tire_TireLeakState
+    datatype: int32
+    options:
+    - name: TLS_UNSPECIFIED
+      value: 0
+    - name: TLS_NO_LEAK
+      value: 1
+    - name: TLS_SLOW_LEAK
+      value: 2
+    - name: TLS_FAST_LEAK
+      value: 3
+  - name: Tire_TirePressureState
+    datatype: int32
+    options:
+    - name: TPS_UNSPECIFIED
+      value: 0
+    - name: TPS_NOMINAL
+      value: 1
+    - name: TPS_LOW
+      value: 3
+    - name: TPS_HIGH
+      value: 4
+  - name: Tire_Resources
+    datatype: int32
+    options:
+    - name: front_left
+      value: 0
+    - name: front_right
+      value: 1
+    - name: rear_left
+      value: 2
+    - name: rear_right
+      value: 3
+    - name: rear_left_inner
+      value: 4
+    - name: rear_right_inner
+      value: 5
+  - name: TractionControlSystem_Resources
+    datatype: int32
+    options:
+    - name: traction_control_system
+      value: 0
+  - name: ElectronicStabilityControlSystem_Resources
+    datatype: int32
+    options:
+    - name: electronic_stability_control_system
+      value: 0
+

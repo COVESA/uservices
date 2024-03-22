@@ -1,0 +1,53 @@
+namespaces:
+- name: vehicle.v1
+  structs:
+  - name: ResetTripMeterRequest
+    members:
+    - name: trip_meter
+      datatype: TripMeter.Resources
+  - name: SetTransportModeRequest
+    members:
+    - name: is_active
+      datatype: boolean
+  - name: TraveledDistanceOptions
+    members:
+    - name: name
+      datatype: TraveledDistance.Resources
+  - name: TripMeterOptions
+    members:
+    - name: name
+      datatype: TripMeter.Resources
+  - name: VehicleSpeedOptions
+    members:
+    - name: name
+      datatype: VehicleSpeed.Resources
+  - name: TheftAlertOptions
+    members:
+    - name: name
+      datatype: TheftAlert.Resources
+  - name: CollisionAlertOptions
+    members:
+    - name: name
+      datatype: CollisionAlert.Resources
+  - name: VehicleUsageOptions
+    members:
+    - name: name
+      datatype: VehicleUsage.Resources
+  interface:
+    name: Vehicle
+    methods:
+    - name: ResetTripMeter
+      input:
+      - name: in
+        datatype: ResetTripMeterRequest
+      returns:
+      - name: _
+        datatype: google.rpc.Status
+    - name: SetTransportMode
+      input:
+      - name: in
+        datatype: SetTransportModeRequest
+      returns:
+      - name: _
+        datatype: google.rpc.Status
+

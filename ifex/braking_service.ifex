@@ -1,0 +1,39 @@
+namespaces:
+- name: vehicle.chassis.braking.v1
+  structs:
+  - name: ResetHealthRequest
+    members:
+    - name: name
+      datatype: string
+  - name: ManageHealthMonitoringRequest
+    members:
+    - name: name
+      datatype: string
+    - name: is_enabled
+      datatype: boolean
+  - name: BrakePedalOptions
+    members:
+    - name: resource_name
+      datatype: BrakePedal.Resources
+  - name: BrakePadsOptions
+    members:
+    - name: resource_name
+      datatype: BrakePads.Resources
+  interface:
+    name: Braking
+    methods:
+    - name: ResetHealth
+      input:
+      - name: in
+        datatype: ResetHealthRequest
+      returns:
+      - name: _
+        datatype: google.rpc.Status
+    - name: ManageHealthMonitoring
+      input:
+      - name: in
+        datatype: ManageHealthMonitoringRequest
+      returns:
+      - name: _
+        datatype: google.rpc.Status
+

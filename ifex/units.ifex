@@ -1,0 +1,65 @@
+namespaces:
+- name: _
+  enumerations:
+  - name: Units
+    datatype: int32
+    options:
+    - name: UNIT_UNSPECIFIED
+      value: 0
+    - name: KPH
+      value: 1
+    - name: MPS
+      value: 2
+    - name: CELSIUS
+      value: 3
+    - name: FAHREHEIT
+      value: 4
+    - name: MBAR
+      value: 5
+    - name: PA
+      value: 6
+    - name: PERCENT
+      value: 7
+    - name: Lumens
+      value: 8
+    - name: KM
+      value: 9
+    - name: KW
+      value: 10
+    - name: KWH
+      value: 11
+    - name: AMP
+      value: 12
+    - name: NO_UNIT
+      value: 13
+    - name: VOLT
+      value: 14
+    - name: KPA
+      value: 15
+    - name: DAY
+      value: 17
+    - name: Wm2
+      value: 18
+    - name: KMPL
+      value: 19
+    - name: LUX
+      value: 20
+    - name: HOURS
+      value: 21
+    - name: MINUTES
+      value: 22
+    - name: SECONDS
+      value: 23
+    - name: METERS
+      value: 24
+    - name: CENTIMETERS
+      value: 25
+    - name: DEGREES
+      value: 26
+    - name: KM_PER_KWH
+      value: 27
+    - name: KWH_PER_KM
+      value: 28
+    - name: ms
+      value: 29
+

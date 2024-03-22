@@ -1,0 +1,150 @@
+namespaces:
+- name: vehicle.body.mirrors.v1
+  structs:
+  - name: SlideSideMirrorRequest
+    members:
+    - name: id
+      datatype: ExteriorSideMirror.Resource
+    - name: position
+      datatype: int32
+  - name: SlideSideMirrorResponse
+    members:
+    - name: code
+      datatype: google.rpc.Status
+  - name: FoldSideMirrorRequest
+    members:
+    - name: id
+      datatype: ExteriorSideMirror.Resource
+  - name: FoldSideMirrorResponse
+    members:
+    - name: code
+      datatype: google.rpc.Status
+  - name: UnfoldSideMirrorRequest
+    members:
+    - name: id
+      datatype: ExteriorSideMirror.Resource
+  - name: UnfoldSideMirrorResponse
+    members:
+    - name: code
+      datatype: google.rpc.Status
+  - name: TiltSideMirrorRequest
+    members:
+    - name: id
+      datatype: ExteriorSideMirror.Resource
+  - name: TiltSideMirrorResponse
+    members:
+    - name: code
+      datatype: google.rpc.Status
+  - name: UntiltSideMirrorRequest
+    members:
+    - name: id
+      datatype: ExteriorSideMirror.Resource
+  - name: UntiltSideMirrorResponse
+    members:
+    - name: code
+      datatype: google.rpc.Status
+  - name: ActivateHeatedSideMirrorRequest
+  - name: ActivateHeatedSideMirrorResponse
+    members:
+    - name: code
+      datatype: google.rpc.Status
+  - name: DeactivateHeatedSideMirrorRequest
+  - name: DeactivateHeatedSideMirrorResponse
+    members:
+    - name: code
+      datatype: google.rpc.Status
+  - name: UpdateSideMirrorMovementSettingsRequest
+    members:
+    - name: setting
+      datatype: SideMirrorMovementSettings
+  - name: UpdateSideMirrorMovementSettingsResponse
+    members:
+    - name: code
+      datatype: google.rpc.Status
+  - name: UpdateHeatedSideMirrorsSettingsRequest
+    members:
+    - name: setting
+      datatype: HeatedSideMirrorSettings
+  - name: UpdateHeatedSideMirrorsSettingsResponse
+    members:
+    - name: code
+      datatype: google.rpc.Status
+  - name: HeatedSideMirrorOptions
+    members:
+    - name: resource_name
+      datatype: HeatedSideMirror.Resource
+  - name: SideMirrorMovementSettingsOptions
+    members:
+    - name: resource_name
+      datatype: SideMirrorMovementSettings.Resource
+  - name: HeatedSideMirrorSettingsOptions
+    members:
+    - name: resource_name
+      datatype: HeatedSideMirrorSettings.Resource
+  interface:
+    name: BodyMirrors
+    methods:
+    - name: SlideSideMirror
+      input:
+      - name: in
+        datatype: SlideSideMirrorRequest
+      returns:
+      - name: _
+        datatype: SlideSideMirrorResponse
+    - name: FoldSideMirror
+      input:
+      - name: in
+        datatype: FoldSideMirrorRequest
+      returns:
+      - name: _
+        datatype: FoldSideMirrorResponse
+    - name: UnfoldSideMirror
+      input:
+      - name: in
+        datatype: UnfoldSideMirrorRequest
+      returns:
+      - name: _
+        datatype: UnfoldSideMirrorResponse
+    - name: TiltSideMirror
+      input:
+      - name: in
+        datatype: TiltSideMirrorRequest
+      returns:
+      - name: _
+        datatype: TiltSideMirrorResponse
+    - name: UntiltSideMirror
+      input:
+      - name: in
+        datatype: UntiltSideMirrorRequest
+      returns:
+      - name: _
+        datatype: UntiltSideMirrorResponse
+    - name: ActivateHeatedSideMirror
+      input:
+      - name: in
+        datatype: ActivateHeatedSideMirrorRequest
+      returns:
+      - name: _
+        datatype: ActivateHeatedSideMirrorResponse
+    - name: DeactivateHeatedSideMirror
+      input:
+      - name: in
+        datatype: DeactivateHeatedSideMirrorRequest
+      returns:
+      - name: _
+        datatype: DeactivateHeatedSideMirrorResponse
+    - name: UpdateSideMirrorMovementSettings
+      input:
+      - name: in
+        datatype: UpdateSideMirrorMovementSettingsRequest
+      returns:
+      - name: _
+        datatype: UpdateSideMirrorMovementSettingsResponse
+    - name: UpdateHeatedSideMirrorsSettings
+      input:
+      - name: in
+        datatype: UpdateHeatedSideMirrorsSettingsRequest
+      returns:
+      - name: _
+        datatype: UpdateHeatedSideMirrorsSettingsResponse
+

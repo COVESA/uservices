@@ -1,0 +1,88 @@
+namespaces:
+- name: vehicle.chassis.suspension.v1
+  structs:
+  - name: RideHeight
+    members:
+    - name: name
+      datatype: string
+    - name: current_height
+      datatype: RideHeightLevel
+    - name: target_height
+      datatype: RideHeightLevel
+    - name: supported_heights
+      datatype: RideHeightLevel
+    - name: available_heights
+      datatype: RideHeightLevel
+  - name: RideHeightSystemStatus
+    members:
+    - name: name
+      datatype: string
+    - name: source
+      datatype: Source
+    - name: capability_state
+      datatype: CapabilityState
+  enumerations:
+  - name: RideHeight_RideHeightLevel
+    datatype: int32
+    options:
+    - name: RHL_UNSPECIFIED
+      value: 0
+    - name: RHL_USER_ENTRY_EXIT
+      value: 1
+    - name: RHL_ABSOLUTE_LOWEST
+      value: 2
+    - name: RHL_LOWEST
+      value: 3
+    - name: RHL_LOWER
+      value: 4
+    - name: RHL_LOW
+      value: 5
+    - name: RHL_NORMAL
+      value: 6
+    - name: RHL_HIGH
+      value: 7
+    - name: RHL_HIGHER
+      value: 8
+    - name: RHL_HIGHEST
+      value: 9
+    - name: RHL_FRONT_TO_REAR_MAX_TILT
+      value: 10
+    - name: RHL_REAR_LOW
+      value: 11
+    - name: RHL_REAR_HIGH
+      value: 12
+  - name: RideHeight_Resources
+    datatype: int32
+    options:
+    - name: ride_height
+      value: 0
+  - name: RideHeightSystemStatus_Source
+    datatype: int32
+    options:
+    - name: S_UNSPECIFIED
+      value: 0
+    - name: S_DRIVE_MODE
+      value: 1
+    - name: S_USER
+      value: 2
+    - name: S_APP
+      value: 3
+  - name: RideHeightSystemStatus_CapabilityState
+    datatype: int32
+    options:
+    - name: CS_UNSPECIFIED
+      value: 0
+    - name: CS_NORMAL
+      value: 1
+    - name: CS_LIMITED
+      value: 2
+    - name: CS_FAULTED
+      value: 3
+    - name: CS_UNAVAILABLE
+      value: 4
+  - name: RideHeightSystemStatus_Resources
+    datatype: int32
+    options:
+    - name: ride_height_system_status
+      value: 0
+

@@ -1,0 +1,34 @@
+namespaces:
+- name: vehicle.exterior.v1
+  structs:
+  - name: SolarInformation
+    members:
+    - name: light_intensity
+      datatype: int32
+  - name: Temperature
+    members:
+    - name: air_temperature
+      datatype: float
+  - name: AmbientLight
+    members:
+    - name: is_day
+      datatype: boolean
+    - name: ambient_light_level
+      datatype: int32
+  enumerations:
+  - name: SolarInformation_Resources
+    datatype: int32
+    options:
+    - name: exterior_environment
+      value: 0
+  - name: Temperature_Resources
+    datatype: int32
+    options:
+    - name: exterior_environment
+      value: 0
+  - name: AmbientLight_Resources
+    datatype: int32
+    options:
+    - name: exterior_environment
+      value: 0
+

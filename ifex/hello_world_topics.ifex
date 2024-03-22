@@ -1,0 +1,16 @@
+namespaces:
+- name: example.hello_world.v1
+  structs:
+  - name: Timer
+    members:
+    - name: time
+      datatype: google.type.TimeOfDay
+  enumerations:
+  - name: Timer_Resources
+    datatype: int32
+    options:
+    - name: one_second
+      value: 0
+    - name: one_minute
+      value: 1
+

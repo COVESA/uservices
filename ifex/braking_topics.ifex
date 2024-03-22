@@ -1,0 +1,31 @@
+namespaces:
+- name: vehicle.chassis.braking.v1
+  structs:
+  - name: BrakePedal
+    members:
+    - name: position
+      datatype: float
+    - name: pressure
+      datatype: float
+    - name: is_pressed
+      datatype: boolean
+  - name: BrakePads
+    members:
+    - name: name
+      datatype: string
+    - name: health
+      datatype: common.HealthState
+  enumerations:
+  - name: BrakePedal_Resources
+    datatype: int32
+    options:
+    - name: brake_pedal
+      value: 0
+  - name: BrakePads_Resources
+    datatype: int32
+    options:
+    - name: front
+      value: 0
+    - name: rear
+      value: 1
+

@@ -1,0 +1,38 @@
+namespaces:
+- name: vehicle.propulsion.engine.v1
+  structs:
+  - name: ResetHealthRequest
+    members:
+    - name: name
+      datatype: string
+  - name: ResetHealthResponse
+    members:
+    - name: status
+      datatype: google.rpc.Status
+  - name: AirFilterOptions
+    members:
+    - name: name
+      datatype: AirFilter.Resources
+  - name: OilOptions
+    members:
+    - name: name
+      datatype: Oil.Resources
+  - name: CoolantOptions
+    members:
+    - name: name
+      datatype: Coolant.Resources
+  - name: EngineStateOptions
+    members:
+    - name: name
+      datatype: EngineState.Resources
+  interface:
+    name: Engine
+    methods:
+    - name: ResetHealth
+      input:
+      - name: in
+        datatype: ResetHealthRequest
+      returns:
+      - name: _
+        datatype: ResetHealthResponse
+

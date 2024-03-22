@@ -1,0 +1,57 @@
+namespaces:
+- name: vehicle.chassis.suspension.v1
+  structs:
+  - name: SetRideHeightRequest
+    members:
+    - name: command
+      datatype: RideHeight.RideHeightLevel
+    - name: motion_speed
+      datatype: MotionSpeedCommand
+    - name: motion_type
+      datatype: MotionTypeCommand
+  - name: SetRideHeightResponse
+    members:
+    - name: status
+      datatype: google.rpc.Status
+  - name: RideHeightOptions
+    members:
+    - name: resource_name
+      datatype: RideHeight.Resources
+  - name: RideHeightSystemStatusOptions
+    members:
+    - name: resource_name
+      datatype: RideHeightSystemStatus.Resources
+  enumerations:
+  - name: SetRideHeightRequest_MotionSpeedCommand
+    datatype: int32
+    options:
+    - name: MSC_UNSPECIFIED
+      value: 0
+    - name: MSC_SLOW
+      value: 1
+    - name: MSC_FAST
+      value: 2
+    - name: MSC_MED
+      value: 3
+  - name: SetRideHeightRequest_MotionTypeCommand
+    datatype: int32
+    options:
+    - name: MTC_UNSPECIFIED
+      value: 0
+    - name: MTC_CONCURRENT
+      value: 1
+    - name: MTC_RATCHET
+      value: 2
+    - name: MTC_CAMEL
+      value: 3
+  interface:
+    name: Suspension
+    methods:
+    - name: SetRideHeight
+      input:
+      - name: in
+        datatype: SetRideHeightRequest
+      returns:
+      - name: _
+        datatype: SetRideHeightResponse
+

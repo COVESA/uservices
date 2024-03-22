@@ -1,0 +1,26 @@
+namespaces:
+- name: example.hello_world.v1
+  structs:
+  - name: HelloRequest
+    members:
+    - name: name
+      datatype: string
+  - name: HelloResponse
+    members:
+    - name: message
+      datatype: string
+  - name: TimerOptions
+    members:
+    - name: resource_name
+      datatype: Timer.Resources
+  interface:
+    name: HelloWorld
+    methods:
+    - name: SayHello
+      input:
+      - name: in
+        datatype: HelloRequest
+      returns:
+      - name: _
+        datatype: HelloResponse
+

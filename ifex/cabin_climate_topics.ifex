@@ -1,0 +1,170 @@
+namespaces:
+- name: vehicle.body.cabin_climate.v1
+  structs:
+  - name: Zone
+    members:
+    - name: id
+      datatype: Resource
+    - name: temperature
+      datatype: float
+    - name: fan_auto_state
+      datatype: AutomaticMode
+    - name: fan_speed
+      datatype: int32
+    - name: air_distribution
+      datatype: AirDistribution
+    - name: is_power_on
+      datatype: boolean
+    - name: is_auto_on
+      datatype: boolean
+    - name: is_zone_locked
+      datatype: boolean
+    - name: air_distribution_auto_state
+      datatype: AutomaticMode
+    - name: temperature_auto_state
+      datatype: AutomaticMode
+  - name: Zones
+    members:
+    - name: zones
+      datatype: Zone
+  - name: SystemSettings
+    members:
+    - name: sync_all
+      datatype: boolean
+    - name: sync_rear_to_driver
+      datatype: boolean
+    - name: sync_3rdRow_to_driver
+      datatype: boolean
+    - name: estimated_cabin_temperature
+      datatype: int32
+    - name: rear_zone_lockout
+      datatype: boolean
+    - name: air_recirc_mode
+      datatype: boolean
+    - name: max_defrost
+      datatype: boolean
+    - name: rear_window_defog
+      datatype: boolean
+    - name: cabin_conditioning_invalid
+      datatype: boolean
+    - name: third_row_zone_lockout
+      datatype: boolean
+    - name: ac_compressor_setting
+      datatype: CompressorSetting
+    - name: heater_setting
+      datatype: HeaterSetting
+    - name: temperature_units
+      datatype: TemperatureUnits
+    - name: ionizer_status
+      datatype: IonizerStatus
+    - name: user_controls_interaction
+      datatype: boolean
+  enumerations:
+  - name: AirDistribution
+    datatype: int32
+    options:
+    - name: AD_UNSPECIFIED
+      value: 0
+    - name: AD_OFF
+      value: 1
+    - name: AD_AUTO
+      value: 2
+    - name: AD_FLOOR
+      value: 3
+    - name: AD_FLOOR_VENT
+      value: 4
+    - name: AD_VENT
+      value: 5
+    - name: AD_VENT_WINDSHIELD
+      value: 6
+    - name: AD_WINDSHIELD
+      value: 7
+    - name: AD_FLOOR_WINDSHIELD
+      value: 8
+    - name: AD_FLOOR_VENT_WINDSHIELD
+      value: 9
+    - name: AD_MAX_DEFROST
+      value: 10
+  - name: AutomaticMode
+    datatype: int32
+    options:
+    - name: AM_UNSPECIFIED
+      value: 0
+    - name: AM_OFF
+      value: 1
+    - name: AM_AUTO
+      value: 2
+    - name: AM_MANUAL
+      value: 3
+    - name: AM_AUTO_LOW
+      value: 4
+    - name: AM_AUTO_HIGH
+      value: 5
+  - name: Zone_Resource
+    datatype: int32
+    options:
+    - name: row1_left
+      value: 0
+    - name: row1_right
+      value: 1
+    - name: row2_left
+      value: 2
+    - name: row2_right
+      value: 3
+    - name: row3_left
+      value: 4
+    - name: row3_right
+      value: 5
+  - name: Zones_Resource
+    datatype: int32
+    options:
+    - name: cabin_hvac
+      value: 0
+  - name: SystemSettings_CompressorSetting
+    datatype: int32
+    options:
+    - name: CS_UNSPECIFIED
+      value: 0
+    - name: CS_ON
+      value: 1
+    - name: CS_OFF
+      value: 2
+    - name: CS_ECONOMY
+      value: 3
+  - name: SystemSettings_HeaterSetting
+    datatype: int32
+    options:
+    - name: HS_UNSPECIFIED
+      value: 0
+    - name: HS_HEAT_ON
+      value: 1
+    - name: HS_HEAT_OFF
+      value: 2
+  - name: SystemSettings_TemperatureUnits
+    datatype: int32
+    options:
+    - name: TU_UNSPECIFIED
+      value: 0
+    - name: TU_CELSIUS
+      value: 1
+    - name: TU_FAHRENHEIT
+      value: 2
+  - name: SystemSettings_IonizerStatus
+    datatype: int32
+    options:
+    - name: IS_UNSPECIFIED
+      value: 0
+    - name: IS_OFF
+      value: 1
+    - name: IS_ON
+      value: 2
+    - name: IS_LOW
+      value: 3
+    - name: IS_HIGH
+      value: 4
+  - name: SystemSettings_Resources
+    datatype: int32
+    options:
+    - name: system_settings
+      value: 0
+

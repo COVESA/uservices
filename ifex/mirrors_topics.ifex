@@ -1,0 +1,45 @@
+namespaces:
+- name: vehicle.body.mirrors.v1
+  structs:
+  - name: HeatedSideMirror
+    members:
+    - name: is_heat_on
+      datatype: boolean
+  - name: SideMirrorMovementSettings
+    members:
+    - name: is_auto_tilt_enabled
+      datatype: boolean
+    - name: is_auto_fold_enabled
+      datatype: boolean
+  - name: HeatedSideMirrorSettings
+    members:
+    - name: is_auto_heat_on
+      datatype: boolean
+  - name: ExteriorSideMirror
+    members:
+    - name: id
+      datatype: Resource
+  enumerations:
+  - name: HeatedSideMirror_Resource
+    datatype: int32
+    options:
+    - name: side_mirror
+      value: 0
+  - name: SideMirrorMovementSettings_Resource
+    datatype: int32
+    options:
+    - name: side_mirror
+      value: 0
+  - name: HeatedSideMirrorSettings_Resource
+    datatype: int32
+    options:
+    - name: side_mirror
+      value: 0
+  - name: ExteriorSideMirror_Resource
+    datatype: int32
+    options:
+    - name: left
+      value: 0
+    - name: right
+      value: 1
+

@@ -1,0 +1,47 @@
+namespaces:
+- name: vehicle.body.horn.v1
+  structs:
+  - name: HornStatus
+    members:
+    - name: is_active
+      datatype: boolean
+    - name: mode
+      datatype: HornMode
+    - name: is_fault_active
+      datatype: boolean
+    - name: current_sequence
+      datatype: int32
+    - name: remaining_cycles
+      datatype: int32
+    - name: total_sequences
+      datatype: int32
+    - name: priority
+      datatype: int32
+  - name: HornSequence
+    members:
+    - name: horn_cycles
+      datatype: HornCycle
+  - name: HornCycle
+    members:
+    - name: on_time
+      datatype: int32
+    - name: off_time
+      datatype: int32
+  enumerations:
+  - name: HornMode
+    datatype: int32
+    options:
+    - name: HM_UNSPECIFIED
+      value: 0
+    - name: HM_UNKNOWN
+      value: 1
+    - name: HM_SEQUENCED
+      value: 2
+    - name: HM_CONTINUOUS
+      value: 3
+  - name: HornStatus_Resources
+    datatype: int32
+    options:
+    - name: horn
+      value: 0
+

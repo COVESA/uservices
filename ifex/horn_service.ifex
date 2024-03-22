@@ -1,0 +1,40 @@
+namespaces:
+- name: vehicle.body.horn.v1
+  structs:
+  - name: ActivateHornRequest
+    members:
+    - name: mode
+      datatype: HornMode
+    - name: command
+      datatype: HornSequence
+  - name: ActivateHornResponse
+    members:
+    - name: status
+      datatype: google.rpc.Status
+  - name: DeactivateHornRequest
+  - name: DeactivateHornResponse
+    members:
+    - name: status
+      datatype: google.rpc.Status
+  - name: HornStatusOptions
+    members:
+    - name: resource_name
+      datatype: HornStatus.Resources
+  interface:
+    name: Horn
+    methods:
+    - name: ActivateHorn
+      input:
+      - name: in
+        datatype: ActivateHornRequest
+      returns:
+      - name: _
+        datatype: ActivateHornResponse
+    - name: DeactivateHorn
+      input:
+      - name: in
+        datatype: DeactivateHornRequest
+      returns:
+      - name: _
+        datatype: DeactivateHornResponse
+

@@ -1,0 +1,73 @@
+namespaces:
+- name: vehicle.v1
+  structs:
+  - name: TraveledDistance
+    members:
+    - name: is_invalid
+      datatype: boolean
+    - name: value
+      datatype: float
+  - name: TripMeter
+    members:
+    - name: name
+      datatype: string
+    - name: is_invalid
+      datatype: boolean
+    - name: value
+      datatype: float
+  - name: VehicleSpeed
+    members:
+    - name: speed
+      datatype: float
+    - name: speed_limit
+      datatype: float
+    - name: is_speed_limit_active
+      datatype: boolean
+  - name: CollisionAlert
+    members:
+    - name: is_active
+      datatype: boolean
+  - name: TheftAlert
+    members:
+    - name: is_active
+      datatype: boolean
+  - name: VehicleUsage
+    members:
+    - name: is_active
+      datatype: boolean
+    - name: is_setting_change_allowed
+      datatype: boolean
+  enumerations:
+  - name: TraveledDistance_Resources
+    datatype: int32
+    options:
+    - name: vehicle
+      value: 0
+  - name: TripMeter_Resources
+    datatype: int32
+    options:
+    - name: trip_1
+      value: 0
+    - name: trip_2
+      value: 1
+  - name: VehicleSpeed_Resources
+    datatype: int32
+    options:
+    - name: vehicle
+      value: 0
+  - name: CollisionAlert_Resources
+    datatype: int32
+    options:
+    - name: vehicle
+      value: 0
+  - name: TheftAlert_Resources
+    datatype: int32
+    options:
+    - name: vehicle
+      value: 0
+  - name: VehicleUsage_Resources
+    datatype: int32
+    options:
+    - name: transport_mode
+      value: 0
+

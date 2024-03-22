@@ -1,0 +1,132 @@
+namespaces:
+- name: vehicle.body.cabin_climate.v1
+  structs:
+  - name: ClimateCommand
+    members:
+    - name: zone
+      datatype: Zone
+    - name: update_mask
+      datatype: google.protobuf.FieldMask
+  - name: UpdateSystemSettingsRequest
+    members:
+    - name: settings
+      datatype: SystemSettings
+    - name: update_mask
+      datatype: google.protobuf.FieldMask
+  - name: SetTemperatureRequest
+    members:
+    - name: id
+      datatype: Zone.Resource
+    - name: temperature
+      datatype: float
+    - name: temperature_state
+      datatype: AutomaticMode
+  - name: SetTemperatureResponse
+    members:
+    - name: status
+      datatype: google.rpc.Status
+  - name: SetFanRequest
+    members:
+    - name: id
+      datatype: Zone.Resource
+    - name: fan_speed
+      datatype: int32
+    - name: is_fan_auto_on
+      datatype: boolean
+  - name: SetFanResponse
+    members:
+    - name: status
+      datatype: google.rpc.Status
+  - name: SetAirDistributionRequest
+    members:
+    - name: id
+      datatype: Zone.Resource
+    - name: air_distribution
+      datatype: AirDistribution
+    - name: air_distribution_state
+      datatype: AutomaticMode
+  - name: SetAirDistributionResponse
+    members:
+    - name: status
+      datatype: google.rpc.Status
+  - name: SetPowerRequest
+    members:
+    - name: id
+      datatype: Zone.Resource
+    - name: is_power_on
+      datatype: boolean
+  - name: SetPowerResponse
+    members:
+    - name: status
+      datatype: google.rpc.Status
+  - name: SetLockRequest
+    members:
+    - name: id
+      datatype: Zone.Resource
+    - name: is_zone_locked
+      datatype: boolean
+  - name: SetLockResponse
+    members:
+    - name: status
+      datatype: google.rpc.Status
+  - name: SystemSettingsOptions
+    members:
+    - name: resource_name
+      datatype: SystemSettings.Resources
+  - name: ZonesOptions
+    members:
+    - name: resource_name
+      datatype: Zones.Resource
+  interface:
+    name: BodyCabinclimate
+    methods:
+    - name: ExecuteClimateCommand
+      input:
+      - name: in
+        datatype: ClimateCommand
+      returns:
+      - name: _
+        datatype: google.rpc.Status
+    - name: UpdateSystemSettings
+      input:
+      - name: in
+        datatype: UpdateSystemSettingsRequest
+      returns:
+      - name: _
+        datatype: google.rpc.Status
+    - name: SetTemperature
+      input:
+      - name: in
+        datatype: SetTemperatureRequest
+      returns:
+      - name: _
+        datatype: SetTemperatureResponse
+    - name: SetFan
+      input:
+      - name: in
+        datatype: SetFanRequest
+      returns:
+      - name: _
+        datatype: SetFanResponse
+    - name: SetAirDistribution
+      input:
+      - name: in
+        datatype: SetAirDistributionRequest
+      returns:
+      - name: _
+        datatype: SetAirDistributionResponse
+    - name: SetPower
+      input:
+      - name: in
+        datatype: SetPowerRequest
+      returns:
+      - name: _
+        datatype: SetPowerResponse
+    - name: SetLock
+      input:
+      - name: in
+        datatype: SetLockRequest
+      returns:
+      - name: _
+        datatype: SetLockResponse
+

@@ -1,0 +1,28 @@
+namespaces:
+- name: common
+  structs:
+  - name: HealthState
+    members:
+    - name: remaining_life
+      datatype: int32
+    - name: state
+      datatype: State
+  enumerations:
+  - name: HealthState_State
+    datatype: int32
+    options:
+    - name: S_UNSPECIFIED
+      value: 0
+    - name: S_OK
+      value: 1
+    - name: S_SERVICE_SOON
+      value: 2
+    - name: S_SERVICE_NOW
+      value: 3
+    - name: S_DISABLED
+      value: 4
+    - name: S_FAULT_PRESENT
+      value: 5
+    - name: S_UNSUPPORTED
+      value: 6
+

@@ -1,0 +1,55 @@
+namespaces:
+- name: vehicle.propulsion.engine.v1
+  structs:
+  - name: AirFilter
+    members:
+    - name: health
+      datatype: common.HealthState
+  - name: Oil
+    members:
+    - name: is_invalid
+      datatype: boolean
+    - name: pressure
+      datatype: float
+    - name: is_pressure_low_indication_on
+      datatype: boolean
+    - name: health
+      datatype: common.HealthState
+    - name: temperature
+      datatype: float
+  - name: Coolant
+    members:
+    - name: is_invalid
+      datatype: boolean
+    - name: inlet_temperature
+      datatype: float
+  - name: EngineState
+    members:
+    - name: is_running
+      datatype: boolean
+    - name: running_duration
+      datatype: int32
+    - name: idle_duration
+      datatype: int32
+  enumerations:
+  - name: AirFilter_Resources
+    datatype: int32
+    options:
+    - name: air_filter
+      value: 0
+  - name: Oil_Resources
+    datatype: int32
+    options:
+    - name: oil
+      value: 0
+  - name: Coolant_Resources
+    datatype: int32
+    options:
+    - name: coolant
+      value: 0
+  - name: EngineState_Resources
+    datatype: int32
+    options:
+    - name: engine_state
+      value: 0
+

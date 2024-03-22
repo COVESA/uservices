@@ -1,0 +1,32 @@
+namespaces:
+- name: vehicle.chassis.v1
+  structs:
+  - name: UpdateTireRequest
+    members:
+    - name: is_leak_notification_enabled
+      datatype: boolean
+    - name: is_leak_present
+      datatype: boolean
+  - name: TireOptions
+    members:
+    - name: resource_name
+      datatype: Tire.Resources
+  - name: TractionControlSystemOptions
+    members:
+    - name: resource_name
+      datatype: TractionControlSystem.Resources
+  - name: ElectronicStabilityControlSystemOptions
+    members:
+    - name: resource_name
+      datatype: ElectronicStabilityControlSystem.Resources
+  interface:
+    name: Chassis
+    methods:
+    - name: UpdateTire
+      input:
+      - name: in
+        datatype: UpdateTireRequest
+      returns:
+      - name: _
+        datatype: google.rpc.Status
+
