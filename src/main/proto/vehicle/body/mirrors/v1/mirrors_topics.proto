@@ -67,8 +67,10 @@ message ExteriorSideMirror {
   Resource id = 1;
 
   // Service meta-data option definitions - Resources
+  // resource can be left or right or both morriors 
   enum Resource {
     left = 0;
     right = 1;
+    both = 2;
   }
 }
