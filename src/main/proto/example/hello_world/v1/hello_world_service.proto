@@ -18,7 +18,6 @@ syntax = "proto3";
 // File options
 package example.hello_world.v1;
 
-import "example/hello_world/v1/hello_world_topics.proto";
 import "uprotocol_options.proto";
 
 option java_package = "org.covesa.uservice.example.hello_world.v1";
@@ -40,6 +39,20 @@ service HelloWorld {
   rpc SayHello(HelloRequest) returns (HelloResponse) {
     option (uprotocol.method_id) = 1;
   }
+
+  option (uprotocol.publish_topic) = {
+    id: 0x8000,
+    name: "one_second",
+    message: "Timer"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id: 0x8001,
+    name: "one_minute",
+    message: "Timer"
+  };
+
+
 }
 
 // The request message containing the user's name
@@ -47,10 +60,3 @@ message HelloRequest { string name = 1; }
 
 // The response message containing the greeting
 message HelloResponse { string message = 1; }
-
-// Service metadata option definitions - Resources, topics
-//
-message TimerOptions {
-  option (uprotocol.base_topic_id) = 1;
-  Timer.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
-}

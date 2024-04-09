@@ -23,7 +23,7 @@ option java_multiple_files = true;
 
 
 extend google.protobuf.MessageOptions {
-  optional string vss_ref = 51301;
+  optional string vss_ref = 51201;
 }
 
 extend google.protobuf.FieldOptions {

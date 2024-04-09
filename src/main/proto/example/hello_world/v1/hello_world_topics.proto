@@ -29,8 +29,10 @@ option java_multiple_files = true;
 //  up:/example.hello_world/1/one_minute#Timer
 message Timer {
 
+  Resources resource_id = 1;
+
   // Time
-  google.type.TimeOfDay time = 1;
+  google.type.TimeOfDay time = 2;
 
   enum Resources {
     one_second = 0;
