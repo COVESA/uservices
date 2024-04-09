@@ -40,6 +40,23 @@ service BodyCabinclimate {
   option (number_of_row_2_zones) = 0;
   option (number_of_row_3_zones) = 0;
   option (is_front_rear_independent_hvac_available) = true;
+  option (is_rear_defog_available) = true;
+  option (is_heater_available) = true;
+  option (is_ionizer_status_available) = true;
+  option (temperature_setpoint_min) = 16;
+  option (temperature_setpoint_max) = 31;
+  option (number_of_blower_levels_row_1) = 8;
+  option (number_of_blower_levels_row_2) = 8;
+  option (is_auto_available) = true;
+  option (blowers_available_row_1) = 1;
+  option (blowers_available_row_2) = 0;
+  option (blowers_available_row_3) = 0;
+  option (airdistribution_available_row_1) = 1;
+  option (airdistribution_available_row_2) = 0;
+  option (airdistribution_available_row_3) = 0;
+  option (power_zone_available_row_1) = 1;
+  option (power_zone_available_row_2) = 0;
+  option (power_zone_available_row_3) = 0;
 
   // Controls climate settings for a zone.
   rpc ExecuteClimateCommand(ClimateCommand) returns (google.rpc.Status) {
@@ -129,8 +146,6 @@ service BodyCabinclimate {
     name : "system_settings",
     message : "SystemSettings"
   };
-
-
 }
 
 // Use the ClimateCommand method to request a change to the settings for
@@ -247,39 +262,4 @@ message SetLockRequest {
 message SetLockResponse {
   // Rpc return status
   google.rpc.Status status = 1;
-}
-
-// The following messages are used to connect the service to the associated
-// resource messages in the *resources.proto
-//
-// Service meta-data option definitions - Resources, topics
-//
-message SystemSettingsOptions {
-  option (uprotocol.base_topic_id) = 0;
-  option (is_rear_defog_available) = true;
-  option (is_heater_available) = true;
-  option (is_ionizer_status_available) = true;
-  SystemSettings.Resources resource_name = 1
-      [ (uprotocol.resource_name_mask) = "*" ];
-}
-
-// Service meta-data option definitions - Resources, topics
-//
-message ZonesOptions {
-  option (uprotocol.base_topic_id) = 10;
-  option (temperature_setpoint_min) = 16;
-  option (temperature_setpoint_max) = 31;
-  option (number_of_blower_levels_row_1) = 8;
-  option (number_of_blower_levels_row_2) = 8;
-  option (is_auto_available) = true;
-  option (blowers_available_row_1) = 1;
-  option (blowers_available_row_2) = 0;
-  option (blowers_available_row_3) = 0;
-  option (airdistribution_available_row_1) = 1;
-  option (airdistribution_available_row_2) = 0;
-  option (airdistribution_available_row_3) = 0;
-  option (power_zone_available_row_1) = 1;
-  option (power_zone_available_row_2) = 0;
-  option (power_zone_available_row_3) = 0;
-  Zones.Resource resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
 }
