@@ -46,6 +46,12 @@ service Horn {
   rpc DeactivateHorn(DeactivateHornRequest) returns (DeactivateHornResponse) {
     option (uprotocol.method_id) = 2;
   }
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8000,
+    name : "horn",
+    message : "HornStatus"
+  };
 }
 
 // Use ActivateHornRequest to activate horn
@@ -83,5 +89,6 @@ message DeactivateHornResponse {
 //
 message HornStatusOptions {
   option (uprotocol.base_topic_id) = 0;
-  HornStatus.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
+  HornStatus.Resources resource_name = 1
+      [ (uprotocol.resource_name_mask) = "*" ];
 }
