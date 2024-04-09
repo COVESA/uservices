@@ -18,7 +18,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <uprotocol-core-api.version>1.5.5</uprotocol-core-api.version>
+        <uprotocol-core-api.version>1.5.7</uprotocol-core-api.version>
         <proto-google-common-protos.version>2.16.0</proto-google-common-protos.version>
         <os-maven-plugin.version>1.6.0</os-maven-plugin.version>
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
