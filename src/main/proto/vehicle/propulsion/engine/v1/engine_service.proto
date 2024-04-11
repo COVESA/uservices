@@ -41,6 +41,30 @@ service Engine {
   rpc ResetHealth(ResetHealthRequest) returns (ResetHealthResponse) {
     option (uprotocol.method_id) = 1;
   }
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8000,
+    name : "air_filter",
+    message : "AirFilter"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8001,
+    name : "horn",
+    message : "oil"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8002,
+    name : "coolant",
+    message : "Coolant"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8003,
+    name : "engine_state",
+    message : "EngineState"
+  };
 }
 
 // Request to reset the engine component health. After a reset, the remaining
@@ -57,34 +81,4 @@ message ResetHealthRequest {
 message ResetHealthResponse {
   // Rpc return status
   google.rpc.Status status = 1;
-}
-// The following messages are used to connect the service to the associated
-// resource messages in the *resources.proto
-//
-// Service metadata option definitions - Resources, topics
-//
-message AirFilterOptions {
-  option (uprotocol.base_topic_id) = 0;
-  AirFilter.Resources name = 1 [ (uprotocol.resource_name_mask) = "*" ];
-}
-
-// Service metadata option definitions - Resources, topics
-//
-message OilOptions {
-  option (uprotocol.base_topic_id) = 10;
-  Oil.Resources name = 1 [ (uprotocol.resource_name_mask) = "*" ];
-}
-
-// Service metadata option definitions - Resources, topics
-//
-message CoolantOptions {
-  option (uprotocol.base_topic_id) = 20;
-  Coolant.Resources name = 1 [ (uprotocol.resource_name_mask) = "*" ];
-}
-
-// Service metadata option definitions - Resources, topics
-//
-message EngineStateOptions {
-  option (uprotocol.base_topic_id) = 30;
-  EngineState.Resources name = 1 [ (uprotocol.resource_name_mask) = "*" ];
 }

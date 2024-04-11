@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 syntax = "proto3";
 
 package vehicle.propulsion.transmission.v1;
@@ -33,21 +33,22 @@ service Transmission {
   option (uprotocol.version_major) = 1;
   option (uprotocol.version_minor) = 0;
   option (uprotocol.id) = 18;
-}
 
-// The following messages are used to connect the service to the associated
-// resource messages in the *resources.proto.
-//
-// Service metadata option definitions - Resources, topics
-//
-message VehicleGearStateOptions {
-  option (uprotocol.base_topic_id) = 0;
-  VehicleGearState.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
-}
+  option (uprotocol.publish_topic) = {
+    id : 0x8000,
+    name : "gear",
+    message : "VehicleGearState"
+  };
 
-// Service metadata option definitions - Resources, topics
-//
-message GearboxOptions {
-  option (uprotocol.base_topic_id) = 10;
-  Gearbox.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "gearbox.*" ];
+  option (uprotocol.publish_topic) = {
+    id : 0x8001,
+    name : "gearbox.primary",
+    message : "Gearbox"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8002,
+    name : "gearbox.secondary",
+    message : "Gearbox"
+  };
 }

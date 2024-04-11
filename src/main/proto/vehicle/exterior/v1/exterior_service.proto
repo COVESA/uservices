@@ -34,28 +34,22 @@ service VehicleExterior {
   option (uprotocol.version_major) = 1;
   option (uprotocol.version_minor) = 0;
   option (uprotocol.id) = 16;
-}
 
-// The following message is used to connect the service to the associated
-// resource messages in the *resources.proto
-//
-// Service metadata option definitions - Resources, topics
-//
-message SolarInformationOptions {
-  option (uprotocol.base_topic_id) = 0;
-  SolarInformation.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
-}
+  option (uprotocol.publish_topic) = {
+    id : 0x8000,
+    name : "exterior_environment",
+    message : "SolarInformation"
+  };
 
-// Service metadata option definitions - Resources, topics
-//
-message TemperatureOptions {
-  option (uprotocol.base_topic_id) = 10;
-  Temperature.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
-}
+  option (uprotocol.publish_topic) = {
+    id : 0x8001,
+    name : "exterior_environment",
+    message : "SolarInformation"
+  };
 
-// Service metadata option definitions - Resources, topics
-//
-message AmbientLightOptions {
-  option (uprotocol.base_topic_id) = 20;
-  AmbientLight.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
+  option (uprotocol.publish_topic) = {
+    id : 0x8002,
+    name : "exterior_environment",
+    message : "AmbientLight"
+  };
 }

@@ -41,6 +41,18 @@ service Suspension {
   rpc SetRideHeight(SetRideHeightRequest) returns (SetRideHeightResponse) {
     option (uprotocol.method_id) = 1;
   }
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8000,
+    name : "ride_height",
+    message : "RideHeight"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8001,
+    name : "ride_height_system_status",
+    message : "RideHeightSystemStatus"
+  };
 }
 
 // Set ride height commands.
@@ -97,32 +109,16 @@ message SetRideHeightRequest {
   // from its suspension components.
   // When commanded 'MED', both the reservoir and the compressor are used. See
   // MotionSpeedCommand enum table for more info.
-  optional MotionSpeedCommand motion_speed = 2 [(writeonly) = true];
+  optional MotionSpeedCommand motion_speed = 2 [ (writeonly) = true ];
 
   // Optional field with the command value for motion types.
   // This setting determines the motion of the axles to reach the requested ride
   // height. See MotionTypeCommand enum table for more info.
-  optional MotionTypeCommand motion_type = 3 [(writeonly) = true];
+  optional MotionTypeCommand motion_type = 3 [ (writeonly) = true ];
 }
 
 // Response for ride height request
 message SetRideHeightResponse {
   // RPC response
   google.rpc.Status status = 1;
-}
-
-// Service metadata option definitions - Resources, topics
-// The following message is used to connect the service to the RideHeight
-// message in the *topics.proto.
-message RideHeightOptions {
-  option (uprotocol.base_topic_id) = 10;
-  RideHeight.Resources resource_name = 1 [(uprotocol.resource_name_mask) = "*"];
-}
-
-// The following message is used to connect the service to the
-// RideHeightSystemStatus message in the *topics.proto:
-message RideHeightSystemStatusOptions {
-  option (uprotocol.base_topic_id) = 20;
-  RideHeightSystemStatus.Resources resource_name = 1
-      [(uprotocol.resource_name_mask) = "*"];
 }
