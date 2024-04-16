@@ -50,12 +50,12 @@ service BodyMirrors {
   // Slide (extend/retract) request for side mirror resource
   rpc SlideSideMirror(SlideSideMirrorRequest)
       returns (SlideSideMirrorResponse) {
-    option (uprotocol.method_id) = 1;
+    option (method_id) = 1;
   }
-
   // Fold request for side mirror resource
   rpc FoldSideMirror(FoldSideMirrorRequest) returns (FoldSideMirrorResponse) {
-    option (uprotocol.method_id) = 2;
+    option (method_id) = 2;
+    option (method_permission_level) = 4;
     // When this RPC is invoked,
     // uService will check the vehicle speed when the value of uProperty:
     // is_side_mirrors_auto_unfold_based_on_vehicle_speed is TRUE -
@@ -90,12 +90,13 @@ service BodyMirrors {
   // Un-fold request for side mirror resource
   rpc UnfoldSideMirror(UnfoldSideMirrorRequest)
       returns (UnfoldSideMirrorResponse) {
-    option (uprotocol.method_id) = 3;
+    option (method_id) = 3;
+    option (method_permission_level) = 4;
   }
-
   // Tilt request for side mirror resource
   rpc TiltSideMirror(TiltSideMirrorRequest) returns (TiltSideMirrorResponse) {
-    option (uprotocol.method_id) = 4;
+    option (method_id) = 4;
+    option (method_permission_level) = 4;
     // When this RPC is invoked,
     // uService will check the vehicle speed when the value of uProperty:
     // is_side_mirrors_auto_untilt_based_on_vehicle_speed is TRUE -
@@ -133,44 +134,46 @@ service BodyMirrors {
   // Untilt request for side mirror resource
   rpc UntiltSideMirror(UntiltSideMirrorRequest)
       returns (UntiltSideMirrorResponse) {
-    option (uprotocol.method_id) = 5;
+    option (method_id) = 5;
+    option (method_permission_level) = 4;
   }
 
   // Activate Heated side mirror request
   rpc ActivateHeatedSideMirror(ActivateHeatedSideMirrorRequest)
       returns (ActivateHeatedSideMirrorResponse) {
-    option (uprotocol.method_id) = 6;
+    option (method_id) = 6;
+    option (method_permission_level) = 4;
   }
 
   // De-activate Heated side mirror request
   rpc DeactivateHeatedSideMirror(DeactivateHeatedSideMirrorRequest)
       returns (DeactivateHeatedSideMirrorResponse) {
-    option (uprotocol.method_id) = 7;
+    option (method_id) = 7;
+    option (method_permission_level) = 4;
   }
 
-  // Movement setting request for side mirror resource
-  rpc UpdateSideMirrorMovementSettings(UpdateSideMirrorMovementSettingsRequest)
-      returns (UpdateSideMirrorMovementSettingsResponse) {
-    option (uprotocol.method_id) = 8;
+  // Auto fold setting request for side mirror resource
+  rpc UpdateAutoFoldSideMirrorsSettings(
+      UpdateAutoFoldSideMirrorsSettingsRequest)
+      returns (UpdateAutoFoldSideMirrorsSettingsResponse) {
+    option (method_id) = 8;
+    option (method_permission_level) = 4;
   }
 
   // Heat setting request for side mirror resource
   rpc UpdateHeatedSideMirrorsSettings(UpdateHeatedSideMirrorsSettingsRequest)
       returns (UpdateHeatedSideMirrorsSettingsResponse) {
-    option (uprotocol.method_id) = 9;
+    option (method_id) = 9;
+    option (method_permission_level) = 4;
   }
 
-  option (uprotocol.publish_topic) = {
-    id : 0x8000,
-    name : "side_mirrors",
-    message : "SideMirrors"
-  };
-
-  option (uprotocol.publish_topic) = {
-    id : 0x8001,
-    name : "side_mirrors",
-    message : "Settings"
-  };
+  // Auto tilt setting request for side mirror resource
+  rpc UpdateAutoTiltSideMirrorsSettings(
+      UpdateAutoTiltSideMirrorsSettingsRequest)
+      returns (UpdateAutoTiltSideMirrorsSettingsResponse) {
+    option (method_id) = 10;
+    option (method_permission_level) = 4;
+  }
 }
 
 // Selected side mirror is requested to extend position to improve the
@@ -180,7 +183,7 @@ service BodyMirrors {
 // 2. When the trailer is detached from the vehicle
 message SlideSideMirrorRequest {
   // Selected resource
-  ExteriorSideMirror.Resource id = 1;
+  SideMirror.Resource id = 1;
 
   // Distance slid
   // 0% - commands the selected exterior mirror resource to move to its original
@@ -210,7 +213,7 @@ message SlideSideMirrorResponse {
 // will not be honored.
 message FoldSideMirrorRequest {
   // Selected resource
-  ExteriorSideMirror.Resource id = 1;
+  SideMirror.Resource id = 1;
 }
 
 // Response for the fold request of the selected side mirror
@@ -223,7 +226,7 @@ message FoldSideMirrorResponse {
 // better visbility around the vehicle.
 message UnfoldSideMirrorRequest {
   // Selected resource
-  ExteriorSideMirror.Resource id = 1;
+  SideMirror.Resource id = 1;
 }
 
 // Response for the unfold request of the selected side mirror
@@ -236,7 +239,7 @@ message UnfoldSideMirrorResponse {
 // parking.
 message TiltSideMirrorRequest {
   // Selected resource
-  ExteriorSideMirror.Resource id = 1;
+  SideMirror.Resource id = 1;
 }
 
 // Response for the tilt request of the selected side mirror
@@ -245,10 +248,10 @@ message TiltSideMirrorResponse {
   google.rpc.Status code = 1;
 }
 
-// Un-tilt is requested to improve the visibilty of surrounding.
+// Un-tilt is requested to improve the visibilty of surrounding
 message UntiltSideMirrorRequest {
   // Selected resource
-  ExteriorSideMirror.Resource id = 1;
+  SideMirror.Resource id = 1;
 }
 
 // Response for the un-tilt request of the selected side mirror
@@ -282,26 +285,41 @@ message DeactivateHeatedSideMirrorResponse {
   google.rpc.Status code = 1;
 }
 
-// Request movement settings for side mirrors
-message UpdateSideMirrorMovementSettingsRequest {
-  // Command side mirror movement settings
-  SideMirrorMovementSettings setting = 1;
+// Request auto-fold setting for side mirrors
+message UpdateAutoFoldSideMirrorsSettingsRequest {
+  // Command side mirror auto-fold setting
+  bool is_auto_fold_enabled = 1;
 }
 
-// Response for the movement setting request pertaining to side mirror behavior
-message UpdateSideMirrorMovementSettingsResponse {
-  // Response for UpdateSideMirrorMovementSettings RPC
+// Response for the auto-fold setting request pertaining to side mirror
+message UpdateAutoFoldSideMirrorsSettingsResponse {
+  // Response for UpdateAutoFoldSideMirrorsSettings RPC
   google.rpc.Status code = 1;
 }
 
 // Request heat settings for side mirrors
 message UpdateHeatedSideMirrorsSettingsRequest {
   // Command side mirror heat settings
-  HeatedSideMirrorSettings setting = 1;
+  bool is_auto_heat_enabled = 1;
 }
 
 // Response for the movement setting request pertaining to side mirror behavior
 message UpdateHeatedSideMirrorsSettingsResponse {
   // Response for UpdateHeatedSideMirrorsSettings RPC
+  google.rpc.Status code = 1;
+}
+
+// Request auto-tilt setting for side mirrors
+message UpdateAutoTiltSideMirrorsSettingsRequest {
+  // Selected resource
+  SideMirrorSetting.Resource id = 1;
+
+  // Command side mirror auto-tilt setting
+  bool is_auto_tilt_enabled = 2;
+}
+
+// Response for the auto-tilt setting request pertaining to side mirror
+message UpdateAutoTiltSideMirrorsSettingsResponse {
+  // Response for UpdateAutoTiltSideMirrorsSettings RPC
   google.rpc.Status code = 1;
 }
