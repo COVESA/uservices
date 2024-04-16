@@ -21,8 +21,6 @@ import "google/rpc/status.proto";
 import "uprotocol_options.proto";
 import "uservices_options.proto";
 
-import "vehicle/chassis/v1/chassis_topics.proto";
-
 option java_package = "org.covesa.uservice.vehicle.chassis.v1";
 option java_multiple_files = true;
 

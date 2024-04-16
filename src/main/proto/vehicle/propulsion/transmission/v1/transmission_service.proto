@@ -19,7 +19,6 @@ syntax = "proto3";
 package vehicle.propulsion.transmission.v1;
 
 import "uprotocol_options.proto";
-import "vehicle/propulsion/transmission/v1/transmission_topics.proto";
 
 option java_package = "org.covesa.uservice.vehicle.propulsion.transmission.v1";
 option java_multiple_files = true;

@@ -20,7 +20,6 @@ package vehicle.propulsion.engine.v1;
 
 import "google/rpc/status.proto";
 import "uprotocol_options.proto";
-import "vehicle/propulsion/engine/v1/engine_topics.proto";
 
 option java_package = "org.covesa.uservice.vehicle.propulsion.engine.v1";
 option java_multiple_files = true;
