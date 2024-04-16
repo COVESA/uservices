@@ -55,7 +55,6 @@ service BodyMirrors {
   // Fold request for side mirror resource
   rpc FoldSideMirror(FoldSideMirrorRequest) returns (FoldSideMirrorResponse) {
     option (uprotocol.method_id) = 2;
-    option (method_permission_level) = 4;
     // When this RPC is invoked,
     // uService will check the vehicle speed when the value of uProperty:
     // is_side_mirrors_auto_unfold_based_on_vehicle_speed is TRUE -
@@ -91,12 +90,10 @@ service BodyMirrors {
   rpc UnfoldSideMirror(UnfoldSideMirrorRequest)
       returns (UnfoldSideMirrorResponse) {
     option (uprotocol.method_id) = 3;
-    option (method_permission_level) = 4;
   }
   // Tilt request for side mirror resource
   rpc TiltSideMirror(TiltSideMirrorRequest) returns (TiltSideMirrorResponse) {
     option (uprotocol.method_id) = 4;
-    option (method_permission_level) = 4;
     // When this RPC is invoked,
     // uService will check the vehicle speed when the value of uProperty:
     // is_side_mirrors_auto_untilt_based_on_vehicle_speed is TRUE -
@@ -135,21 +132,18 @@ service BodyMirrors {
   rpc UntiltSideMirror(UntiltSideMirrorRequest)
       returns (UntiltSideMirrorResponse) {
     option (uprotocol.method_id) = 5;
-    option (method_permission_level) = 4;
   }
 
   // Activate Heated side mirror request
   rpc ActivateHeatedSideMirror(ActivateHeatedSideMirrorRequest)
       returns (ActivateHeatedSideMirrorResponse) {
     option (uprotocol.method_id) = 6;
-    option (method_permission_level) = 4;
   }
 
   // De-activate Heated side mirror request
   rpc DeactivateHeatedSideMirror(DeactivateHeatedSideMirrorRequest)
       returns (DeactivateHeatedSideMirrorResponse) {
     option (uprotocol.method_id) = 7;
-    option (method_permission_level) = 4;
   }
 
   // Auto fold setting request for side mirror resource
@@ -157,14 +151,12 @@ service BodyMirrors {
       UpdateAutoFoldSideMirrorsSettingsRequest)
       returns (UpdateAutoFoldSideMirrorsSettingsResponse) {
     option (uprotocol.method_id) = 8;
-    option (method_permission_level) = 4;
   }
 
   // Heat setting request for side mirror resource
   rpc UpdateHeatedSideMirrorsSettings(UpdateHeatedSideMirrorsSettingsRequest)
       returns (UpdateHeatedSideMirrorsSettingsResponse) {
     option (uprotocol.method_id) = 9;
-    option (method_permission_level) = 4;
   }
 
   // Auto tilt setting request for side mirror resource
@@ -172,7 +164,6 @@ service BodyMirrors {
       UpdateAutoTiltSideMirrorsSettingsRequest)
       returns (UpdateAutoTiltSideMirrorsSettingsResponse) {
     option (uprotocol.method_id) = 10;
-    option (method_permission_level) = 4;
   }
 }
 
