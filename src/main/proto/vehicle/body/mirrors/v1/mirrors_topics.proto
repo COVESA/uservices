@@ -21,54 +21,66 @@ package vehicle.body.mirrors.v1;
 option java_package = "org.covesa.uservice.vehicle.body.mirrors.v1";
 option java_multiple_files = true;
 
-// Heat status for side mirrors
-message HeatedSideMirror {
-  // True - Heat for side mirrors is On
-  // False - Heat for side mirrors is Off
-  bool is_heat_on = 1;
+// Side mirror settings
+message SideMirrorSetting {
+  // The side mirror resource. It is returned in an event message and set by the
+  // calling applications in different methods.
+  Resource id = 1;
 
-  // Service meta-data option definitions - Resources
-  enum Resource { side_mirror = 0; }
-}
-
-// Movement settings for side mirrors
-message SideMirrorMovementSettings {
   // When enabled, the auto-tilt feature of the selected side mirror resource
   // allows the mirrors to tilt when the vehicle goes into reverse and untilt
   // the selected mirror depending upon which of the following instances occur
   // first -
   // 1. Vehicle comes out of park
   // 2. Vehicle has been in reverse for more than 30secs.
-  bool is_auto_tilt_enabled = 1;
+  bool is_auto_tilt_enabled = 2;
 
-  // When enabled, the auto-fold feature of the selected side mirror
-  // resource allows the mirrors to fold/unfold upon on door lock/unlock using
+  // Service meta-data option definitions - Resources
+  //
+  enum Resource {
+    left = 0;
+    right = 1;
+  }
+}
+
+// Publishes settings
+message Settings {
+  // Settings is returned for supported side mirrors
+  repeated SideMirrorSetting side_mirror_settings = 1;
+
+  // When enabled, the auto-fold feature of the side mirrors
+  // allows the mirrors to fold/unfold upon on door lock/unlock using
   // keyfob, PEP switches on doorhandle, etc.
   bool is_auto_fold_enabled = 2;
 
-  // Service meta-data option definitions - Resources
-  enum Resource { side_mirror = 0; }
-}
-
-// Heat settings for side mirrors
-message HeatedSideMirrorSettings {
   // When enabled, this feature auto heats/defogs the side mirrors
   // based on external conditions like temperature, humidity, etc.
-  bool is_auto_heat_on = 1;
+  bool is_auto_heat_enabled = 3;
 
   // Service meta-data option definitions - Resources
-  enum Resource { side_mirror = 0; }
+  //
+  enum Resource { side_mirrors = 0; }
 }
 
 // Side Mirror
-message ExteriorSideMirror {
+message SideMirror {
   // The side mirror resource. It is returned in an event message and set by the
   // calling applications in different methods.
   Resource id = 1;
 
   // Service meta-data option definitions - Resources
+  //
   enum Resource {
     left = 0;
     right = 1;
   }
+}
+
+// Publishes side mirror data
+message SideMirrors {
+  // True - Heat for side mirrors is On
+  // False - Heat for side mirrors is Off
+  bool is_heat_on = 1;
+
+  enum Resource { side_mirrors = 0; }
 }

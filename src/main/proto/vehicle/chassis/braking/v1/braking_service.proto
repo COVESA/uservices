@@ -20,7 +20,6 @@ package vehicle.chassis.braking.v1;
 
 import "google/rpc/status.proto";
 import "uprotocol_options.proto";
-import "vehicle/chassis/braking/v1/braking_topics.proto";
 
 option java_package = "org.covesa.uservice.vehicle.chassis.braking.v1";
 option java_multiple_files = true;
@@ -52,6 +51,32 @@ service Braking {
       returns (google.rpc.Status) {
     option (uprotocol.method_id) = 2;
   }
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8000,
+    name : "brake_pedal",
+    message : "BrakePedal"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8001,
+    name : "brake_pads.front",
+    message : "BrakePads"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8002,
+    name : "brake_pads.rear",
+    message : "BrakePads"
+  };
+
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8003,
+    name : "brake_function",
+    message : "BrakeAssistance"
+  };
+
 }
 
 // ================= Start RPC messages ================================
@@ -89,22 +114,4 @@ message ManageHealthMonitoringRequest {
   // True= enable health monitoring
   // False= disable health monitoring.
   bool is_enabled = 2;
-}
-
-// The following messages are used to connect the service to the associated
-// resource messages in the *resources.proto
-//
-// Service metadata option definitions - Resources, topics
-//
-message BrakePedalOptions {
-  option (uprotocol.base_topic_id) = 0;
-  BrakePedal.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
-}
-
-// Service metadata option definitions - Resources, topics
-//
-message BrakePadsOptions {
-  option (uprotocol.base_topic_id) = 10;
-  BrakePads.Resources resource_name = 1
-      [ (uprotocol.resource_name_mask) = "brake_pads.*" ];
 }
