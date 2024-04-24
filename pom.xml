@@ -18,7 +18,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <uprotocol-core-api.version>1.5.7</uprotocol-core-api.version>
+        <uprotocol-core-api.tag>uprotocol-core-api-1.5.7</uprotocol-core-api.tag>
         <proto-google-common-protos.version>2.16.0</proto-google-common-protos.version>
         <os-maven-plugin.version>1.6.0</os-maven-plugin.version>
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
@@ -34,6 +34,52 @@
         </extensions>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>clone-repository</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>git</executable>
+
+                            <arguments>
+                                <argument>clone</argument>
+                                <argument>--branch</argument>
+                                <argument>${uprotocol-core-api.tag}</argument>
+                                <argument>https://github.com/eclipse-uprotocol/up-core-api.git</argument>
+                                <argument>${project.build.directory}/up-core-api</argument>
+                            </arguments>
+                            <!-- Allow non-zero exit code (error) -->
+                            <successCodes>
+                                <successCode>0</successCode>
+                                <successCode>128</successCode> <!-- Git error code for existing repository -->
+                            </successCodes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>pull-repository</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>git</executable>
+                            <workingDirectory>${project.build.directory}/up-core-api</workingDirectory>
+                            <arguments>
+                                <argument>pull</argument>
+                                <argument>origin</argument>
+                                <argument>${uprotocol-core-api.tag}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <version>${protobuf-maven-plugin.version}</version>
@@ -47,6 +93,8 @@
                 </executions>
                 <configuration>
                     <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
+                    <protoSourceRoot>${project.build.directory}/up-core-api/uprotocol</protoSourceRoot>
+                    <outputDirectory>${project.build.directory}/generated-sources/protobuf/java</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
@@ -73,12 +121,6 @@
             <version>${proto-google-common-protos.version}</version>
         </dependency>
 
-        <!-- uProtocol core API library -->
-        <dependency>
-            <groupId>org.eclipse.uprotocol</groupId>
-            <artifactId>uprotocol-core-api</artifactId>
-            <version>${uprotocol-core-api.version}</version>
-        </dependency>
     </dependencies>
 
     <!-- uProtocol core API snapshot location -->
