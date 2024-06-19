@@ -18,7 +18,7 @@ syntax = "proto3";
 
 package vehicle.propulsion.transmission.v1;
 
-import "uprotocol_options.proto";
+import "uoptions.proto";
 
 option java_package = "org.covesa.uservice.vehicle.propulsion.transmission.v1";
 option java_multiple_files = true;
@@ -28,10 +28,10 @@ option java_multiple_files = true;
 //
 service Transmission {
   // Service Metadata - Name, version, ID, RPC methods
-  option (uprotocol.name) = "propulsion.transmission";
-  option (uprotocol.version_major) = 1;
-  option (uprotocol.version_minor) = 0;
-  option (uprotocol.id) = 18;
+  option (uprotocol.service_name) = "propulsion.transmission";
+  option (uprotocol.service_version_major) = 1;
+  option (uprotocol.service_version_minor) = 0;
+  option (uprotocol.service_id) = 18;
 
   option (uprotocol.publish_topic) = {
     id : 0x8000,

@@ -19,7 +19,7 @@ syntax = "proto3";
 package vehicle.propulsion.engine.v1;
 
 import "google/rpc/status.proto";
-import "uprotocol_options.proto";
+import "uoptions.proto";
 
 option java_package = "org.covesa.uservice.vehicle.propulsion.engine.v1";
 option java_multiple_files = true;
@@ -29,10 +29,10 @@ option java_multiple_files = true;
 //
 service Engine {
   // Service Metadata - Name, version, id, rpc methods
-  option (uprotocol.name) = "propulsion.engine";
-  option (uprotocol.version_major) = 1;
-  option (uprotocol.version_minor) = 0;
-  option (uprotocol.id) = 19;
+  option (uprotocol.service_name) = "propulsion.engine";
+  option (uprotocol.service_version_major) = 1;
+  option (uprotocol.service_version_minor) = 0;
+  option (uprotocol.service_id) = 19;
 
   // Request to reset an engine component's life to 100%. After a reset, the
   // remaining life will go back to 100% and the health state of that component

@@ -19,7 +19,7 @@ syntax = "proto3";
 package vehicle.body.mirrors.v1;
 
 import "google/rpc/status.proto";
-import "uprotocol_options.proto";
+import "uoptions.proto";
 import "uservices_options.proto";
 import "vehicle/body/mirrors/v1/mirrors_properties.proto";
 import "vehicle/body/mirrors/v1/mirrors_topics.proto";
@@ -31,10 +31,10 @@ option java_multiple_files = true;
 // Provides the ability to command side mirrors
 service BodyMirrors {
   // Service Metadata
-  option (uprotocol.name) = "body.mirrors";
-  option (uprotocol.version_major) = 1;
-  option (uprotocol.version_minor) = 0;
-  option (uprotocol.id) = 37;
+  option (uprotocol.service_name) = "body.mirrors";
+  option (uprotocol.service_version_major) = 1;
+  option (uprotocol.service_version_minor) = 0;
+  option (uprotocol.service_id) = 37;
 
   // If the value of is_power_side_mirror_present is FALSE, then any RPC invoked
   // will respond with '14'

@@ -18,7 +18,7 @@ syntax = "proto3";
 // File options
 package example.hello_world.v1;
 
-import "uprotocol_options.proto";
+import "uoptions.proto";
 
 option java_package = "org.covesa.uservice.example.hello_world.v1";
 option java_multiple_files = true;
@@ -28,10 +28,10 @@ option java_multiple_files = true;
 service HelloWorld {
 
   // Service Metadata - Name, version, id, RPC methods
-  option (uprotocol.name) = "example.hello_world";
-  option (uprotocol.version_major) = 1;
-  option (uprotocol.version_minor) = 0;
-  option (uprotocol.id) = 999;
+  option (uprotocol.service_name) = "example.hello_world";
+  option (uprotocol.service_version_major) = 1;
+  option (uprotocol.service_version_minor) = 0;
+  option (uprotocol.service_id) = 999;
 
   // Say Hello method
   // The method URI is:

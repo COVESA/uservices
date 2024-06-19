@@ -19,7 +19,7 @@ syntax = "proto3";
 package vehicle.chassis.suspension.v1;
 
 import "google/rpc/status.proto";
-import "uprotocol_options.proto";
+import "uoptions.proto";
 import "uservices_options.proto";
 import "vehicle/chassis/suspension/v1/suspension_topics.proto";
 
@@ -32,10 +32,10 @@ option java_multiple_files = true;
 //
 service Suspension {
   // Service metadata option definitions - Name, version, ID, RPC method
-  option (uprotocol.name) = "chassis.suspension";
-  option (uprotocol.version_major) = 1;
-  option (uprotocol.version_minor) = 0;
-  option (uprotocol.id) = 21;
+  option (uprotocol.service_name) = "chassis.suspension";
+  option (uprotocol.service_version_major) = 1;
+  option (uprotocol.service_version_minor) = 0;
+  option (uprotocol.service_id) = 21;
 
   // Request to change the vehicle ride height.
   rpc SetRideHeight(SetRideHeightRequest) returns (SetRideHeightResponse) {
