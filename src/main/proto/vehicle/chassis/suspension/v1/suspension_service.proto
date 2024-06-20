@@ -19,7 +19,7 @@ syntax = "proto3";
 package vehicle.chassis.suspension.v1;
 
 import "google/rpc/status.proto";
-import "uoptions.proto";
+import "uprotocol/uoptions.proto";
 import "uservices_options.proto";
 import "vehicle/chassis/suspension/v1/suspension_topics.proto";
 

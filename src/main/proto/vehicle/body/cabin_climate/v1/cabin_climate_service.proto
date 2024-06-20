@@ -20,7 +20,7 @@ package vehicle.body.cabin_climate.v1;
 
 import "google/protobuf/field_mask.proto";
 import "google/rpc/status.proto";
-import "uoptions.proto";
+import "uprotocol/uoptions.proto";
 import "vehicle/body/cabin_climate/v1/cabin_climate_properties.proto";
 import "vehicle/body/cabin_climate/v1/cabin_climate_topics.proto";
 

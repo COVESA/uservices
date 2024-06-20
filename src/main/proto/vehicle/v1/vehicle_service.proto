@@ -19,7 +19,7 @@ syntax = "proto3";
 package vehicle.v1;
 
 import "google/rpc/status.proto";
-import "uoptions.proto";
+import "uprotocol/uoptions.proto";
 import "vehicle/v1/vehicle_topics.proto";
 
 option java_package = "org.covesa.uservice.vehicle.v1";

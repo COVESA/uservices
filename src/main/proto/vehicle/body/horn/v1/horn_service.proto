@@ -19,7 +19,7 @@ syntax = "proto3";
 package vehicle.body.horn.v1;
 
 import "google/rpc/status.proto";
-import "uoptions.proto";
+import "uprotocol/uoptions.proto";
 import "vehicle/body/horn/v1/horn_topics.proto";
 
 option java_package = "org.covesa.uservice.vehicle.body.horn.v1";
