@@ -19,7 +19,7 @@ syntax = "proto3";
 package vehicle.v1;
 
 import "google/rpc/status.proto";
-import "uprotocol_options.proto";
+import "uprotocol/uoptions.proto";
 import "vehicle/v1/vehicle_topics.proto";
 
 option java_package = "org.covesa.uservice.vehicle.v1";
@@ -37,10 +37,10 @@ option java_multiple_files = true;
 //
 service Vehicle {
   // Service Metadata - Name, version, ID, RPC methods
-  option (uprotocol.name) = "vehicle";
-  option (uprotocol.version_major) = 1;
-  option (uprotocol.version_minor) = 0;
-  option (uprotocol.id) = 14;
+  option (uprotocol.service_name) = "vehicle";
+  option (uprotocol.service_version_major) = 1;
+  option (uprotocol.service_version_minor) = 0;
+  option (uprotocol.service_id) = 14;
 
   // Request to reset the trip odometer to default value of 0 kilometers.
   rpc ResetTripMeter(ResetTripMeterRequest) returns (google.rpc.Status) {

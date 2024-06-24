@@ -18,7 +18,7 @@ syntax = "proto3";
 package vehicle.chassis.v1;
 
 import "google/rpc/status.proto";
-import "uprotocol_options.proto";
+import "uprotocol/uoptions.proto";
 import "uservices_options.proto";
 
 option java_package = "org.covesa.uservice.vehicle.chassis.v1";
@@ -28,10 +28,10 @@ option java_multiple_files = true;
 //
 service Chassis {
   // Service metadata option definitions - Name, version, id, rpc method
-  option (uprotocol.name) = "chassis";
-  option (uprotocol.version_major) = 1;
-  option (uprotocol.version_minor) = 0;
-  option (uprotocol.id) = 20;
+  option (uprotocol.service_name) = "chassis";
+  option (uprotocol.service_version_major) = 1;
+  option (uprotocol.service_version_minor) = 0;
+  option (uprotocol.service_id) = 20;
 
   // Send request to update a tire resource
   rpc UpdateTire(UpdateTireRequest) returns (google.rpc.Status) {

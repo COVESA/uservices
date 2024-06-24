@@ -20,7 +20,7 @@ package vehicle.body.cabin_climate.v1;
 
 import "google/protobuf/field_mask.proto";
 import "google/rpc/status.proto";
-import "uprotocol_options.proto";
+import "uprotocol/uoptions.proto";
 import "vehicle/body/cabin_climate/v1/cabin_climate_properties.proto";
 import "vehicle/body/cabin_climate/v1/cabin_climate_topics.proto";
 
@@ -32,10 +32,10 @@ option java_multiple_files = true;
 //
 service BodyCabinclimate {
   // Service meta-data option definitions - Name, version, id, rpc method
-  option (uprotocol.name) = "body.cabin_climate";
-  option (uprotocol.version_major) = 1;
-  option (uprotocol.version_minor) = 2;
-  option (uprotocol.id) = 5;
+  option (uprotocol.service_name) = "body.cabin_climate";
+  option (uprotocol.service_version_major) = 1;
+  option (uprotocol.service_version_minor) = 2;
+  option (uprotocol.service_id) = 5;
   option (number_of_row_1_zones) = 2;
   option (number_of_row_2_zones) = 0;
   option (number_of_row_3_zones) = 0;

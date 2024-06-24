@@ -19,7 +19,7 @@ syntax = "proto3";
 package vehicle.chassis.braking.v1;
 
 import "google/rpc/status.proto";
-import "uprotocol_options.proto";
+import "uprotocol/uoptions.proto";
 
 option java_package = "org.covesa.uservice.vehicle.chassis.braking.v1";
 option java_multiple_files = true;
@@ -29,10 +29,10 @@ option java_multiple_files = true;
 //
 service Braking {
   // Service metadata option definitions - Name, version, ID
-  option (uprotocol.name) = "chassis.braking";
-  option (uprotocol.version_major) = 1;
-  option (uprotocol.version_minor) = 0;
-  option (uprotocol.id) = 17;
+  option (uprotocol.service_name) = "chassis.braking";
+  option (uprotocol.service_version_major) = 1;
+  option (uprotocol.service_version_minor) = 0;
+  option (uprotocol.service_id) = 17;
 
   // Used to reset the health status of brake system components such as
   // "brake_pads.front". The reset component's life will then return
