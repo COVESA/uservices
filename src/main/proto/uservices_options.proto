@@ -23,29 +23,29 @@ option java_multiple_files = true;
 
 
 extend google.protobuf.MessageOptions {
-  optional string vss_ref = 51201;
+  optional string vss_ref = 52201;
 }
 
 extend google.protobuf.FieldOptions {
 
   // Marks a field as readonly
-  optional bool readonly = 51401;
+  optional bool readonly = 52401;
 
   // Marks a field as writeonly
-  optional bool writeonly = 51402;
+  optional bool writeonly = 52402;
 
   // Field units
-  optional Units unit = 51403;
+  optional Units unit = 52403;
 
   // Max value
-  optional double max_value = 51404;
+  optional double max_value = 52404;
 
   // Min Value
-  optional double min_value = 51405;
+  optional double min_value = 52405;
 
   // Default Value
-  optional double default_value = 51407;
+  optional double default_value = 52407;
 
   // Decimal places the value is accurate to (rounding will be applied)
-  optional double resolution = 50410;
+  optional double resolution = 52408;
 }
