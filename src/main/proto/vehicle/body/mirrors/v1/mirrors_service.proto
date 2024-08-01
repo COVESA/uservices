@@ -19,7 +19,7 @@ syntax = "proto3";
 package vehicle.body.mirrors.v1;
 
 import "google/rpc/status.proto";
-import "uprotocol_options.proto";
+import "uprotocol/uoptions.proto";
 import "uservices_options.proto";
 import "vehicle/body/mirrors/v1/mirrors_properties.proto";
 import "vehicle/body/mirrors/v1/mirrors_topics.proto";
@@ -31,10 +31,10 @@ option java_multiple_files = true;
 // Provides the ability to command side mirrors
 service BodyMirrors {
   // Service Metadata
-  option (uprotocol.name) = "body.mirrors";
-  option (uprotocol.version_major) = 1;
-  option (uprotocol.version_minor) = 0;
-  option (uprotocol.id) = 37;
+  option (uprotocol.service_name) = "body.mirrors";
+  option (uprotocol.service_version_major) = 1;
+  option (uprotocol.service_version_minor) = 0;
+  option (uprotocol.service_id) = 37;
 
   // If the value of is_power_side_mirror_present is FALSE, then any RPC invoked
   // will respond with '14'
@@ -52,7 +52,6 @@ service BodyMirrors {
       returns (SlideSideMirrorResponse) {
     option (uprotocol.method_id) = 1;
   }
-
   // Fold request for side mirror resource
   rpc FoldSideMirror(FoldSideMirrorRequest) returns (FoldSideMirrorResponse) {
     option (uprotocol.method_id) = 2;
@@ -92,7 +91,6 @@ service BodyMirrors {
       returns (UnfoldSideMirrorResponse) {
     option (uprotocol.method_id) = 3;
   }
-
   // Tilt request for side mirror resource
   rpc TiltSideMirror(TiltSideMirrorRequest) returns (TiltSideMirrorResponse) {
     option (uprotocol.method_id) = 4;
@@ -148,9 +146,10 @@ service BodyMirrors {
     option (uprotocol.method_id) = 7;
   }
 
-  // Movement setting request for side mirror resource
-  rpc UpdateSideMirrorMovementSettings(UpdateSideMirrorMovementSettingsRequest)
-      returns (UpdateSideMirrorMovementSettingsResponse) {
+  // Auto fold setting request for side mirror resource
+  rpc UpdateAutoFoldSideMirrorsSettings(
+      UpdateAutoFoldSideMirrorsSettingsRequest)
+      returns (UpdateAutoFoldSideMirrorsSettingsResponse) {
     option (uprotocol.method_id) = 8;
   }
 
@@ -158,6 +157,13 @@ service BodyMirrors {
   rpc UpdateHeatedSideMirrorsSettings(UpdateHeatedSideMirrorsSettingsRequest)
       returns (UpdateHeatedSideMirrorsSettingsResponse) {
     option (uprotocol.method_id) = 9;
+  }
+
+  // Auto tilt setting request for side mirror resource
+  rpc UpdateAutoTiltSideMirrorsSettings(
+      UpdateAutoTiltSideMirrorsSettingsRequest)
+      returns (UpdateAutoTiltSideMirrorsSettingsResponse) {
+    option (uprotocol.method_id) = 10;
   }
 }
 
@@ -168,7 +174,7 @@ service BodyMirrors {
 // 2. When the trailer is detached from the vehicle
 message SlideSideMirrorRequest {
   // Selected resource
-  ExteriorSideMirror.Resource id = 1;
+  SideMirror.Resource id = 1;
 
   // Distance slid
   // 0% - commands the selected exterior mirror resource to move to its original
@@ -198,7 +204,7 @@ message SlideSideMirrorResponse {
 // will not be honored.
 message FoldSideMirrorRequest {
   // Selected resource
-  ExteriorSideMirror.Resource id = 1;
+  SideMirror.Resource id = 1;
 }
 
 // Response for the fold request of the selected side mirror
@@ -211,7 +217,7 @@ message FoldSideMirrorResponse {
 // better visbility around the vehicle.
 message UnfoldSideMirrorRequest {
   // Selected resource
-  ExteriorSideMirror.Resource id = 1;
+  SideMirror.Resource id = 1;
 }
 
 // Response for the unfold request of the selected side mirror
@@ -224,7 +230,7 @@ message UnfoldSideMirrorResponse {
 // parking.
 message TiltSideMirrorRequest {
   // Selected resource
-  ExteriorSideMirror.Resource id = 1;
+  SideMirror.Resource id = 1;
 }
 
 // Response for the tilt request of the selected side mirror
@@ -233,10 +239,10 @@ message TiltSideMirrorResponse {
   google.rpc.Status code = 1;
 }
 
-// Un-tilt is requested to improve the visibilty of surrounding.
+// Un-tilt is requested to improve the visibilty of surrounding
 message UntiltSideMirrorRequest {
   // Selected resource
-  ExteriorSideMirror.Resource id = 1;
+  SideMirror.Resource id = 1;
 }
 
 // Response for the un-tilt request of the selected side mirror
@@ -270,22 +276,22 @@ message DeactivateHeatedSideMirrorResponse {
   google.rpc.Status code = 1;
 }
 
-// Request movement settings for side mirrors
-message UpdateSideMirrorMovementSettingsRequest {
-  // Command side mirror movement settings
-  SideMirrorMovementSettings setting = 1;
+// Request auto-fold setting for side mirrors
+message UpdateAutoFoldSideMirrorsSettingsRequest {
+  // Command side mirror auto-fold setting
+  bool is_auto_fold_enabled = 1;
 }
 
-// Response for the movement setting request pertaining to side mirror behavior
-message UpdateSideMirrorMovementSettingsResponse {
-  // Response for UpdateSideMirrorMovementSettings RPC
+// Response for the auto-fold setting request pertaining to side mirror
+message UpdateAutoFoldSideMirrorsSettingsResponse {
+  // Response for UpdateAutoFoldSideMirrorsSettings RPC
   google.rpc.Status code = 1;
 }
 
 // Request heat settings for side mirrors
 message UpdateHeatedSideMirrorsSettingsRequest {
   // Command side mirror heat settings
-  HeatedSideMirrorSettings setting = 1;
+  bool is_auto_heat_enabled = 1;
 }
 
 // Response for the movement setting request pertaining to side mirror behavior
@@ -294,28 +300,17 @@ message UpdateHeatedSideMirrorsSettingsResponse {
   google.rpc.Status code = 1;
 }
 
-// Service meta-data option definitions - Resources, topics
-// The following messages are used to connect the service to the associated
-// resource messages in the *topics.proto
-message HeatedSideMirrorOptions {
-  option (uprotocol.base_topic_id) = 0;
-  HeatedSideMirror.Resource resource_name = 1 [ (uprotocol.resource_name_mask) = "*" ];
+// Request auto-tilt setting for side mirrors
+message UpdateAutoTiltSideMirrorsSettingsRequest {
+  // Selected resource
+  SideMirrorSetting.Resource id = 1;
+
+  // Command side mirror auto-tilt setting
+  bool is_auto_tilt_enabled = 2;
 }
 
-// Service meta-data option definitions - Resources, topics
-// The following messages are used to connect the service to the associated
-// resource messages in the *topics.proto
-message SideMirrorMovementSettingsOptions {
-  option (uprotocol.base_topic_id) = 10;
-  SideMirrorMovementSettings.Resource resource_name = 1
-      [ (uprotocol.resource_name_mask) = "settings.*" ];
-}
-
-// Service meta-data option definitions - Resources, topics
-// The following messages are used to connect the service to the associated
-// resource messages in the *topics.proto
-message HeatedSideMirrorSettingsOptions {
-  option (uprotocol.base_topic_id) = 20;
-  HeatedSideMirrorSettings.Resource resource_name = 1
-      [ (uprotocol.resource_name_mask) = "settings.*" ];
+// Response for the auto-tilt setting request pertaining to side mirror
+message UpdateAutoTiltSideMirrorsSettingsResponse {
+  // Response for UpdateAutoTiltSideMirrorsSettings RPC
+  google.rpc.Status code = 1;
 }

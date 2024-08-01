@@ -35,9 +35,6 @@ extend google.protobuf.ServiceOptions {
   // HVAC is independent on front and rear
   // It applies to havc power
   bool is_front_rear_independent_hvac_available = 55128;
-}
-
-extend google.protobuf.MessageOptions {
   // Temperature Setpoint min value
   float temperature_setpoint_min = 55100 [ (unit) = CELSIUS ];
   // Temperature Setpoint mmax value

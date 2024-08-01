@@ -18,10 +18,8 @@ syntax = "proto3";
 package vehicle.chassis.v1;
 
 import "google/rpc/status.proto";
-import "uprotocol_options.proto";
+import "uprotocol/uoptions.proto";
 import "uservices_options.proto";
-
-import "vehicle/chassis/v1/chassis_topics.proto";
 
 option java_package = "org.covesa.uservice.vehicle.chassis.v1";
 option java_multiple_files = true;
@@ -30,15 +28,64 @@ option java_multiple_files = true;
 //
 service Chassis {
   // Service metadata option definitions - Name, version, id, rpc method
-  option (uprotocol.name) = "chassis";
-  option (uprotocol.version_major) = 1;
-  option (uprotocol.version_minor) = 0;
-  option (uprotocol.id) = 20;
+  option (uprotocol.service_name) = "chassis";
+  option (uprotocol.service_version_major) = 1;
+  option (uprotocol.service_version_minor) = 0;
+  option (uprotocol.service_id) = 20;
 
   // Send request to update a tire resource
   rpc UpdateTire(UpdateTireRequest) returns (google.rpc.Status) {
     option (uprotocol.method_id) = 1;
   }
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8000,
+    name : "tire.front_left",
+    message : "Tire"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8001,
+    name : "tire.front_right",
+    message : "Tire"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8002,
+    name : "tire.rear_left",
+    message : "Tire"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8003,
+    name : "tire.rear_right",
+    message : "Tire"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8004,
+    name : "tire.rear_left_inner",
+    message : "Tire"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8005,
+    name : "tire.rear_right_inner",
+    message : "Tire"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8006,
+    name : "traction_control_system",
+    message : "TractionControlSystem"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8007,
+    name : "electronic_stability_control_system",
+    message : "ElectronicStabilityControlSystem"
+  };
+
 }
 
 // Request to change the tire leak notification or to reset the tire status.
@@ -51,30 +98,4 @@ message UpdateTireRequest {
   // True= Request to re-evaluate tire pressure if a leak persists.
   // False= Don’t re-evaluate tire pressure.
   bool is_leak_present = 2 [ (writeonly) = true ];
-}
-
-// The following messages are used to connect the service to the associated
-// resource messages in the *resources.proto
-//
-// Service metadata option definitions - Resources, topics
-//
-message TireOptions {
-  option (uprotocol.base_topic_id) = 0;
-  Tire.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "tire.*" ];
-}
-
-// Service metadata option definitions - Resources, topics
-//
-message TractionControlSystemOptions {
-  option (uprotocol.base_topic_id) = 10;
-  TractionControlSystem.Resources resource_name = 1
-      [ (uprotocol.resource_name_mask) = "*" ];
-}
-
-// Service metadata option definitions - Resources, topics
-//
-message ElectronicStabilityControlSystemOptions {
-  option (uprotocol.base_topic_id) = 20;
-  ElectronicStabilityControlSystem.Resources resource_name = 1
-      [ (uprotocol.resource_name_mask) = "*" ];
 }

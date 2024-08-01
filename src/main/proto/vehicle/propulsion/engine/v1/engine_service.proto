@@ -19,8 +19,7 @@ syntax = "proto3";
 package vehicle.propulsion.engine.v1;
 
 import "google/rpc/status.proto";
-import "uprotocol_options.proto";
-import "vehicle/propulsion/engine/v1/engine_topics.proto";
+import "uprotocol/uoptions.proto";
 
 option java_package = "org.covesa.uservice.vehicle.propulsion.engine.v1";
 option java_multiple_files = true;
@@ -30,10 +29,10 @@ option java_multiple_files = true;
 //
 service Engine {
   // Service Metadata - Name, version, id, rpc methods
-  option (uprotocol.name) = "propulsion.engine";
-  option (uprotocol.version_major) = 1;
-  option (uprotocol.version_minor) = 0;
-  option (uprotocol.id) = 19;
+  option (uprotocol.service_name) = "propulsion.engine";
+  option (uprotocol.service_version_major) = 1;
+  option (uprotocol.service_version_minor) = 0;
+  option (uprotocol.service_id) = 19;
 
   // Request to reset an engine component's life to 100%. After a reset, the
   // remaining life will go back to 100% and the health state of that component
@@ -41,6 +40,30 @@ service Engine {
   rpc ResetHealth(ResetHealthRequest) returns (ResetHealthResponse) {
     option (uprotocol.method_id) = 1;
   }
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8000,
+    name : "air_filter",
+    message : "AirFilter"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8001,
+    name : "horn",
+    message : "oil"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8002,
+    name : "coolant",
+    message : "Coolant"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8003,
+    name : "engine_state",
+    message : "EngineState"
+  };
 }
 
 // Request to reset the engine component health. After a reset, the remaining
@@ -57,34 +80,4 @@ message ResetHealthRequest {
 message ResetHealthResponse {
   // Rpc return status
   google.rpc.Status status = 1;
-}
-// The following messages are used to connect the service to the associated
-// resource messages in the *resources.proto
-//
-// Service metadata option definitions - Resources, topics
-//
-message AirFilterOptions {
-  option (uprotocol.base_topic_id) = 0;
-  AirFilter.Resources name = 1 [ (uprotocol.resource_name_mask) = "*" ];
-}
-
-// Service metadata option definitions - Resources, topics
-//
-message OilOptions {
-  option (uprotocol.base_topic_id) = 10;
-  Oil.Resources name = 1 [ (uprotocol.resource_name_mask) = "*" ];
-}
-
-// Service metadata option definitions - Resources, topics
-//
-message CoolantOptions {
-  option (uprotocol.base_topic_id) = 20;
-  Coolant.Resources name = 1 [ (uprotocol.resource_name_mask) = "*" ];
-}
-
-// Service metadata option definitions - Resources, topics
-//
-message EngineStateOptions {
-  option (uprotocol.base_topic_id) = 30;
-  EngineState.Resources name = 1 [ (uprotocol.resource_name_mask) = "*" ];
 }

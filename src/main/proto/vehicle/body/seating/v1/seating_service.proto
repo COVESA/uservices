@@ -19,7 +19,7 @@ syntax = "proto3";
 package vehicle.body.seating.v1;
 
 import "google/rpc/status.proto";
-import "uprotocol_options.proto";
+import "uprotocol/uoptions.proto";
 import "uservices_options.proto";
 import "vehicle/body/seating/v1/seating_topics.proto";
 
@@ -34,10 +34,10 @@ option java_multiple_files = true;
 //
 service Seating {
   // Service metadata option definitions - Name, version, id, rpc method
-  option (uprotocol.name) = "body.seating";
-  option (uprotocol.version_major) = 1;
-  option (uprotocol.version_minor) = 1;
-  option (uprotocol.id) = 23;
+  option (uprotocol.service_name) = "body.seating";
+  option (uprotocol.service_version_major) = 1;
+  option (uprotocol.service_version_minor) = 1;
+  option (uprotocol.service_id) = 23;
 
   // Update position requests for multiple seats and components
   rpc MoveSeats(MoveSeatsRequest) returns (MoveSeatsResponse) {
@@ -53,6 +53,168 @@ service Seating {
   rpc SetSeatMassage(SetSeatMassageRequest) returns (SetSeatMassageResponse) {
     option (uprotocol.method_id) = 3;
   }
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8001,
+    name : "seat.row1_left",
+    message : "SeatTemperature"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8002,
+    name : "seat.row1_center",
+    message : "SeatTemperature"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8003,
+    name : "seat.row1_right",
+    message : "SeatTemperature"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8004,
+    name : "seat.row2_left",
+    message : "SeatTemperature"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8005,
+    name : "seat.row2_center",
+    message : "SeatTemperature"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8006,
+    name : "seat.row2_right",
+    message : "SeatTemperature"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8007,
+    name : "seat.row3_left",
+    message : "SeatTemperature"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8008,
+    name : "seat.row3_center",
+    message : "SeatTemperature"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8009,
+    name : "seat.row3_right",
+    message : "SeatTemperature"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8010,
+    name : "seat.row1_left",
+    message : "SeatOccupantSafety"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8011,
+    name : "seat.row1_center",
+    message : "SeatOccupantSafety"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8012,
+    name : "seat.row1_right",
+    message : "SeatOccupantSafety"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8013,
+    name : "seat.row2_left",
+    message : "SeatOccupantSafety"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8014,
+    name : "seat.row2_center",
+    message : "SeatOccupantSafety"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8015,
+    name : "seat.row2_right",
+    message : "SeatOccupantSafety"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8016,
+    name : "seat.row3_left",
+    message : "SeatOccupantSafety"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8017,
+    name : "seat.row3_center",
+    message : "SeatOccupantSafety"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8018,
+    name : "seat.row3_right",
+    message : "SeatOccupantSafety"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8019,
+    name : "seat.row1_left",
+    message : "SeatMassage"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8020,
+    name : "seat.row1_center",
+    message : "SeatMassage"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8021,
+    name : "seat.row1_right",
+    message : "SeatMassage"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8022,
+    name : "seat.row2_left",
+    message : "SeatMassage"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8023,
+    name : "seat.row2_center",
+    message : "SeatMassage"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8024,
+    name : "seat.row2_right",
+    message : "SeatMassage"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8025,
+    name : "seat.row3_left",
+    message : "SeatMassage"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8026,
+    name : "seat.row3_center",
+    message : "SeatMassage"
+  };
+
+  option (uprotocol.publish_topic) = {
+    id : 0x8027,
+    name : "seat.row3_right",
+    message : "SeatMassage"
+  };
 }
 
 // Update seat position command
@@ -148,33 +310,4 @@ message SetSeatMassageRequest {
 message SetSeatMassageResponse {
   // RPC response
   google.rpc.Status status = 1;
-}
-
-// Service metadata option definitions - Resources, topics
-// The following message is used to connect the service to the associated
-// resource messages in the *topics.proto
-//
-message SeatTemperatureOptions {
-  option (uprotocol.base_topic_id) = 0;
-  SeatTemperature.Resources resource_name = 1
-      [ (uprotocol.resource_name_mask) = "seat.*" ];
-}
-
-// Service metadata option definitions - Resources, topics
-// The following message is used to connect the service to the associated
-// resource messages in the *topics.proto
-//
-message SeatOccupancyStatusOptions {
-  option (uprotocol.base_topic_id) = 10;
-  SeatOccupantSafety.Resources resource_name = 1
-      [ (uprotocol.resource_name_mask) = "seat.*" ];
-}
-
-// Service metadata option definitions - Resources, topics
-// The following message is used to connect the service to the associated
-// resource messages in the *topics.proto
-//
-message SeatMassageOptions {
-  option (uprotocol.base_topic_id) = 20;
-  SeatMassage.Resources resource_name = 1 [ (uprotocol.resource_name_mask) = "seat.*" ];
 }
