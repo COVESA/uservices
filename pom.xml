@@ -34,52 +34,6 @@
         </extensions>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <id>clone-repository</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>git</executable>
-
-                            <arguments>
-                                <argument>clone</argument>
-                                <argument>--branch</argument>
-                                <argument>${up-spec.git.tag.name}</argument>
-                                <argument>https://github.com/eclipse-uprotocol/up-spec.git</argument>
-                                <argument>${project.build.directory}/up-spec</argument>
-                            </arguments>
-                            <!-- Allow non-zero exit code (error) -->
-                            <successCodes>
-                                <successCode>0</successCode>
-                                <successCode>128</successCode> <!-- Git error code for existing repository -->
-                            </successCodes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>pull-repository</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>git</executable>
-                            <workingDirectory>${project.build.directory}/up-spec/up-core-api</workingDirectory>
-                            <arguments>
-                                <argument>pull</argument>
-                                <argument>origin</argument>
-                                <argument>${up-spec.git.tag.name}</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <version>${protobuf-maven-plugin.version}</version>
@@ -93,7 +47,6 @@
                 </executions>
                 <configuration>
                     <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
-                    <protoSourceRoot>${project.build.directory}/up-spec/up-core-api</protoSourceRoot>
                 </configuration>
             </plugin>
         </plugins>
@@ -119,21 +72,19 @@
             <artifactId>proto-google-common-protos</artifactId>
             <version>${proto-google-common-protos.version}</version>
         </dependency>
-
+        <!-- uProtocol core API library -->
+        <dependency>
+            <groupId>com.github.eclipse-uprotocol</groupId>
+            <artifactId>up-spec</artifactId>
+            <version>${up-spec.git.tag.name}</version>
+        </dependency>
     </dependencies>
 
-    <!-- uProtocol core API snapshot location -->
     <repositories>
         <repository>
-        <id>oss.sonatype.org-snapshot</id>
-        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        <releases>
-            <enabled>false</enabled>
-        </releases>
-        <snapshots>
-            <enabled>true</enabled>
-        </snapshots>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
-    </repositories>    
+    </repositories>
 
 </project>
