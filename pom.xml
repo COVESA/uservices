@@ -18,7 +18,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <uprotocol-core-api.version>1.6.0-alpha.3</uprotocol-core-api.version>
+        <up-spec.git.tag.name>v1.6.0-alpha.3</up-spec.git.tag.name>
         <proto-google-common-protos.version>2.16.0</proto-google-common-protos.version>
         <os-maven-plugin.version>1.6.0</os-maven-plugin.version>
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
@@ -50,9 +50,9 @@
                             <arguments>
                                 <argument>clone</argument>
                                 <argument>--branch</argument>
-                                <argument>${uprotocol-core-api.tag}</argument>
-                                <argument>https://github.com/eclipse-uprotocol/up-core-api.git</argument>
-                                <argument>${project.build.directory}/up-core-api</argument>
+                                <argument>${up-spec.git.tag.name}</argument>
+                                <argument>https://github.com/eclipse-uprotocol/up-spec.git</argument>
+                                <argument>${project.build.directory}/up-spec</argument>
                             </arguments>
                             <!-- Allow non-zero exit code (error) -->
                             <successCodes>
@@ -69,11 +69,11 @@
                         </goals>
                         <configuration>
                             <executable>git</executable>
-                            <workingDirectory>${project.build.directory}/up-core-api</workingDirectory>
+                            <workingDirectory>${project.build.directory}/up-spec/up-core-api</workingDirectory>
                             <arguments>
                                 <argument>pull</argument>
                                 <argument>origin</argument>
-                                <argument>${uprotocol-core-api.tag}</argument>
+                                <argument>${up-spec.git.tag.name}</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -93,8 +93,7 @@
                 </executions>
                 <configuration>
                     <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
-                    <protoSourceRoot>${project.build.directory}/up-core-api/uprotocol</protoSourceRoot>
-                    <outputDirectory>${project.build.directory}/generated-sources/protobuf/java</outputDirectory>
+                    <protoSourceRoot>${project.build.directory}/up-spec/up-core-api</protoSourceRoot>
                 </configuration>
             </plugin>
         </plugins>
